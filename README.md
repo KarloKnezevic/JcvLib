@@ -12,6 +12,10 @@ possibility *just create Computer Vision algorithms and applications and not thi
 video I/O and perform trivial GUI operations to demonstrate your results*.
 
 
+### Download
+[Last version](https://drive.google.com/folderview?id=0B1-mMGcBjR50ZVpTN2NwM0NKTWc&usp=sharing).
+
+
 ### Install
 Required Java 1.6 or higher.
 
