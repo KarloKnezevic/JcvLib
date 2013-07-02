@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<!--
+    If in Eclipse IDE you get an error:
+
+        Unable to find a javac; Perhaps JAVA_HOME does not point to the JDK...
+
+    you should go to:
+
+        'Window' -> 'Preferences' -> 'Java' -> 'Installed JRE'
+
+    and define path to you JDK.
+-->
+<!--
+    If in Eclipse IDE you get an error:
+
+        Specified VM install not found...
+
+    you should go to:
+
+        'Run' -> 'Run Configurations...'
+
+    and select you run task and go to 'JRE' tab and set up your JDK.
+
+    You can select 'Project JRE (...)' and define project JRE on:
+
+        'Window' -> 'Preferences' -> 'Java' -> 'Installed JRE'
+
+    This way is preferred!
+-->
+<!--
+    If in Eclipse IDE you get an error:
+
+        Error: Could not find or load main class...
+
+    Just execute:
+
+        'Project' -> 'Clean...'
+
+      and select 'JcvLib' project.
+-->
+<project name="Java Computer Vision Library (JcvLib)" default="build" basedir=".">
+    <!--
+        Common variables.
+    -->
+    <property name="program.name"       value="JcvLib" />
+    <property name="program.ver"        value="4" />
+    <property name="program.build"      value="020" />
+    <property name="program.full.ver"   value="${program.ver}.${program.build}" />
+    <property name="license.file"       value="${basedir}/LICENSE" />
+
+    <property name="bin.dir"            value="${basedir}/bin" />
+    <property name="src.dir"            value="${basedir}/src" />
+    <property name="lib.dir"            value="${basedir}/lib" />
+    <property name="javadoc.dir"        value="${basedir}/javadoc" />
+    <property name="doc.dir"            value="${basedir}/doc" />
+    <property name="resources.dir"      value="${basedir}/resources" />
+
+    <property name="build.dir"          value="${basedir}/build" />
+    <property name="build.lib.dir"      value="${build.dir}/lib" />
+    <property name="build.res.dir"      value="${build.dir}/resources" />
+    <property name="build.doc.dir"      value="${build.dir}/doc" />
+
+    <property name="programe.dir"       value="${build.dir}/${program.name}-${program.full.ver}" />
+    <property name="library.distr"      value="${program.name}-${program.full.ver}" />
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar" />
+    </path>
+
+    <!--
+        Clean.
+    -->
+    <target name="clean">
+        <delete dir="${bin.dir}" />
+        <delete dir="${build.dir}" />
+        <delete dir="${javadoc.dir}" />
+    </target>
+
+    <!--
+        Make dirs.
+    -->
+    <target name="mkdir">
+        <mkdir dir="${bin.dir}" />
+        <mkdir dir="${build.dir}" />
+        <mkdir dir="${javadoc.dir}" />
+    </target>
+
+    <!--
+        Compile.
+    -->
+    <target name="compile" depends="mkdir">
+        <javac srcdir="${src.dir}" destdir="${bin.dir}" includeAntRuntime="false" encoding="UTF-8">
+            <classpath refid="classpath" />
+        </javac>
+    </target>
+
+    <!--
+        Run Unit-test.
+    -->
+    <target name="test" depends="compile">
+        <junit printsummary="yes" haltonfailure="yes" showoutput="yes">
+            <classpath>
+                <pathelement path="${bin.dir}" />
+            </classpath>
+            <classpath refid="classpath" />
+
+            <batchtest fork="yes">
+                <fileset dir="${src.dir}">
+                    <include name="**/*Test.java" />
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <!--
+        Generate JavaDocs.
+    -->
+    <target name="javadoc">
+        <javadoc sourcepath="${src.dir}" destdir="${javadoc.dir}" encoding="UTF-8" docencoding="UTF-8" charset="UTF-8"
+            access="public" notree="true">
+            <fileset dir="${src.dir}">
+                <include name="**" />
+            </fileset>
+
+            <classpath refid="classpath" />
+        </javadoc>
+    </target>
+
+    <!--
+        Build jar-file.
+    -->
+    <target name="build" depends="test, javadoc">
+        <jar destfile="${build.dir}/${program.name}-${program.full.ver}-bin.jar" basedir="${bin.dir}" />
+
+        <!--
+            http://stackoverflow.com/questions/5063630/generate-jars-with-source-code-using-ant
+        -->
+        <jar destfile="${build.dir}/${program.name}-${program.full.ver}-src.jar" basedir="${src.dir}" />
+
+        <copy todir="${build.lib.dir}">
+            <fileset dir="${lib.dir}" />
+        </copy>
+
+        <copy todir="${build.doc.dir}/javadoc">
+            <fileset dir="${javadoc.dir}" />
+        </copy>
+
+        <copy todir="${build.res.dir}">
+            <fileset dir="${resources.dir}" />
+        </copy>
+
+        <copy file="${license.file}" todir="${build.dir}"/>
+    </target>
+
+    <!--
+        Create distrib.
+    -->
+    <target name="create-zip-distr" depends="clean, build">
+        <zip destfile="${basedir}/${library.distr}.zip" basedir="${build.dir}" />
+    </target>
+</project>
