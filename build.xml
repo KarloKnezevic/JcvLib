@@ -43,8 +43,8 @@
         Common variables.
     -->
     <property name="program.name"       value="JcvLib" />
-    <property name="program.ver"        value="4" />
-    <property name="program.build"      value="020" />
+    <property name="program.ver"        value="5" />
+    <property name="program.build"      value="010" />
     <property name="program.full.ver"   value="${program.ver}.${program.build}" />
     <property name="license.file"       value="${basedir}/LICENSE" />
 

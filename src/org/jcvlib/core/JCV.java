@@ -30,7 +30,7 @@ public class JCV {
 
     public static final String LIB_NAME = "JcvLib";
 
-    public static final String LIB_VER = "4.020";
+    public static final String LIB_VER = "5.010";
 
     /**
      * Precision allowed by current realization for {@link Image#TYPE_64F} is <CODE>10<SUP>-15</SUP></CODE>.
