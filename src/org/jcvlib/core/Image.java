@@ -74,10 +74,12 @@ public class Image {
      * See:
      * <UL>
      * <LI><A href="http://en.wikipedia.org/wiki/Nearest-neighbor_interpolation">Nearest neighbor interpolation -- Wikipedia</A>.</LI>
+     * <LI><A href="http://www.compuphase.com/graphic/scale.htm">Quick image scaling algorithms</A>.</LI>
+     * <LI><A href="http://www.cambridgeincolour.com/tutorials/image-interpolation.htm">Understanding Digital Image Interpolation</A>.</LI>
      * </UL>
      * </P>
      */
-    public static final int INTERPOLATION_NEAREST = 0;
+    public static final int INTERPOLATION_NEAREST_NEIGHBOR = 0;
 
     /**
      * Bilinear interpolation.
@@ -86,6 +88,8 @@ public class Image {
      * See:
      * <UL>
      * <LI><A href="http://en.wikipedia.org/wiki/Bilinear_interpolation">Bilinear interpolation -- Wikipedia</A>.</LI>
+     * <LI><A href="http://www.compuphase.com/graphic/scale.htm">Quick image scaling algorithms</A>.</LI>
+     * <LI><A href="http://www.cambridgeincolour.com/tutorials/image-interpolation.htm">Understanding Digital Image Interpolation</A>.</LI>
      * </UL>
      * </P>
      */
@@ -98,6 +102,8 @@ public class Image {
      * See:
      * <UL>
      * <LI><A href="http://en.wikipedia.org/wiki/Bicubic_interpolation">Bicubic interpolation -- Wikipedia</A>.</LI>
+     * <LI><A href="http://www.compuphase.com/graphic/scale.htm">Quick image scaling algorithms</A>.</LI>
+     * <LI><A href="http://www.cambridgeincolour.com/tutorials/image-interpolation.htm">Understanding Digital Image Interpolation</A>.</LI>
      * </UL>
      * </P>
      */
@@ -549,7 +555,7 @@ public class Image {
      */
     public double get(double x, double y, int channel, int interpolationType) {
         switch (interpolationType) {
-            case Image.INTERPOLATION_NEAREST:
+            case Image.INTERPOLATION_NEAREST_NEIGHBOR:
                 return this.get(JCV.round(x), JCV.round(y), channel);
 
             case Image.INTERPOLATION_BILINEAR:

@@ -269,7 +269,7 @@ public class ImageInterpolationExtrapolation {
     }
 
     private void testInterpolationNearest(Image image) {
-        assertEquals(7.0, image.get(1.1, 1.1, 0, Image.INTERPOLATION_NEAREST), JCV.PRECISION_MAX);
+        assertEquals(7.0, image.get(1.1, 1.1, 0, Image.INTERPOLATION_NEAREST_NEIGHBOR), JCV.PRECISION_MAX);
     }
 
     /**

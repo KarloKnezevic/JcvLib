@@ -347,7 +347,7 @@ public class Geom {
                 throw new IllegalArgumentException("Parameter 'reflectType' have unknown value! Use 'Geom.REFLECT_*' as a parameters!");
         }
         
-        return Geom.wrapAffineTransform(image, A, image.getSize(), Image.INTERPOLATION_NEAREST, new Color(image.getNumOfChannels(),
+        return Geom.wrapAffineTransform(image, A, image.getSize(), Image.INTERPOLATION_NEAREST_NEIGHBOR, new Color(image.getNumOfChannels(),
             Color.COLOR_MIN_VALUE));
     }
     
