@@ -26,12 +26,11 @@ Just add JAR-file (`JcvLib` and required libraries) into your `CLASSPATH`.
 
 
 ### Documentation
- * [JavaDoc](http://jcvlib.googlecode.com/git/javadoc/index.html). 
+ * [JavaDoc](http://dzavodnikov.github.io/JcvLib/javadoc/index.html). 
    All fubctions (static methods) contains **Links** with descriptions of implemented algorithm. 
    This methods are grouped into classes by their destinations.
  * [Features](https://github.com/dzavodnikov/JcvLib/wiki/Features). 
-   This page contains list of all functions with links to 
-   [JavaDoc](http://jcvlib.googlecode.com/git/javadoc/index.html) and links examples of usage this functions.
+   This page contains list of all functions with links to JavaDoc and links examples of usage this functions.
  * [Links](https://github.com/dzavodnikov/JcvLib/wiki/Links).
    Contains links to books and libraries. Useful for addition reading.
  * [Google group](http://groups.google.com/group/jcvlib-users).
