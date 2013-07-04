@@ -22,12 +22,9 @@ import java.io.File;
 import java.io.IOException;
 
 import org.jcvlib.core.Image;
-
 import org.jcvlib.gui.Window;
-
-import org.jcvlib.imageproc.ColorConvert;
-import org.jcvlib.imageproc.Filters;
-
+import org.jcvlib.image.ColorConvert;
+import org.jcvlib.image.Filters;
 import org.jcvlib.io.ImageRW;
 
 /**

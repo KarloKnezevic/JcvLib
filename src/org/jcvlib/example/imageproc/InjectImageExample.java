@@ -23,9 +23,8 @@ import java.io.IOException;
 
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Point;
-
 import org.jcvlib.gui.Window;
-import org.jcvlib.imageproc.ImageMath;
+import org.jcvlib.image.ImageMath;
 import org.jcvlib.io.ImageRW;
 
 /**

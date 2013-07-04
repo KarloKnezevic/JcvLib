@@ -16,7 +16,7 @@
 /*
  * This class is part of Java Computer Vision Library (JcvLib).
  */
-package org.jcvlib.imageproc;
+package org.jcvlib.image;
 
 import org.jcvlib.core.Point;
 import org.jcvlib.core.Rectangle;

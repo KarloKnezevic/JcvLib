@@ -19,7 +19,6 @@
 package org.jcvlib.io;
 
 import java.awt.image.BufferedImage;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -27,8 +26,7 @@ import javax.imageio.ImageIO;
 
 import org.jcvlib.core.JCV;
 import org.jcvlib.core.Image;
-
-import org.jcvlib.imageproc.TypeConvert;
+import org.jcvlib.image.TypeConvert;
 
 import com.sixlegs.png.PngImage;
 

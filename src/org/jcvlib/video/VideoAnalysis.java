@@ -21,9 +21,7 @@ package org.jcvlib.video;
 import org.jcvlib.core.JCV;
 import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
-
-import org.jcvlib.imageproc.ImageMath;
-
+import org.jcvlib.image.ImageMath;
 import org.jcvlib.parallel.JcvParallel;
 import org.jcvlib.parallel.PixelsLoop;
 

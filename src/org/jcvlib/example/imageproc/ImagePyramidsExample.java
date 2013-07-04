@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.jcvlib.core.Image;
 import org.jcvlib.gui.Window;
-import org.jcvlib.imageproc.Misc;
+import org.jcvlib.image.Misc;
 import org.jcvlib.io.ImageRW;
 
 /**

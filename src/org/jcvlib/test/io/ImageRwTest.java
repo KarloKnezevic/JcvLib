@@ -21,7 +21,6 @@ package org.jcvlib.test.io;
 import static org.junit.Assert.*;
 
 import java.awt.image.BufferedImage;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -29,9 +28,8 @@ import javax.imageio.ImageIO;
 
 import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
-import org.jcvlib.imageproc.TypeConvert;
+import org.jcvlib.image.TypeConvert;
 import org.jcvlib.io.ImageRW;
-
 import org.junit.Test;
 
 /**

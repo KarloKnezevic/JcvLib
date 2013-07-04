@@ -23,10 +23,8 @@ import java.io.IOException;
 
 import org.jcvlib.core.Image;
 import org.jcvlib.gui.Window;
-
-import org.jcvlib.imageproc.Hist;
-import org.jcvlib.imageproc.ObjectDetect;
-
+import org.jcvlib.image.Hist;
+import org.jcvlib.image.ObjectDetect;
 import org.jcvlib.io.ImageRW;
 
 /**

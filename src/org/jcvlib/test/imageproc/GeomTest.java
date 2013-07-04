@@ -27,9 +27,7 @@ import org.jcvlib.core.JCV;
 import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Point;
-
-import org.jcvlib.imageproc.Geom;
-
+import org.jcvlib.image.Geom;
 import org.junit.Before;
 import org.junit.Test;
 

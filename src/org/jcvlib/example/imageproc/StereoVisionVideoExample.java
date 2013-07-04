@@ -24,7 +24,7 @@ import java.io.IOException;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Size;
 import org.jcvlib.gui.Window;
-import org.jcvlib.imageproc.Stereo;
+import org.jcvlib.image.Stereo;
 import org.jcvlib.io.WebCamReader;
 
 /**

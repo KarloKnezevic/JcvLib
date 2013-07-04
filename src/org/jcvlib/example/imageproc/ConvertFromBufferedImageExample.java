@@ -23,7 +23,7 @@ import java.awt.image.WritableRaster;
 
 import org.jcvlib.core.Image;
 import org.jcvlib.gui.Window;
-import org.jcvlib.imageproc.TypeConvert;
+import org.jcvlib.image.TypeConvert;
 
 /**
  * This is example show how to using methods for convert images to or from other data types.

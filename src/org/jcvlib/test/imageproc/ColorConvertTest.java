@@ -23,8 +23,7 @@ import static org.junit.Assert.*;
 import org.jcvlib.core.JCV;
 import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
-import org.jcvlib.imageproc.ColorConvert;
-
+import org.jcvlib.image.ColorConvert;
 import org.junit.Before;
 import org.junit.Test;
 

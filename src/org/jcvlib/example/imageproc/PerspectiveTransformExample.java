@@ -27,9 +27,8 @@ import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Point;
 import org.jcvlib.core.Size;
-
 import org.jcvlib.gui.Window;
-import org.jcvlib.imageproc.Geom;
+import org.jcvlib.image.Geom;
 import org.jcvlib.io.ImageRW;
 
 /**

@@ -23,9 +23,8 @@ import static org.junit.Assert.*;
 import java.awt.image.BufferedImage;
 
 import org.jcvlib.core.Image;
-import org.jcvlib.imageproc.ColorConvert;
-import org.jcvlib.imageproc.TypeConvert;
-
+import org.jcvlib.image.ColorConvert;
+import org.jcvlib.image.TypeConvert;
 import org.junit.Test;
 
 /**

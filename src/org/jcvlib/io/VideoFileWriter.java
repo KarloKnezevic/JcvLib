@@ -25,8 +25,7 @@ import org.jcvlib.core.JCV;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Size;
 import org.jcvlib.core.VideoWriter;
-
-import org.jcvlib.imageproc.TypeConvert;
+import org.jcvlib.image.TypeConvert;
 
 import com.xuggle.xuggler.ICodec;
 import com.xuggle.xuggler.IContainer;

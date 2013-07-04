@@ -23,7 +23,7 @@ import java.io.IOException;
 
 import org.jcvlib.core.Image;
 import org.jcvlib.gui.Window;
-import org.jcvlib.imageproc.Misc;
+import org.jcvlib.image.Misc;
 import org.jcvlib.io.ImageRW;
 
 /**

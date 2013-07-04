@@ -16,7 +16,7 @@
 /*
  * This class is part of Java Computer Vision Library (JcvLib).
  */
-package org.jcvlib.imageproc;
+package org.jcvlib.image;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
