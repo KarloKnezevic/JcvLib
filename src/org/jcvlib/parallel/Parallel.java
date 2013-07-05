@@ -50,7 +50,7 @@ import pro.zavodnikov.jparfor.core.JParfor;
  * @version 1.009
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
-public class JcvParallel {
+public class Parallel {
     /**
      * Minimal image size to parallelization by default: 100 x 100 = 10 000 elements).
      */
@@ -99,7 +99,7 @@ public class JcvParallel {
         /*
          * Perform operation.
          */
-        JParfor.setMinIterations(JCV.roundUp((double) JcvParallel.getMinSize() / (double) image.getSize().getN()));
+        JParfor.setMinIterations(JCV.roundUp((double) Parallel.getMinSize() / (double) image.getSize().getN()));
         JParfor.exec(image.getNumOfChannels(), new JLoopI() {
             @Override
             public void execute(int channel, int nThread) {
@@ -126,7 +126,7 @@ public class JcvParallel {
         /*
          * Perform operation.
          */
-        JParfor.setMinIterations(JCV.roundUp(JcvParallel.getMinSize() / image.getWidth()));
+        JParfor.setMinIterations(JCV.roundUp(Parallel.getMinSize() / image.getWidth()));
         JParfor.exec(image.getHeight(), new JLoopI() {
             @Override
             public void execute(int y, int nThread) {

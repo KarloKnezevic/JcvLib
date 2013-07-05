@@ -23,7 +23,7 @@ import org.jcvlib.core.Image;
 import org.jcvlib.core.Size;
 import org.jcvlib.image.Filters;
 import org.jcvlib.image.Operator;
-import org.jcvlib.parallel.JcvParallel;
+import org.jcvlib.parallel.Parallel;
 
 /**
  * Compare time access to vales in {@link Image} and in standard array on real task -- threshold filter.
@@ -231,7 +231,7 @@ public class ThresholdPerformance {
         int numOfIterations = 10;
         int[] sizes = new int[]{ 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500 };
 
-        JcvParallel.setNumOfWorkers(1);
+        Parallel.setNumOfWorkers(1);
         for (int mSize : sizes) {
             System.out.println("Size " + mSize + "x" + mSize + " by " + numOfIterations + " iterations: ");
             System.out.println("    Nonlinear: " + testImageNonlinear(mSize, mSize, numOfIterations));

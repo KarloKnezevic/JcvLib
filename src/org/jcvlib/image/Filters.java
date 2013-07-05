@@ -27,7 +27,7 @@ import org.jcvlib.core.Point;
 import org.jcvlib.core.Rectangle;
 import org.jcvlib.core.Size;
 
-import org.jcvlib.parallel.JcvParallel;
+import org.jcvlib.parallel.Parallel;
 import org.jcvlib.parallel.PixelsLoop;
 
 import Jama.Matrix;
@@ -125,65 +125,141 @@ public class Filters {
     public static final int ADAPTIVE_MEAN_INV = 1;
 
     /**
-     * Calculate mean value for all pixels from aperture of current pixel. All values have weight from
-     * <A href="http://en.wikipedia.org/wiki/Gaussian_blur">Gaussian matrix</A>.
+     * Calculate mean value for all pixels from aperture of current pixel. All values have weight from Gaussian matrix.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Gaussian_blur">Gaussian blur -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      */
     public static final int ADAPTIVE_GAUSSIAN = 2;
 
     /**
-     * Calculate mean value for all pixels from aperture of current pixel. All values have weight from
-     * <A href="http://en.wikipedia.org/wiki/Gaussian_blur">Gaussian matrix</A>. Invert result.
+     * Calculate mean value for all pixels from aperture of current pixel. All values have weight from Gaussian matrix. Invert result.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Gaussian_blur">Gaussian blur -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      */
     public static final int ADAPTIVE_GAUSSIAN_INV = 3;
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Roberts_Cross">Roberts cross</A>.
+     * Roberts cross.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Roberts_Cross">Roberts Cross -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      */
     public static final int EDGE_DETECT_ROBERTS = 0;
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Prewitt_operator">Prewitt operator</A>.
+     * Prewitt operator.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Prewitt_operator">Prewitt operator -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      */
     public static final int EDGE_DETECT_PREWITT = 1;
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Sobel_operator">Sobel operator</A>.
+     * Sobel operator.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Sobel_operator">Sobel operator -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      */
     public static final int EDGE_DETECT_SOBEL = 2;
 
     /**
      * <A href="http://en.wikipedia.org/wiki/Sobel_operator#Alternative_operators">Scharr operator</A>.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Sobel_operator#Alternative_operators">
+     * Sobel operator. Alternative_operators -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      */
     public static final int EDGE_DETECT_SCHARR = 3;
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Box_blur">Box blur</A>.
+     * Box blur.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Box_blur">Box blur -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      */
     public static final int BLUR_BOX = 0;
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Gaussian_blur">Gaussian blur</A>.
+     * Gaussian blur.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Gaussian_blur">Gaussian blur -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      */
     public static final int BLUR_GAUSSIAN = 1;
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Median_filter">Median filter</A>.
+     * Median filter.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Median_filter">Median filter -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      */
     public static final int BLUR_MEDIAN = 2;
 
     /**
-     * <A href="http://rsbweb.nih.gov/ij/plugins/kuwahara.html">Kuwahara blur</A>.
+     * Kuwahara blur.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://rsbweb.nih.gov/ij/plugins/kuwahara.html">Kuwahara Filter</A>.</LI>
+     * </OL>
+     * </P>
      */
     public static final int BLUR_KUWAHARA = 3;
 
     /**
-     * Sharpen image using <A href="http://en.wikipedia.org/wiki/Discrete_Laplace_operator">Discrete Laplace operator</A>.
+     * Sharpen image using Discrete Laplace operator.
      *
      * <P>
      * Algorithm:
      * <OL>
      * <LI>Apply discrete Laplace operator to source image.</LI>
      * <LI>Summarize source image with image from step 1.</LI>
+     * </OL>
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Discrete_Laplace_operator">Discrete Laplace operator -- Wikipedia</A>.</LI>
      * </OL>
      * </P>
      */
@@ -195,48 +271,83 @@ public class Filters {
     public static final int SHARPEN_MODERN = 1;
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Dilation_(morphology)">Dilation</A>.
+     * Dilation.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Dilation_(morphology)">Dilation (morphology) -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      */
     public static final int MORPHOLOGY_DILATE = 0;
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Erosion_(morphology)">Erosion</A>.
+     * Erosion.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Erosion_(morphology)">Erosion (morphology) -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      */
     public static final int MORPHOLOGY_ERODE = 1;
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Opening_(morphology)">Opening</A>.
+     * Opening.
      *
      * <P>
      * <CODE>open(image, kernel) = dilate(erode(image, kernel), kernel)</CODE>
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Opening_(morphology)">Opening (morphology) -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      */
     public static final int MORPHOLOGY_OPEN = 2;
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Closing_(morphology)">Closing</A>.
+     * Closing.
      *
      * <P>
      * <CODE>close(image, kernel) = erode(dilate(image, kernel), kernel)</CODE>
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Closing_(morphology)">Closing (morphology) -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      */
     public static final int MORPHOLOGY_CLOSE = 3;
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Morphological_gradient">Morphological gradient</A>.
+     * Morphological gradient.
      *
      * <P>
      * <CODE>morphologyGradient(image, kernel) = dilate(image, kernel) - erode(image, kernel)</CODE>
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Morphological_gradient">Morphological gradient -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      */
     public static final int MORPHOLOGY_GRADIENT = 4;
 
     /**
-     * Implements <A href="http://en.wikipedia.org/wiki/Nonlinear_filter">Nonlinear filter</A>.
+     * Nonlinear filter.
      *
      * <P>
-     * For each pixel on this image apply given operator. This operator get kernel values and put result into current pixel. For example, we
-     * have kernel size <CODE>[4x4]</CODE> and anchor <CODE>(1, 1)</CODE> for each pixel on image we select a field:
+     * For each pixel on this image apply given operator. This operator get kernel values and put result into current pixel.
+     * For example, we have kernel size <CODE>[4 x 4]</CODE> and anchor <CODE>(1, 1)</CODE> for each pixel on image we select a field:
      *
      * <PRE>
      * <CODE>
@@ -254,8 +365,15 @@ public class Filters {
      * </P>
      *
      * <P>
-     * Some filters need kernel with only odd sizes and anchor only in the center (for example, <A
-     * href="http://en.wikipedia.org/wiki/Gaussian_blur">Gaussian blur</A>).
+     * Some filters need kernel with only odd sizes and anchor only in the center (for example, Gaussian blur).
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Nonlinear_filter">Nonlinear filter -- Wikipedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/Gaussian_blur">Gaussian blur -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      *
      * @param source
@@ -315,12 +433,11 @@ public class Filters {
             final Image currentResult = result;
 
             // Create extend image.
-            final Image sourceExtend =
-                new Image(source.getWidth() + kernelSize.getWidth() - 1, source.getHeight() + kernelSize.getHeight() - 1,
-                    source.getNumOfChannels(), source.getType());
+            final Image sourceExtend = new Image(source.getWidth() + kernelSize.getWidth() - 1,
+                source.getHeight() + kernelSize.getHeight() - 1, source.getNumOfChannels(), source.getType());
 
             // Fill extend image.
-            JcvParallel.pixels(sourceExtend, new PixelsLoop() {
+            Parallel.pixels(sourceExtend, new PixelsLoop() {
                 @Override
                 public void execute(int x, int y) {
                     for (int channel = 0; channel < sourceExtend.getNumOfChannels(); ++channel) {
@@ -330,7 +447,7 @@ public class Filters {
             });
 
             // Run operator for each pixel from extended image.
-            JcvParallel.pixels(
+            Parallel.pixels(
                 sourceExtend.getSubimage(0, 0, sourceExtend.getWidth() - kernelSize.getWidth() + 1,
                     sourceExtend.getHeight() - kernelSize.getHeight() + 1), new PixelsLoop() {
                     @Override
@@ -347,7 +464,7 @@ public class Filters {
     }
 
     /**
-     * Calculate gradient filter by X and Y dimensions.
+     * Gradient filter by X and Y dimensions.
      *
      * <P>
      * This method is useful for creation own gradient methods.
@@ -359,6 +476,13 @@ public class Filters {
      * <LI>Convolve aperture with kernel <CODE>derivativeX</CODE> and save result as <CODE>Gx</CODE>.</LI>
      * <LI>Convolve aperture with kernel <CODE>derivativeY</CODE> and save result as <CODE>Gy</CODE>.</LI>
      * <LI>Calculate gradient by formula <CODE>G = SQRT(Gx<SUP>2</SUP> + Gy<SUP>2</SUP>)</CODE>.</LI>
+     * </OL>
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Image_gradient">Image gradient -- Wikipedia</A>.</LI>
      * </OL>
      * </P>
      *
@@ -414,11 +538,7 @@ public class Filters {
     }
 
     /**
-     * Convolves an image with the kernel.
-     *
-     * <P>
-     * Common-used method for apply <A href="http://en.wikipedia.org/wiki/Linear_filter">linear</A> matrix filter.
-     * </P>
+     * Convolves an image with the kernel. Common-used method for apply linear matrix filter.
      *
      * <P>
      * For example, we have matrix kernel:
@@ -453,12 +573,21 @@ public class Filters {
      *
      * and multiply each value from aperture to corresponding value from kernel. For example value in position <CODE>(0, 1)</CODE> from
      * aperture will be multiply to value <CODE>(0, 1)</CODE> from kernel.
+     * </P>
      *
+     * <P>
      * Then all multiplied values are summarized, divided to <CODE>div</CODE> value and to the result added <CODE>offset</CODE> value.
      * </P>
      *
      * <P>
      * Result of this operations saved into output image into corresponding position.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Linear_filter">Linear filter -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      *
      * @param image
@@ -536,7 +665,14 @@ public class Filters {
     }
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Discrete_Laplace_operator">Discrete Laplace operator</A>.
+     * Discrete Laplace operator.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Discrete_Laplace_operator">Discrete Laplace operator -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      *
      * @param image
      *            Source image.
@@ -546,7 +682,11 @@ public class Filters {
      *         Image with result of applying Laplace operator. Have same size, number of channels and type as a source image.
      */
     public static Image laplacian(Image image, int extrapolationType) {
-        Matrix laplaceKernel = new Matrix(new double[][]{ { 0.0, 1.0, 0.0 }, { 1.0, -4.0, 1.0 }, { 0.0, 1.0, 0.0 } });
+        Matrix laplaceKernel = new Matrix(new double[][]{
+            { 0.0, 1.0, 0.0 },
+            { 1.0,-4.0, 1.0 },
+            { 0.0, 1.0, 0.0 }
+        });
         double div = -1.0;
         double offset = Color.COLOR_MIN_VALUE;
 
@@ -554,10 +694,17 @@ public class Filters {
     }
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Discrete_Laplace_operator">Discrete Laplace operator</A>.
+     * Discrete Laplace operator.
      *
      * <P>
      * Use {@link Image#EXTRAPLOATION_REPLICATE} by default.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Discrete_Laplace_operator">Discrete Laplace operator -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      */
     public static Image laplacian(Image image) {
@@ -568,7 +715,9 @@ public class Filters {
      * Invert values into image: each value V invert to <CODE>({@link Color#COLOR_MAX_VALUE} - V)</CODE>.
      */
     public static Image invert(Image image) {
-        Matrix invertKernel = new Matrix(new double[][]{ { -1.0 } });
+        Matrix invertKernel = new Matrix(new double[][]{
+            {-1.0 }
+        });
         double div = 1.0;
         double offset = Color.COLOR_MAX_VALUE;
 
@@ -576,10 +725,17 @@ public class Filters {
     }
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Edge_detection">Edge detection</A> algorithms.
+     * Edge detection algorithms.
      *
      * <P>
      * Based on {@link Filters#gradientFilter(Image, Matrix, Matrix, double, int)}.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Edge_detection">Edge detection -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      *
      * @param image
@@ -599,23 +755,55 @@ public class Filters {
 
         switch (edgeDetectiontype) {
             case Filters.EDGE_DETECT_ROBERTS:
-                matrixKernelX = new Matrix(new double[][]{ { 1.0, 0.0, 0.0 }, { 0.0, -1.0, 0.0 }, { 0.0, 0.0, 0.0 } });
-                matrixKernelY = new Matrix(new double[][]{ { 0.0, 0.0, 0.0 }, { 0.0, 0.0, -1.0 }, { 0.0, 1.0, 0.0 } });
+                matrixKernelX = new Matrix(new double[][]{
+                    { 1.0, 0.0, 0.0 },
+                    { 0.0,-1.0, 0.0 },
+                    { 0.0, 0.0, 0.0 }
+                });
+                matrixKernelY = new Matrix(new double[][]{
+                    { 0.0, 0.0, 0.0 },
+                    { 0.0, 0.0,-1.0 },
+                    { 0.0, 1.0, 0.0 }
+                });
                 break;
 
             case Filters.EDGE_DETECT_PREWITT:
-                matrixKernelX = new Matrix(new double[][]{ { -1.0, 0.0, 1.0 }, { -1.0, 0.0, 1.0 }, { -1.0, 0.0, 1.0 } });
-                matrixKernelY = new Matrix(new double[][]{ { 1.0, 1.0, 1.0 }, { 0.0, 0.0, 0.0 }, { -1.0, -1.0, -1.0 } });
+                matrixKernelX = new Matrix(new double[][]{
+                    {-1.0, 0.0, 1.0 },
+                    {-1.0, 0.0, 1.0 },
+                    {-1.0, 0.0, 1.0 }
+                });
+                matrixKernelY = new Matrix(new double[][]{
+                    { 1.0, 1.0, 1.0 },
+                    { 0.0, 0.0, 0.0 },
+                    {-1.0,-1.0,-1.0 }
+                });
                 break;
 
             case Filters.EDGE_DETECT_SOBEL:
-                matrixKernelX = new Matrix(new double[][]{ { -1.0, 0.0, 1.0 }, { -2.0, 0.0, 2.0 }, { -1.0, 0.0, 1.0 } });
-                matrixKernelY = new Matrix(new double[][]{ { -1.0, -2.0, -1.0 }, { 0.0, 0.0, 0.0 }, { 1.0, 2.0, 1.0 } });
+                matrixKernelX = new Matrix(new double[][]{
+                    {-1.0, 0.0, 1.0 },
+                    {-2.0, 0.0, 2.0 },
+                    {-1.0, 0.0, 1.0 }
+                });
+                matrixKernelY = new Matrix(new double[][]{
+                    {-1.0,-2.0,-1.0 },
+                    { 0.0, 0.0, 0.0 },
+                    { 1.0, 2.0, 1.0 }
+                });
                 break;
 
             case Filters.EDGE_DETECT_SCHARR:
-                matrixKernelX = new Matrix(new double[][]{ { 3.0,  0.0,-3.0 }, { 10.0, 0.0,-10.0 }, { 3.0, 0.0, -3.0 } });
-                matrixKernelY = new Matrix(new double[][]{ { 3.0, 10.0, 3.0 }, {  0.0, 0.0,  0.0 }, {-3.0,-10.0,-3.0 } });
+                matrixKernelX = new Matrix(new double[][]{
+                    { 3.0, 0.0, -3.0 },
+                    {10.0, 0.0,-10.0 },
+                    { 3.0, 0.0, -3.0 }
+                });
+                matrixKernelY = new Matrix(new double[][]{
+                    { 3.0, 10.0, 3.0 },
+                    { 0.0,  0.0, 0.0 },
+                    {-3.0,-10.0,-3.0 }
+                });
                 break;
         }
 
@@ -623,7 +811,7 @@ public class Filters {
     }
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Edge_detection">Edge detection</A> algorithms.
+     * Edge detection algorithms.
      *
      * <P>
      * Based on {@link Filters#gradientFilter(Image, Matrix, Matrix, double, int)}.
@@ -631,6 +819,13 @@ public class Filters {
      *
      * <P>
      * Use <CODE>1.0</CODE> as default scale and {@link Image#EXTRAPLOATION_REFLECT} as default extrapolation type.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Edge_detection">Edge detection -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      *
      * @param image
@@ -645,7 +840,7 @@ public class Filters {
     }
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Edge_detection">Edge detection</A> algorithms.
+     * Edge detection algorithms.
      *
      * <P>
      * Based on {@link Filters#gradientFilter(Image, Matrix, Matrix, double, int)}.
@@ -654,6 +849,13 @@ public class Filters {
      * <P>
      * Use {@link Filters#EDGE_DETECT_SOBEL} as default edge detection method, <CODE>1.0</CODE> as default scale and
      * {@link Image#EXTRAPLOATION_REFLECT} as default extrapolation type.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Edge_detection">Edge detection -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      *
      * @param image
@@ -666,13 +868,19 @@ public class Filters {
     }
 
     /**
-     * Release Gaussian kernel (see <A href="http://en.wikipedia.org/wiki/Gaussian_function">Gaussian function</A>) for
-     * <A href="http://en.wikipedia.org/wiki/Gaussian_filter">Gaussian filter</A> as a <STRONG>vector with size (width, 1)</STRONG>.
+     * Release Gaussian kernel (see Gaussian function) for Gaussian filter as a <STRONG>vector with size <CODE>(width, 1)</CODE></STRONG>.
      *
      * <P>
      * Used formula: <CODE><PRE>
      * G(x) = alpha * exp{-(x<SUP>2</SUP>) / (2 * sigma<SUP>2</SUP>)}
      * </PRE></CODE> where <CODE>alpha</CODE> is a scalable parameter to <CODE>sum(G(x, y)) == 1.0</CODE>.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Gaussian_filter">Gaussian filter -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      */
     public static Matrix getGaussianKernel(int kernelSize, double sigma2) {
@@ -706,8 +914,7 @@ public class Filters {
     }
 
     /**
-     * Release Gaussian kernel (see <A href="http://en.wikipedia.org/wiki/Gaussian_function">Gaussian function</A>) for
-     * <A href="http://en.wikipedia.org/wiki/Gaussian_filter">Gaussian filter</A> as a <STRONG>vector with size (width, 1)</STRONG>.
+     * Release Gaussian kernel (see Gaussian function) for Gaussian filter as a <STRONG>vector with size (width, 1)</STRONG>.
      *
      * <P>
      * <CODE>sigma</CODE> calculated automatically.
@@ -718,14 +925,20 @@ public class Filters {
      * G(x) = alpha * exp{-(x<SUP>2</SUP>) / (2 * sigma<SUP>2</SUP>)}
      * </PRE></CODE> where <CODE>alpha</CODE> is a scalable parameter to <CODE>sum(G(x, y)) == 1.0</CODE>.
      * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Gaussian_filter">Gaussian filter -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      */
     public static Matrix getGaussianKernel(int kernelSize) {
         return Filters.getGaussianKernel(kernelSize, Filters.getSigma(kernelSize));
     }
 
     /**
-     * Return size of one dimension base on <CODE>sigma</CODE> value (see <A href="http://en.wikipedia.org/wiki/Gaussian_blur">
-     * Gaussian blur</A>).
+     * Return size of one dimension base on <CODE>sigma</CODE> value (see Gaussian blur).
      */
     public static int getKernelSize(double sigma) {
         int size = JCV.roundDown(sigmaSizeCoeff * sigma);
@@ -737,15 +950,21 @@ public class Filters {
     }
 
     /**
-     * Return <CODE>sigma</CODE> base on size value of one dimension (see <A href="http://en.wikipedia.org/wiki/Gaussian_blur">
-     * Gaussian blur</A>).
+     * Return <CODE>sigma</CODE> base on size value of one dimension (see Gaussian blur).
      */
     public static double getSigma(int size) {
         return (double) size / sigmaSizeCoeff;
     }
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Gaussian_blur">Gaussian blur</A>.
+     * Gaussian blur.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Gaussian_blur">Gaussian blur -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      *
      * @param image
      *            Source image.
@@ -791,7 +1010,14 @@ public class Filters {
     }
 
     /**
-     * <A href="http://rsbweb.nih.gov/ij/plugins/kuwahara.html">Kuwahara blur</A>.
+     * Kuwahara blur.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://rsbweb.nih.gov/ij/plugins/kuwahara.html">Kuwahara Filter</A>.</LI>
+     * </OL>
+     * </P>
      */
     private static Image kuwaharaBlur(Image image, Size kernelSize, int extrapolationType) {
         /*
@@ -821,14 +1047,14 @@ public class Filters {
                     Size windowSize = new Size(kernelCenter.getX(), kernelCenter.getY());
 
                     // Create sub-images.
-                    windows[0] = aperture.getSubimage(new Rectangle(0, 0, windowSize.getWidth(), windowSize.getHeight()));
-                    windows[1] =
-                        aperture.getSubimage(new Rectangle(kernelCenter.getX() + 1, 0, windowSize.getWidth(), windowSize.getHeight()));
-                    windows[2] =
-                        aperture.getSubimage(new Rectangle(0, kernelCenter.getY() + 1, windowSize.getWidth(), windowSize.getHeight()));
-                    windows[3] =
-                        aperture.getSubimage(new Rectangle(kernelCenter.getX() + 1, kernelCenter.getY() + 1, windowSize.getWidth(),
-                            windowSize.getHeight()));
+                    windows[0] = aperture.getSubimage(new Rectangle(0, 0,
+                        windowSize.getWidth(), windowSize.getHeight()));
+                    windows[1] = aperture.getSubimage(new Rectangle(kernelCenter.getX() + 1, 0,
+                        windowSize.getWidth(), windowSize.getHeight()));
+                    windows[2] = aperture.getSubimage(new Rectangle(0, kernelCenter.getY() + 1,
+                        windowSize.getWidth(),  windowSize.getHeight()));
+                    windows[3] = aperture.getSubimage(new Rectangle(kernelCenter.getX() + 1, kernelCenter.getY() + 1,
+                        windowSize.getWidth(), windowSize.getHeight()));
 
                     // Calculate average and variance.
                     for (int i = 0; i < windows.length; ++i) {
@@ -1043,7 +1269,14 @@ public class Filters {
     }
 
     /**
-     * Apply <A href="http://en.wikipedia.org/wiki/Mathematical_morphology">morphology transformation</A> to image.
+     * Morphology transformation.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Mathematical_morphology">Mathematical morphology -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      *
      * @param image
      *            Source image.
@@ -1160,10 +1393,17 @@ public class Filters {
     }
 
     /**
-     * Apply <A href="http://en.wikipedia.org/wiki/Mathematical_morphology">morphology transformation</A> to image.
+     * Morphology transformation.
      *
      * <P>
      * Use {@link Image#EXTRAPLOATION_REPLICATE} as default extrapolation type.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Mathematical_morphology">Mathematical morphology -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      *
      * @param image
@@ -1182,10 +1422,17 @@ public class Filters {
     }
 
     /**
-     * Apply <A href="http://en.wikipedia.org/wiki/Mathematical_morphology">morphology transformation</A> to image.
+     * Morphology transformation.
      *
      * <P>
      * Use <CODE>1</CODE> as default iteration and {@link Image#EXTRAPLOATION_REPLICATE} as default extrapolation type.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Mathematical_morphology">Mathematical morphology -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      *
      * @param image
@@ -1259,7 +1506,14 @@ public class Filters {
     }
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Thresholding_(image_processing)">Threshold filter</A>.
+     * Threshold filter.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Thresholding_(image_processing)">Thresholding (image processing) -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      *
      * @param image
      *            Source image.
@@ -1291,7 +1545,7 @@ public class Filters {
          */
         final Image result = new Image(image);
 
-        JcvParallel.pixels(image, new PixelsLoop() {
+        Parallel.pixels(image, new PixelsLoop() {
             @Override
             public void execute(int x, int y) {
                 for (int channel = 0; channel < image.getNumOfChannels(); ++channel) {
@@ -1304,10 +1558,17 @@ public class Filters {
     }
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Thresholding_(image_processing)">Threshold filter</A>.
+     * Threshold filter.
      *
      * <P>
      * Uses {@link Color#COLOR_MAX_VALUE} by default maximal value.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Thresholding_(image_processing)">Thresholding (image processing) -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      *
      * @param image
@@ -1324,7 +1585,14 @@ public class Filters {
     }
 
     /**
-     * Calculate <A href="http://homepages.inf.ed.ac.uk/rbf/HIPR2/adpthrsh.htm">adaptive threshold</A>.
+     * Adaptive threshold.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://homepages.inf.ed.ac.uk/rbf/HIPR2/adpthrsh.htm">Adaptive Thresholding -- HIPR2</A>.</LI>
+     * </OL>
+     * </P>
      *
      * @param image
      *            Source image.
@@ -1425,10 +1693,17 @@ public class Filters {
     }
 
     /**
-     * Calculate <A href="http://homepages.inf.ed.ac.uk/rbf/HIPR2/adpthrsh.htm">adaptive threshold</A>.
+     * Adaptive threshold.
      *
      * <P>
      * Uses {@link Color#COLOR_MAX_VALUE} by default maximal value.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://homepages.inf.ed.ac.uk/rbf/HIPR2/adpthrsh.htm">Adaptive Thresholding -- HIPR2</A>.</LI>
+     * </OL>
      * </P>
      *
      * @param image
@@ -1445,5 +1720,12 @@ public class Filters {
      */
     public static Image adapriveThreshold(final Image image, final int blockSize, final int type, final double C) {
         return Filters.adapriveThreshold(image, blockSize, type, C, Color.COLOR_MAX_VALUE);
+    }
+
+    // TODO
+    public static Image otsuThreshold(final Image image) {
+        Image result = new Image(image);
+
+        return result;
     }
 }

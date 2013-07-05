@@ -30,7 +30,7 @@ import org.jcvlib.core.Rectangle;
 import org.jcvlib.core.Size;
 
 import org.jcvlib.parallel.ChannelsLoop;
-import org.jcvlib.parallel.JcvParallel;
+import org.jcvlib.parallel.Parallel;
 
 /**
  * Contains miscellaneous image processing methods.
@@ -277,7 +277,7 @@ public class Misc {
          */
         final Image result = new Image(image.getWidth(), image.getHeight(), image.getNumOfChannels(), Image.TYPE_64F);
         
-        JcvParallel.channels(image, new ChannelsLoop() {
+        Parallel.channels(image, new ChannelsLoop() {
             @Override
             public void execute(int channel) {
                 for (int x = 0; x < image.getWidth(); ++x) {

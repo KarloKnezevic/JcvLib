@@ -22,12 +22,14 @@ import org.jcvlib.core.JCV;
 import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
 import org.jcvlib.image.ImageMath;
-import org.jcvlib.parallel.JcvParallel;
+import org.jcvlib.parallel.Parallel;
 import org.jcvlib.parallel.PixelsLoop;
 
 /**
  * This class contains methods for <A href="http://en.wikipedia.org/wiki/Motion_analysis">Motion analysis</A> and
  * <A href="http://en.wikipedia.org/wiki/Video_tracking">Video tracking</A>.
+ *
+ *
  *
  * @version 1.005
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
@@ -59,7 +61,7 @@ public class VideoAnalysis {
          */
         // Out of date current values.
         final Image proxyHistory = history;
-        JcvParallel.pixels(proxyHistory, new PixelsLoop() {
+        Parallel.pixels(proxyHistory, new PixelsLoop() {
             @Override
             public void execute(int x, int y) {
                 for (int channel = 0; channel < proxyHistory.getNumOfChannels(); ++channel) {

@@ -21,7 +21,8 @@ package org.jcvlib.performance;
 import org.jcvlib.core.ImageArray;
 import org.jcvlib.core.ImageArray64F;
 import org.jcvlib.core.Image;
-import org.jcvlib.parallel.JcvParallel;
+import org.jcvlib.core.ImageArray8I;
+import org.jcvlib.parallel.Parallel;
 
 /**
  * Compare time access to vales in {@link Image} and in standard array.
@@ -30,9 +31,10 @@ import org.jcvlib.parallel.JcvParallel;
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class ArrayPerformance {
+
     private static final int channels = 4;
 
-    private static double testImage(int width, int height, int numOfIterations) {
+    private static double testImage64F(int width, int height, int numOfIterations) {
         // Initialize.
         Image image = new Image(width, height, channels, Image.TYPE_64F);
 
@@ -53,7 +55,28 @@ public class ArrayPerformance {
         return (double) (System.currentTimeMillis() - startTime) / (double) numOfIterations;
     }
 
-    private static double testJcvLibArray(int width, int height, int numOfIterations) {
+    private static double testImage8I(int width, int height, int numOfIterations) {
+        // Initialize.
+        Image image = new Image(width, height, channels, Image.TYPE_8I);
+
+        // Time catch.
+        long startTime = System.currentTimeMillis();
+
+        // Start testing.
+        for (int num = 0; num < numOfIterations; ++num) {
+            for (int x = 0; x < image.getWidth(); ++x) {
+                for (int y = 0; y < image.getHeight(); ++y) {
+                    for (int channel = 0; channel < image.getNumOfChannels(); ++channel) {
+                        image.set(x, y, channel, x * y * channel * image.get(x, y, channel));
+                    }
+                }
+            }
+        }
+
+        return (double) (System.currentTimeMillis() - startTime) / (double) numOfIterations;
+    }
+
+    private static double testImageArray64F(int width, int height, int numOfIterations) {
         // Initialize.
         ImageArray array = new ImageArray64F(width, height, channels);
 
@@ -74,7 +97,28 @@ public class ArrayPerformance {
         return (double) (System.currentTimeMillis() - startTime) / (double) numOfIterations;
     }
 
-    private static double testArray(int width, int height, int numOfIterations) {
+    private static double testImageArray8I(int width, int height, int numOfIterations) {
+        // Initialize.
+        ImageArray array = new ImageArray8I(width, height, channels);
+
+        // Time catch.
+        long startTime = System.currentTimeMillis();
+
+        // Start testing.
+        for (int num = 0; num < numOfIterations; ++num) {
+            for (int x = 0; x < array.getWidth(); ++x) {
+                for (int y = 0; y < array.getHeight(); ++y) {
+                    for (int channel = 0; channel < array.getNumOfChannels(); ++channel) {
+                        array.setUnsafe(x, y, channel, x * y * channel * array.getUnsafe(x, y, channel));
+                    }
+                }
+            }
+        }
+
+        return (double) (System.currentTimeMillis() - startTime) / (double) numOfIterations;
+    }
+
+    private static double testDoubleArray(int width, int height, int numOfIterations) {
         // Initialize.
         double[] array = new double[width * height * channels];
 
@@ -91,6 +135,23 @@ public class ArrayPerformance {
         return (double) (System.currentTimeMillis() - startTime) / (double) numOfIterations;
     }
 
+    private static double testByteArray(int width, int height, int numOfIterations) {
+        // Initialize.
+        byte[] array = new byte[width * height * channels];
+
+        // Time catch.
+        long startTime = System.currentTimeMillis();
+
+        // Start testing.
+        for (int num = 0; num < numOfIterations; ++num) {
+            for (int i = 0; i < array.length; ++i) {
+                array[i] = (byte) (i * array[i]);
+            }
+        }
+
+        return (double) (System.currentTimeMillis() - startTime) / (double) numOfIterations;
+    }
+
     /**
      * Run this test.
      */
@@ -98,12 +159,15 @@ public class ArrayPerformance {
         int numOfIterations = 10;
         int[] sizes = new int[]{ 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500 };
 
-        JcvParallel.setNumOfWorkers(1);
+        Parallel.setNumOfWorkers(1);
         for (int mSize : sizes) {
             System.out.println("Size " + mSize + "x" + mSize + " by " + numOfIterations + " iterations: ");
-            System.out.println("    Image:    " + testImage(mSize, mSize, numOfIterations));
-            System.out.println("    Array:    " + testJcvLibArray(mSize, mSize, numOfIterations));
-            System.out.println("    double[]: " + testArray(mSize, mSize, numOfIterations));
+            System.out.println("    Image64F:      " + testImage64F(mSize, mSize, numOfIterations));
+            System.out.println("    Image8I:       " + testImage8I(mSize, mSize, numOfIterations));
+            System.out.println("    ImageArray64F: " + testImageArray64F(mSize, mSize, numOfIterations));
+            System.out.println("    ImageArray8I:  " + testImageArray8I(mSize, mSize, numOfIterations));
+            System.out.println("    double[]:      " + testDoubleArray(mSize, mSize, numOfIterations));
+            System.out.println("    byte[]:        " + testByteArray(mSize, mSize, numOfIterations));
         }
     }
 }

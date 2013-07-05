@@ -23,7 +23,7 @@ import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Point;
 import org.jcvlib.core.Size;
-import org.jcvlib.parallel.JcvParallel;
+import org.jcvlib.parallel.Parallel;
 import org.jcvlib.parallel.PixelsLoop;
 
 /**
@@ -69,7 +69,7 @@ public class Stereo {
         final Image result =
             new Image(left.getWidth() - windowSize.getWidth() + 1, left.getHeight() - windowSize.getHeight() + 1, 1, left.getType());
         
-        JcvParallel.pixels(result, new PixelsLoop() {
+        Parallel.pixels(result, new PixelsLoop() {
             @Override
             public void execute(int x, int y) {
                 double minColor = Double.MAX_VALUE;

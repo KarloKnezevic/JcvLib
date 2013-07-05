@@ -18,7 +18,7 @@
  */
 package org.jcvlib.core;
 
-import org.jcvlib.parallel.JcvParallel;
+import org.jcvlib.parallel.Parallel;
 import org.jcvlib.parallel.PixelsLoop;
 
 /**
@@ -71,12 +71,12 @@ public class Image {
      * Nearest neighbor interpolation.
      *
      * <P>
-     * See:
-     * <UL>
+     * <H6>Links:</H6>
+     * <OL>
      * <LI><A href="http://en.wikipedia.org/wiki/Nearest-neighbor_interpolation">Nearest neighbor interpolation -- Wikipedia</A>.</LI>
      * <LI><A href="http://www.compuphase.com/graphic/scale.htm">Quick image scaling algorithms</A>.</LI>
      * <LI><A href="http://www.cambridgeincolour.com/tutorials/image-interpolation.htm">Understanding Digital Image Interpolation</A>.</LI>
-     * </UL>
+     * </OL>
      * </P>
      */
     public static final int INTERPOLATION_NEAREST_NEIGHBOR = 0;
@@ -85,12 +85,12 @@ public class Image {
      * Bilinear interpolation.
      *
      * <P>
-     * See:
-     * <UL>
+     * <H6>Links:</H6>
+     * <OL>
      * <LI><A href="http://en.wikipedia.org/wiki/Bilinear_interpolation">Bilinear interpolation -- Wikipedia</A>.</LI>
      * <LI><A href="http://www.compuphase.com/graphic/scale.htm">Quick image scaling algorithms</A>.</LI>
      * <LI><A href="http://www.cambridgeincolour.com/tutorials/image-interpolation.htm">Understanding Digital Image Interpolation</A>.</LI>
-     * </UL>
+     * </OL>
      * </P>
      */
     public static final int INTERPOLATION_BILINEAR = 1;
@@ -99,12 +99,12 @@ public class Image {
      * Bicubic interpolation.
      *
      * <P>
-     * See:
-     * <UL>
+     * <H6>Links:</H6>
+     * <OL>
      * <LI><A href="http://en.wikipedia.org/wiki/Bicubic_interpolation">Bicubic interpolation -- Wikipedia</A>.</LI>
      * <LI><A href="http://www.compuphase.com/graphic/scale.htm">Quick image scaling algorithms</A>.</LI>
      * <LI><A href="http://www.cambridgeincolour.com/tutorials/image-interpolation.htm">Understanding Digital Image Interpolation</A>.</LI>
-     * </UL>
+     * </OL>
      * </P>
      */
     public static final int INTERPOLATION_BICUBIC = 2;
@@ -207,7 +207,7 @@ public class Image {
         /*
          * Set values.
          */
-        JcvParallel.pixels(this, new PixelsLoop() {
+        Parallel.pixels(this, new PixelsLoop() {
             @Override
             public void execute(int x, int y) {
                 for (int channel = 0; channel < getNumOfChannels(); ++channel) {
@@ -537,9 +537,7 @@ public class Image {
     }
 
     /**
-     * Interpolate image uses selected interpolation type.
-     *
-     * Uses into geometry transformations.
+     * Interpolate image uses selected interpolation type. Uses into geometry transformations.
      *
      * @param x
      *            X-position.
@@ -626,7 +624,7 @@ public class Image {
         /*
          * Copy values.
          */
-        JcvParallel.pixels(this, new PixelsLoop() {
+        Parallel.pixels(this, new PixelsLoop() {
             @Override
             public void execute(int x, int y) {
                 for (int channel = 0; channel < getNumOfChannels(); ++channel) {
@@ -647,11 +645,7 @@ public class Image {
     }
 
     /**
-     * Return sub-image based on current source.
-     *
-     * <P>
-     * It is <STRONG>NOT COPY</STRONG> current image.
-     * </P>
+     * Return sub-image based on current source. It is <STRONG>NOT COPY</STRONG> current image.
      */
     public Image getSubimage(int x, int y, int width, int height) {
         return this.getSubimage(new Rectangle(x, y, width, height));

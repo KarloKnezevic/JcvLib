@@ -95,8 +95,8 @@ public class JCV {
      * Get constant that identify current <STRONG>JVM</STRONG> architecture.
      *
      * <P>
-     * It means, that on 64-bit architecture can be installed 32-bit JVM. In this case 32-bit constant will be returned. It will be correct
-     * because we can run only 32-bit native code on 32-bit JCV.
+     * It means, that on 64-bit architecture can be installed 32-bit JVM. In this case 32-bit constant will be returned.
+     * It will be correct because we can run only 32-bit native code on 32-bit JCV.
      * </P>
      *
      * @return
@@ -237,7 +237,7 @@ public class JCV {
     }
 
     /**
-     * Verify if given object is not <CODE>null</CODE> and generate <CODE>IllegalArgumentException</CODE> otherwise.
+     * Verify if given object is not <CODE>null</CODE> and generate {@link IllegalArgumentException} otherwise.
      *
      * @param obj
      *            Object to verification.
@@ -261,7 +261,7 @@ public class JCV {
     }
 
     /**
-     * Verify if 2 images have same size and generate <CODE>IllegalArgumentException</CODE> otherwise.
+     * Verify if 2 images have same size and generate {@link IllegalArgumentException} otherwise.
      *
      * @param image1
      *            First image.
@@ -291,7 +291,7 @@ public class JCV {
     }
 
     /**
-     * Verify if 2 images have same number of channels and generate <CODE>IllegalArgumentException</CODE> otherwise.
+     * Verify if 2 images have same number of channels and generate {@link IllegalArgumentException} otherwise.
      *
      * @param image1
      *            First image.
@@ -322,7 +322,7 @@ public class JCV {
     }
 
     /**
-     * Verify if image have defined number of channels and generate <CODE>IllegalArgumentException</CODE> otherwise.
+     * Verify if image have defined number of channels and generate {@link IllegalArgumentException} otherwise.
      *
      * @param image
      *            Source image.
@@ -351,7 +351,7 @@ public class JCV {
     }
 
     /**
-     * Verify if 2 images have same type and generate <CODE>IllegalArgumentException</CODE> otherwise.
+     * Verify if 2 images have same type and generate {@link IllegalArgumentException} otherwise.
      *
      * @param image1
      *            First image.
@@ -381,7 +381,7 @@ public class JCV {
     }
 
     /**
-     * Verify if 2 images have same size and generate <CODE>IllegalArgumentException</CODE> otherwise.
+     * Verify if 2 images have same size and generate {@link IllegalArgumentException} otherwise.
      *
      * @param mat1
      *            First matrix.

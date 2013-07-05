@@ -176,7 +176,6 @@ public final class Window {
             public void keyPressed(KeyEvent event) {
                 // Do nothing.
             }
-
             @Override
             public void keyReleased(KeyEvent event) {
                 setKeyChar(event.getKeyChar());
@@ -186,7 +185,6 @@ public final class Window {
                     closeAll();
                 }
             }
-
             @Override
             public void keyTyped(KeyEvent event) {
                 // Do nothing.
@@ -429,7 +427,6 @@ public final class Window {
                 // Do nothing.
                 System.out.println(event.getX() + ", " + event.getY());
             }
-
             @Override
             public void mouseMoved(MouseEvent event) {
                 // Get mouse position.

@@ -63,14 +63,7 @@ public class ImageArray8I extends ImageArray {
      */
     @Override
     public void setUnsafe(int x, int y, int channel, double value) {
-        int v = JCV.round(value);
-        if (v > Color.COLOR_MAX_VALUE) {
-            v = JCV.roundDown(Color.COLOR_MAX_VALUE);
-        }
-        if (v < Color.COLOR_MIN_VALUE) {
-            v = JCV.roundUp(Color.COLOR_MIN_VALUE);
-        }
-        this.setUnsafe8I(x, y, channel, v);
+        this.setUnsafe8I(x, y, channel, JCV.round(value));
     }
 
     /*

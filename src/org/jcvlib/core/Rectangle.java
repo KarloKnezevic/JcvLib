@@ -19,11 +19,7 @@
 package org.jcvlib.core;
 
 /**
- * Contain rectangle on image.
- *
- * <P>
- * This is <STRONG>immutable object</STRONG> -- you can not change values of it after creation.
- * </P>
+ * Contain rectangle on image. This is <STRONG>immutable object</STRONG> -- you can not change values of it after creation.
  *
  * @version 1.016
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)

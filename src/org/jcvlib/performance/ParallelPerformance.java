@@ -20,7 +20,7 @@ package org.jcvlib.performance;
 
 import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
-import org.jcvlib.parallel.JcvParallel;
+import org.jcvlib.parallel.Parallel;
 import org.jcvlib.parallel.PixelsLoop;
 
 /**
@@ -60,7 +60,7 @@ public class ParallelPerformance {
         
         // Start testing.
         for (int i = 0; i < numOfIterations; ++i) {
-            JcvParallel.pixels(image, new PixelsLoop() {
+            Parallel.pixels(image, new PixelsLoop() {
                 @Override
                 public void execute(int x, int y) {
                     for (int channel = 0; channel < image.getNumOfChannels(); ++channel) {

@@ -42,7 +42,8 @@ public abstract class ImageArray {
         this.size = new Size(width, height);
 
         if (numOfChannels <= 0) {
-            throw new IllegalArgumentException("Value of 'numOfChannels' (= " + Integer.toString(numOfChannels) + ") must be more than 0!");
+            throw new IllegalArgumentException("Value of 'numOfChannels' (= " + Integer.toString(numOfChannels)
+                + ") must be more than 0!");
         }
         this.numOfChannels = numOfChannels;
     }

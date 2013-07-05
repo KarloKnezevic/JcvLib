@@ -22,7 +22,7 @@ import org.jcvlib.core.JCV;
 import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
 
-import org.jcvlib.parallel.JcvParallel;
+import org.jcvlib.parallel.Parallel;
 import org.jcvlib.parallel.PixelsLoop;
 
 /**
@@ -32,12 +32,22 @@ import org.jcvlib.parallel.PixelsLoop;
  * Supported following color schemas:
  * <UL>
  * <LI>
- * <A href="http://en.wikipedia.org/wiki/Grayscale">Grayscale</A> <CODE><-></CODE> <A href="http://en.wikipedia.org/wiki/RGB">RGB</A>.</LI>
+ * Grayscale <CODE><-></CODE> RGB</LI>
  * <LI>
- * <A href="http://en.wikipedia.org/wiki/HSL_and_HSV">HSL/HLS/HSI</A> <CODE><-></CODE> <A href="http://en.wikipedia.org/wiki/RGB">RGB</A>.</LI>
+ * HSL/HLS/HSI <CODE><-></CODE> RGB</LI>
  * <LI>
- * <A href="http://en.wikipedia.org/wiki/HSL_and_HSV">HSV/HSB</A> <CODE><-></CODE> <A href="http://en.wikipedia.org/wiki/RGB">RGB</A>.</LI>
+ * HSV/HSB <CODE><-></CODE> RGB</LI>
  * </UL>
+ * </P>
+ *
+ * <P>
+ * <H6>Links:</H6>
+ * <OL>
+ * <LI><A href="http://en.wikipedia.org/wiki/Grayscale">Grayscale -- Wikipedia</A>.</LI>
+ * <LI><A href="http://en.wikipedia.org/wiki/RGB">RGB -- Wikipedia</A>.</LI>
+ * <LI><A href="http://en.wikipedia.org/wiki/HSL_and_HSV">HSL and HSV -- Wikipedia</A>.</LI>
+ * <LI><A href="http://en.wikipedia.org/wiki/Grayscale">Grayscale -- Wikipedia</A>.</LI>
+ * </OL>
  * </P>
  *
  * @version 1.030
@@ -45,10 +55,16 @@ import org.jcvlib.parallel.PixelsLoop;
  */
 public class ColorConvert {
     /**
-     * Convert image from <A href="http://en.wikipedia.org/wiki/RGB">RGB</A> color scheme
-     * (this color scheme include Red, Green and Blue channels) to
-     * <A href="http://en.wikipedia.org/wiki/Grayscale">Grayscale</A> color scheme
-     * (this color scheme include only Gray color channel).
+     * Convert image from RGB color scheme (this color scheme include Red, Green and Blue channels)
+     * to Grayscale color scheme (this color scheme include only Gray color channel).
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Grayscale">Grayscale -- Wikipedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/RGB">RGB -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      *
      * @param image
      *            Image with RGB color scheme. This image should have 3 channels.
@@ -66,7 +82,7 @@ public class ColorConvert {
          */
         final Image result = new Image(image.getWidth(), image.getHeight(), 1, image.getType());
 
-        JcvParallel.pixels(image, new PixelsLoop() {
+        Parallel.pixels(image, new PixelsLoop() {
             @Override
             public void execute(int x, int y) {
                 double gray =
@@ -85,10 +101,16 @@ public class ColorConvert {
     }
 
     /**
-     * Convert image from <A href="http://en.wikipedia.org/wiki/Grayscale">Grayscale</A> color scheme
-     * (this color scheme include only Gray color channel) to
-     * <A href="http://en.wikipedia.org/wiki/RGB">RGB</A> color scheme
-     * (this color scheme include Red, Green and Blue channels).
+     * Convert image from Grayscale color scheme (this color scheme include only Gray color channel)
+     * to RGB color scheme (this color scheme include Red, Green and Blue channels).
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Grayscale">Grayscale -- Wikipedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/RGB">RGB -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      *
      * @param image
      *            Image with Grayscale color scheme. This image should have 1 channel.
@@ -108,7 +130,7 @@ public class ColorConvert {
 
         for (int channel = 0; channel < result.getNumOfChannels(); ++channel) {
             final int proxyChannel = channel;
-            JcvParallel.pixels(image, new PixelsLoop() {
+            Parallel.pixels(image, new PixelsLoop() {
                 @Override
                 public void execute(int x, int y) {
                     result.set(x, y, proxyChannel, image.get(x, y, 0));
@@ -120,14 +142,23 @@ public class ColorConvert {
     }
 
     /**
-     * Convert image from <A href="http://en.wikipedia.org/wiki/RGB">RGB</A> color scheme
-     * (this color scheme include Red, Green and Blue channels) to
-     * <A href="http://en.wikipedia.org/wiki/HSL_and_HSV">HSL</A> (same as HLS/HSI) color scheme
-     * (this color scheme include Hue, Saturation and Lightness/Intensity channels).
+     * Convert image from RGB color scheme (this color scheme include Red, Green and Blue channels)
+     * to HSL (same as HLS/HSI) color scheme (this color scheme include Hue, Saturation and Lightness/Intensity channels).
      *
      * <P>
-     * Hue change values from interval [0.0, 360.0] of degrees, but translated to interval [0.0, 255.0]. Saturation and Lightness change
-     * values from interval [0.0, 1.0], but translated to interval [0.0, 255.0] too.
+     * Hue change values from interval <CODE>[0.0, 360.0]</CODE> of degrees, but translated to interval <CODE>[0.0, 255.0]</CODE>.
+     * Saturation and Lightness change values from interval <CODE>[0.0, 1.0]</CODE>, but translated to interval
+     * <CODE>[0.0, 255.0]</CODE> too.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Grayscale">Grayscale -- Wikipedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/RGB">RGB -- Wikipedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/HSL_and_HSV">HSL and HSV -- Wikipedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/Grayscale">Grayscale -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      *
      * @param image
@@ -146,7 +177,7 @@ public class ColorConvert {
          */
         final Image result = new Image(image);
 
-        JcvParallel.pixels(image, new PixelsLoop() {
+        Parallel.pixels(image, new PixelsLoop() {
             @Override
             public void execute(int x, int y) {
                 // Initialization.
@@ -213,14 +244,21 @@ public class ColorConvert {
     }
 
     /**
-     * Convert image from <A href="http://en.wikipedia.org/wiki/HSL_and_HSV">HSL</A> (same as HLS/HSI) color scheme
-     * (this color scheme include Hue, Saturation and Lightness/Intensity channels) to
-     * <A href="http://en.wikipedia.org/wiki/RGB">RGB</A> color scheme
-     * (this color scheme include Red, Green and Blue channels).
+     * Convert image from HSL (same as HLS/HSI) color scheme (this color scheme include Hue, Saturation and Lightness/Intensity channels)
+     * to RGB color scheme (this color scheme include Red, Green and Blue channels).
      *
      * <P>
-     * Hue change values from interval [0.0, 360.0] of degrees, but translated to interval [0.0, 255.0]. Saturation and Lightness change
-     * values from interval [0.0, 1.0], but translated to interval [0.0, 255.0] too.
+     * Hue change values from interval <CODE>[0.0, 360.0]</CODE> of degrees, but translated to interval <CODE>[0.0, 255.0]</CODE>.
+     * Saturation and Lightness change values from interval <CODE>[0.0, 1.0]</CODE>,
+     * but translated to interval <CODE>[0.0, 255.0]</CODE> too.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/RGB">RGB -- Wikipedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/HSL_and_HSV">HSL and HSV -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      *
      * @param image
@@ -239,7 +277,7 @@ public class ColorConvert {
          */
         final Image result = new Image(image);
 
-        JcvParallel.pixels(image, new PixelsLoop() {
+        Parallel.pixels(image, new PixelsLoop() {
             @Override
             public void execute(int x, int y) {
                 // Initialization.
@@ -296,14 +334,20 @@ public class ColorConvert {
     }
 
     /**
-     * Convert image from <A href="http://en.wikipedia.org/wiki/RGB">RGB</A> color scheme
-     * (this color scheme include Red, Green and Blue channels) to
-     * <A href="http://en.wikipedia.org/wiki/HSL_and_HSV">HSV</A> (same as HSB) color scheme
-     * (this color scheme include Hue, Saturation, Value (Brightness) or Intensity channel).
+     * Convert image from RGB color scheme (this color scheme include Red, Green and Blue channels)
+     * to HSV (same as HSB) color scheme (this color scheme include Hue, Saturation, Value (Brightness) or Intensity channel).
      *
      * <P>
-     * Hue change values from interval [0.0, 360.0] of degrees, but translated to interval [0.0, 255.0]. Saturation and Value change values
-     * from interval [0.0, 1.0], but translated to interval [0.0, 255.0] too.
+     * Hue change values from interval <CODE>[0.0, 360.0]</CODE> of degrees, but translated to interval <CODE>[0.0, 255.0]</CODE>.
+     * Saturation and Value change values from interval <CODE>[0.0, 1.0]</CODE>, but translated to interval <CODE>[0.0, 255.0]</CODE> too.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/RGB">RGB -- Wikipedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/HSL_and_HSV">HSL and HSV -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      *
      * @param image
@@ -322,7 +366,7 @@ public class ColorConvert {
          */
         final Image result = new Image(image);
 
-        JcvParallel.pixels(image, new PixelsLoop() {
+        Parallel.pixels(image, new PixelsLoop() {
             @Override
             public void execute(int x, int y) {
                 // Initialization.
@@ -380,14 +424,20 @@ public class ColorConvert {
     }
 
     /**
-     * Convert image from <A href="http://en.wikipedia.org/wiki/HSL_and_HSV">HSV</A> (same as HSB) color scheme
-     * (this color scheme include Hue, Saturation, Value (Brightness) channel) to
-     * <A href="http://en.wikipedia.org/wiki/RGB">RGB</A> color scheme
-     * (this color scheme include Red, Green and Blue channels).
+     * Convert image from HSV (same as HSB) color scheme (this color scheme include Hue, Saturation, Value (Brightness) channel) to
+     * RGB color scheme (this color scheme include Red, Green and Blue channels).
      *
      * <P>
-     * Hue change values from interval [0.0, 360.0] of degrees, but translated to interval [0.0, 255.0]. Saturation and Value change values
-     * from interval [0.0, 1.0], but translated to interval [0.0, 255.0] too.
+     * Hue change values from interval <CODE>[0.0, 360.0]</CODE> of degrees, but translated to interval <CODE>[0.0, 255.0]</CODE>.
+     * Saturation and Value change values from interval <CODE>[0.0, 1.0]</CODE>, but translated to interval <CODE>[0.0, 255.0]</CODE> too.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/RGB">RGB -- Wikipedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/HSL_and_HSV">HSL and HSV -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      *
      * @param image
@@ -406,7 +456,7 @@ public class ColorConvert {
          */
         final Image result = new Image(image);
 
-        JcvParallel.pixels(image, new PixelsLoop() {
+        Parallel.pixels(image, new PixelsLoop() {
             @Override
             public void execute(int x, int y) {
                 // Initialization.

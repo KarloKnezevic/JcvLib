@@ -19,11 +19,8 @@
 package org.jcvlib.core;
 
 /**
- * Contain <CODE>[height, width]</CODE> size of image, rectangle or something else.
- *
- * <P>
- * This is <STRONG>immutable object</STRONG> -- you can not change values of it after creation.
- * </P>
+ * Contain <CODE>[height, width]</CODE> size of image, rectangle or something else. This is <STRONG>immutable object</STRONG> --
+ * you can not change values of it after creation.
  *
  * @version 1.014
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
@@ -109,7 +106,7 @@ public class Size {
     }
 
     /**
-     * Return <CODE>true</CODE> if current size less or equals on width <B>and</B> height than given.
+     * Return <CODE>true</CODE> if current size less or equals on width <STRONG>and</STRONG> height than given.
      */
     public boolean lessOrEqualsThan(Size size) {
         /*

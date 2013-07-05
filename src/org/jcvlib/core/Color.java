@@ -150,10 +150,10 @@ public class Color {
      * colors.
      *
      * <P>
-     * See:
-     * <UL>
+     * <H6>Links:</H6>
+     * <OL>
      * <LI><A href="http://en.wikipedia.org/wiki/Euclidean_distance">Euclidean distance -- Wikipedia</A>.</LI>
-     * </UL>
+     * </OL>
      * </P>
      */
     public double euclidDist(Color c) {
