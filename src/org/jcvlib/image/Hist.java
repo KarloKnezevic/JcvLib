@@ -18,9 +18,6 @@
  */
 package org.jcvlib.image;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jcvlib.core.JCV;
 import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
@@ -58,7 +55,7 @@ public class Hist {
      * <P>
      * <H6>Links:</H6>
      * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/Correlation_and_dependenc">Correlation and dependenc -- Wikipedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/Correlation_and_dependence">Correlation and dependence -- Wikipedia</A>.</LI>
      * </OL>
      * </P>
      */
@@ -145,7 +142,7 @@ public class Hist {
      */
     public static final int HISTOGRAM_COMPARE_BHATTACHARYYA = 3;
 
-    private final List<Double[]> histogram;
+    private final double[] histogram;
 
     /**
      * Create image histogram.
@@ -175,36 +172,37 @@ public class Hist {
         /*
          * Perform operation.
          */
+        // Calculate length.
+        int len = 1;
+        for (int i = 0; i < sizes.length; ++i) {
+            len *= sizes[i];
+        }
+
         // Initialize histogram.
-        this.histogram = new ArrayList<Double[]>(sizes.length);
-        for (int i = 0; i < this.histogram.size(); ++i) {
-            Double[] histChannel = new Double[sizes[i]];
-            for (int j = 0; j < histChannel.length; ++j) {
-                histChannel[j] = 0.0;
-            }
-            this.histogram.set(i, histChannel);
+        this.histogram = new double[len];
+        for (int i = 0; i < this.histogram.length; ++i) {
+            this.histogram[i] = 0.0;
         }
 
         // Calculate.
-        double[] blob = new double[this.histogram.size()];
+        double[] blob = new double[sizes.length];
         for (int i = 0; i < blob.length; ++i) {
             blob[i] = (Color.COLOR_MAX_VALUE + 1.0) / (double) sizes[i];
         }
         for (int x = 0; x < image.getWidth(); ++x) {
             for (int y = 0; y < image.getHeight(); ++y) {
+                double val = 1.0;
                 for (int channel = 0; channel < image.getNumOfChannels(); ++channel) {
-                    int pos = JCV.roundDown(image.get(x, y, channel) / blob[channel]) + channel * sizes[channel];
-                    this.histogram.get(channel)[pos] += 1.0;
+                    val *= 1.0 + image.get(x, y, channel) / blob[channel];
                 }
+                int pos = JCV.roundDown(val) - 1;
+                this.histogram[pos] += 1.0;
             }
         }
 
         // Normalize.
-        for (int i = 0; i < this.histogram.size(); ++i) {
-            Double[] histChannel = this.histogram.get(i);
-            for (int j = 0; j < histChannel.length; ++j) {
-                histChannel[j] /= (double) image.getN() / Color.COLOR_MAX_VALUE;
-            }
+        for (int i = 0; i < this.histogram.length; ++i) {
+            this.histogram[i] /= (double) image.getSize().getN();
         }
     }
 
@@ -254,13 +252,27 @@ public class Hist {
         this(image, genArr(image.getNumOfChannels(), 256));
     }
 
-    public int getNumOfChannels() {
-        return this.histogram.size();
+    public Hist(final double[] histogram) {
+        /*
+         * Verify parameters.
+         */
+        JCV.verifyIsNotNull(histogram, "histogram");
+
+        /*
+         * Perform operation.
+         */
+        this.histogram = histogram;
     }
 
-    public Double[] getChannel(int num) {
-        return this.histogram.get(num);
+    public int getLength() {
+        return this.histogram.length;
     }
+
+    public double get(int bin) {
+        return this.histogram[bin];
+    }
+
+
 
     /**
      * Compare 2 histograms.
@@ -276,21 +288,14 @@ public class Hist {
      * @param compareType
      *            Type of compare histograms. Use <CODE>Hist.HISTOGRAM_COMPARE_*</CODE>.
      */
-    public static double compareHist(double[] hist1, double[] hist2, int compareType) {
+    public double compare(Hist hist, int compareType) {
         /*
          * Verify parameters.
          */
-        JCV.verifyIsNotNull(hist1, "hist1");
-        JCV.verifyIsNotNull(hist2, "hist2");
-        if (hist1.length == 0) {
-            throw new IllegalArgumentException("Size of 'hist1' should be not 0!");
-        }
-        if (hist2.length == 0) {
-            throw new IllegalArgumentException("Size of 'hist2' should be not 0!");
-        }
-        if (hist1.length != hist2.length) {
-            throw new IllegalArgumentException("Size of 'hist1' (= " + Integer.toString(hist1.length) + ") and 'hist2' (= "
-                + Integer.toString(hist2.length) + ") should be the same!");
+        JCV.verifyIsNotNull(hist, "hist");
+        if (this.getLength() != hist.getLength()) {
+            throw new IllegalArgumentException("Length of current histogram (= " + Integer.toString(this.getLength())
+                + ") and length of given histogram (= " + Integer.toString(hist.getLength()) + ") is not the same!");
         }
 
         /*
@@ -304,16 +309,16 @@ public class Hist {
                 double average2 = 0.0;
 
                 // Calculate average of first histogram.
-                for (int i = 0; i < hist1.length; ++i) {
-                    average1 += hist1[i];
+                for (int i = 0; i < this.getLength(); ++i) {
+                    average1 += this.get(i);
                 }
-                average1 /= hist1.length;
+                average1 /= this.getLength();
 
                 // Calculate average of second histogram.
-                for (int i = 0; i < hist2.length; ++i) {
-                    average2 += hist2[i];
+                for (int i = 0; i < hist.getLength(); ++i) {
+                    average2 += hist.get(i);
                 }
-                average2 /= hist2.length;
+                average2 /= hist.getLength();
 
                 // Calculate numerator and denominator.
                 double numerator = 0.0;
@@ -321,11 +326,11 @@ public class Hist {
                 double denominator2 = 0.0;
                 double cov1;
                 double cov2;
-                for (int i = 0; i < hist1.length; ++i) {
-                    cov1 = hist1[i] - average1;
-                    cov2 = hist2[i] - average2;
+                for (int i = 0; i < this.getLength(); ++i) {
+                    cov1 = this.get(i) - average1;
+                    cov2 = hist.get(i) - average2;
 
-                    numerator += cov1 * cov2;
+                    numerator    += cov1 * cov2;
                     denominator1 += cov1 * cov1;
                     denominator2 += cov2 * cov2;
                 }
@@ -340,21 +345,19 @@ public class Hist {
                 break;
 
             case Hist.HISTOGRAM_COMPARE_CHISQR:
-                for (int i = 0; i < hist1.length; ++i) {
-                    if (hist1[i] > 0) {
-                        double diff = hist1[i] - hist2[i];
-                        result += (diff * diff) / hist1[i];
+                for (int i = 0; i < this.getLength(); ++i) {
+                    if (this.get(i) > 0) {
+                        double diff = this.get(i) - hist.get(i);
+                        result += (diff * diff) / this.get(i);
                     }
                 }
-                result /= Color.COLOR_MAX_VALUE;
 
                 break;
 
             case Hist.HISTOGRAM_COMPARE_INTERSECT:
-                for (int i = 0; i < hist1.length; ++i) {
-                    result += Math.min(hist1[i], hist2[i]);
+                for (int i = 0; i < this.getLength(); ++i) {
+                    result += Math.min(this.get(i), hist.get(i));
                 }
-                result /= Color.COLOR_MAX_VALUE;
 
                 break;
 
@@ -363,22 +366,22 @@ public class Hist {
                 double sum2 = 0.0;
 
                 // Calculate sum of first histogram.
-                for (int i = 0; i < hist1.length; ++i) {
-                    sum1 += hist1[i];
+                for (int i = 0; i < this.getLength(); ++i) {
+                    sum1 += this.get(i);
                 }
 
                 // Calculate sum of second histogram.
-                for (int i = 0; i < hist2.length; ++i) {
-                    sum2 += hist2[i];
+                for (int i = 0; i < hist.getLength(); ++i) {
+                    sum2 += hist.get(i);
                 }
                 double denSqSum = Math.sqrt(sum1 * sum2);
 
                 double multSum = 0.0;
-                for (int i = 0; i < hist1.length; ++i) {
-                    multSum += Math.sqrt(hist1[i] * hist2[i]);
+                for (int i = 0; i < this.getLength(); ++i) {
+                    multSum += Math.sqrt(this.get(i) * hist.get(i));
                 }
 
-                result = Math.sqrt(1.0 - multSum / denSqSum);
+                result = Math.sqrt(denSqSum - multSum / denSqSum);
 
                 break;
 

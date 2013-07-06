@@ -35,20 +35,25 @@ import org.junit.Test;
  */
 public class HistTest {
 
-    private double[] model;     // Model.
+    private Hist model;     // Model.
 
-    private double[] hMatch;    // Half-match.
+    private Hist hMatch;    // Half-match.
 
-    private double[] mMatch;    // Mismatch
+    private Hist mMatch;    // Mismatch.
 
     /**
      * Executes before creating instance of the class.
      */
     @Before
     public void setUp() throws Exception {
-        this.model = new double[]{ Color.COLOR_MIN_VALUE, Color.COLOR_MAX_VALUE }; // Model.
-        this.hMatch = new double[]{ 127.5, 127.5 }; // Half-match.
-        this.mMatch = new double[]{ Color.COLOR_MAX_VALUE, Color.COLOR_MIN_VALUE }; // Mismatch.
+        // Model.
+        this.model   = new Hist(new double[]{ 0.0, 1.0 });
+
+        // Half-match.
+        this.hMatch  = new Hist(new double[]{ 0.5, 0.5 });
+
+        // Mismatch.
+        this.mMatch  = new Hist(new double[]{ 1.0, 0.0 });
     }
 
     /**
@@ -57,47 +62,29 @@ public class HistTest {
     @Test
     public void testCalculateHistogram() {
         Image imageCh1 = new Image(100, 100, 1, Image.TYPE_64F, new Color(1, Color.COLOR_MAX_VALUE));
-        Image imageCh4 = new Image(10, 10, 4, Image.TYPE_64F, new Color(4, Color.COLOR_MAX_VALUE));
+        Image imageCh3 = new Image( 10,  10, 3, Image.TYPE_64F, new Color(3, Color.COLOR_MAX_VALUE));
 
         /*
          * First histogram.
          */
         Hist histCh1 = new Hist(imageCh1);
+        Hist histCh3 = new Hist(imageCh3);
 
         // Check size.
-        assertEquals(imageCh1.getNumOfChannels(), histCh1.getNumOfChannels());
+        assertEquals(256, histCh1.getLength());
+        assertEquals(256 * 256 * 256, histCh3.getLength());
 
-        // Check value.
-        assertEquals(Color.COLOR_MAX_VALUE, histCh1.getChannel(0)[0], 0.0001);
-
-        // Check if normalized.
-//        double sum1 = 0.0;
-//        for (int i = 0; i < histCh1.length; ++i) {
-//            sum1 += histCh1[i];
-//        }
-//        assertEquals(Color.COLOR_MAX_VALUE, sum1, 0.0001);
-//
-//        /*
-//         * Second histogram.
-//         */
-//        int size2 = 256;
-//        double[] histCh4 = Hist.calculateHistogram(imageCh4, size2);
-//
-//        // Check size.
-//        assertEquals(4 * size2, histCh4.length);
-//
-//        // Check if normalized.
-//        double sum2 = 0.0;
-//        for (int i = 0; i < histCh4.length; ++i) {
-//            sum2 += histCh4[i];
-//        }
-//        assertEquals(Color.COLOR_MAX_VALUE, sum2, JCV.PRECISION_MAX);
-//
-//        // Check value.
-//        assertEquals(Color.COLOR_MAX_VALUE * 0.25, histCh4[1 * size2 - 1], JCV.PRECISION_MAX);
-//        assertEquals(Color.COLOR_MAX_VALUE * 0.25, histCh4[2 * size2 - 1], JCV.PRECISION_MAX);
-//        assertEquals(Color.COLOR_MAX_VALUE * 0.25, histCh4[3 * size2 - 1], JCV.PRECISION_MAX);
-//        assertEquals(Color.COLOR_MAX_VALUE * 0.25, histCh4[4 * size2 - 1], JCV.PRECISION_MAX);
+        // Check values.
+        // Single-channel.
+        for (int i = 0; i < histCh1.getLength() - 1; ++i) {
+            assertEquals(0.0, histCh1.get(i), JCV.PRECISION_MAX);
+        }
+        assertEquals(1.0, histCh1.get(histCh1.getLength() - 1), JCV.PRECISION_MAX);
+        // Multichannel.
+        for (int i = 0; i < histCh3.getLength() - 1; ++i) {
+            assertEquals(0.0, histCh3.get(i), JCV.PRECISION_MAX);
+        }
+        assertEquals(1.0, histCh3.get(histCh3.getLength() - 1), JCV.PRECISION_MAX);
     }
 
     /**
@@ -108,13 +95,13 @@ public class HistTest {
         /*
          * See: http://easycalculation.com/statistics/learn-correlation.php
          */
-        double[] H1 = new double[]{ 60.0, 61.0, 62.0, 63.0, 65.0 };
-        double[] H2 = new double[]{ 3.1, 3.6, 3.8, 4.0, 4.1 };
-        assertEquals(0.9119, Hist.compareHist(H1, H2, Hist.HISTOGRAM_COMPARE_CORREL), 0.0001);
+        Hist H1 = new Hist(new double[]{ 60.0, 61.0, 62.0, 63.0, 65.0 });
+        Hist H2 = new Hist(new double[]{ 3.1, 3.6, 3.8, 4.0, 4.1 });
+        assertEquals(0.9119, H1.compare(H2, Hist.HISTOGRAM_COMPARE_CORREL), 0.0001);
 
-        assertEquals(1.0, Hist.compareHist(this.model, this.model, Hist.HISTOGRAM_COMPARE_CORREL), JCV.PRECISION_MAX);
-        assertEquals(0.0, Hist.compareHist(this.model, this.hMatch, Hist.HISTOGRAM_COMPARE_CORREL), JCV.PRECISION_MAX);
-        assertEquals(-1.0, Hist.compareHist(this.model, this.mMatch, Hist.HISTOGRAM_COMPARE_CORREL), JCV.PRECISION_MAX);
+        assertEquals( 1.0, this.model.compare(this.model,  Hist.HISTOGRAM_COMPARE_CORREL), JCV.PRECISION_MAX);
+        assertEquals( 0.0, this.model.compare(this.hMatch, Hist.HISTOGRAM_COMPARE_CORREL), JCV.PRECISION_MAX);
+        assertEquals(-1.0, this.model.compare(this.mMatch, Hist.HISTOGRAM_COMPARE_CORREL), JCV.PRECISION_MAX);
     }
 
     /**
@@ -125,13 +112,13 @@ public class HistTest {
         /*
          * See: http://www.slideshare.net/mhsgeography/chi-square-worked-example
          */
-        double[] H1 = new double[]{ 10.0, 10.0, 10.0, 10.0, 10.0 };
-        double[] H2 = new double[]{  4.0,  6.0, 14.0, 10.0, 16.0 };
-        assertEquals(10.4 / Color.COLOR_MAX_VALUE, Hist.compareHist(H1, H2, Hist.HISTOGRAM_COMPARE_CHISQR), 0.0001);
+        Hist H1 = new Hist(new double[]{ 10.0, 10.0, 10.0, 10.0, 10.0 });
+        Hist H2 = new Hist(new double[]{  4.0,  6.0, 14.0, 10.0, 16.0 });
+        assertEquals(10.4, H1.compare(H2, Hist.HISTOGRAM_COMPARE_CHISQR), JCV.PRECISION_MAX);
 
-        assertEquals(0.0,  Hist.compareHist(this.model, this.model,  Hist.HISTOGRAM_COMPARE_CHISQR), JCV.PRECISION_MAX);
-        assertEquals(0.25, Hist.compareHist(this.model, this.hMatch, Hist.HISTOGRAM_COMPARE_CHISQR), JCV.PRECISION_MAX);
-        assertEquals(1.0,  Hist.compareHist(this.model, this.mMatch, Hist.HISTOGRAM_COMPARE_CHISQR), JCV.PRECISION_MAX);
+        assertEquals(0.0,  this.model.compare(this.model,  Hist.HISTOGRAM_COMPARE_CHISQR), JCV.PRECISION_MAX);
+        assertEquals(0.25, this.model.compare(this.hMatch, Hist.HISTOGRAM_COMPARE_CHISQR), JCV.PRECISION_MAX);
+        assertEquals(1.0,  this.model.compare(this.mMatch, Hist.HISTOGRAM_COMPARE_CHISQR), JCV.PRECISION_MAX);
     }
 
     /**
@@ -139,9 +126,9 @@ public class HistTest {
      */
     @Test
     public void testIntersect() {
-        assertEquals(1.0, Hist.compareHist(this.model, this.model,  Hist.HISTOGRAM_COMPARE_INTERSECT), JCV.PRECISION_MAX);
-        assertEquals(0.5, Hist.compareHist(this.model, this.hMatch, Hist.HISTOGRAM_COMPARE_INTERSECT), JCV.PRECISION_MAX);
-        assertEquals(0.0, Hist.compareHist(this.model, this.mMatch, Hist.HISTOGRAM_COMPARE_INTERSECT), JCV.PRECISION_MAX);
+        assertEquals(1.0, this.model.compare(this.model,  Hist.HISTOGRAM_COMPARE_INTERSECT), JCV.PRECISION_MAX);
+        assertEquals(0.5, this.model.compare(this.hMatch, Hist.HISTOGRAM_COMPARE_INTERSECT), JCV.PRECISION_MAX);
+        assertEquals(0.0, this.model.compare(this.mMatch, Hist.HISTOGRAM_COMPARE_INTERSECT), JCV.PRECISION_MAX);
     }
 
     /**
@@ -149,8 +136,8 @@ public class HistTest {
      */
     @Test
     public void testBhattacharyya() {
-        assertEquals(0.0,  Hist.compareHist(this.model, this.model,  Hist.HISTOGRAM_COMPARE_BHATTACHARYYA), 0.01);
-        assertEquals(0.55, Hist.compareHist(this.model, this.hMatch, Hist.HISTOGRAM_COMPARE_BHATTACHARYYA), 0.01);
-        assertEquals(1.0,  Hist.compareHist(this.model, this.mMatch, Hist.HISTOGRAM_COMPARE_BHATTACHARYYA), 0.01);
+        assertEquals(0.0,  this.model.compare(this.model,  Hist.HISTOGRAM_COMPARE_BHATTACHARYYA), JCV.PRECISION_MAX);
+        assertEquals(0.55, this.model.compare(this.hMatch, Hist.HISTOGRAM_COMPARE_BHATTACHARYYA), 0.010);
+        assertEquals(1.0,  this.model.compare(this.mMatch, Hist.HISTOGRAM_COMPARE_BHATTACHARYYA), JCV.PRECISION_MAX);
     }
 }
