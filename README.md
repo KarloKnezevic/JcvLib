@@ -22,7 +22,7 @@ Required Java 1.6 or higher.
 If you want to working with video and web-cameras:
  * OS: Linux x32/x64, Windows x32/x64.
 
-Just add JAR-file (`JcvLib` and required libraries) into your `CLASSPATH`.
+**Just add JAR-file (`JcvLib` and required libraries) into your `CLASSPATH`.**
 
 
 ### Documentation
@@ -31,8 +31,6 @@ Just add JAR-file (`JcvLib` and required libraries) into your `CLASSPATH`.
    This methods are grouped into classes by their destinations.
  * [Features](https://github.com/dzavodnikov/JcvLib/wiki/Features). 
    This page contains list of all functions with links to JavaDoc and links examples of usage this functions.
- * [Links](https://github.com/dzavodnikov/JcvLib/wiki/Links).
-   Contains links to books and libraries. Useful for addition reading.
  * [Google group](http://groups.google.com/group/jcvlib-users).
    Group of `JcvLib` users.
  * [For Developers](https://github.com/dzavodnikov/JcvLib/wiki/For-Developers).
