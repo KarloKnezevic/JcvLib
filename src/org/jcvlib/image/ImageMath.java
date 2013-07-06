@@ -32,7 +32,6 @@ import Jama.Matrix;
 /**
  * Contain methods to perform arithmetic operation with images, like <I>sum</I>, <I>subtraction</I> and <I>multiplication</I> and etc.
  *
- * @version 1.012
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class ImageMath {
@@ -58,7 +57,7 @@ public class ImageMath {
 
         Parallel.pixels(image1, new PixelsLoop() {
             @Override
-            public void execute(int x, int y) {
+            public void execute(final int x, final int y) {
                 for (int channel = 0; channel < image1.getNumOfChannels(); ++channel) {
                     result.set(x, y, channel, image1.get(x, y, channel) + image2.get(x, y, channel));
                 }
@@ -85,7 +84,7 @@ public class ImageMath {
 
         Parallel.pixels(image1, new PixelsLoop() {
             @Override
-            public void execute(int x, int y) {
+            public void execute(final int x, final int y) {
                 for (int channel = 0; channel < image1.getNumOfChannels(); ++channel) {
                     result.set(x, y, channel, Math.abs(image1.get(x, y, channel) - image2.get(x, y, channel)));
                 }
@@ -119,7 +118,7 @@ public class ImageMath {
 
         Parallel.pixels(image, new PixelsLoop() {
             @Override
-            public void execute(int x, int y) {
+            public void execute(final int x, final int y) {
                 for (int channel = 0; channel < image.getNumOfChannels(); ++channel) {
                     result.set(x, y, channel, image.get(x, y, channel) * c);
                 }
@@ -132,7 +131,7 @@ public class ImageMath {
     /**
      * Return <A href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</A> of colors in current image.
      */
-    public static Color getMean(Image image) {
+    public static Color getMean(final Image image) {
         /*
          * Verify parameters.
          */
@@ -175,7 +174,7 @@ public class ImageMath {
      * @return
      *         Array with result of convolution matrix to all channels of image.
      */
-    public static double[] convolve(Image image, Matrix kernel) {
+    public static double[] convolve(final Image image, final Matrix kernel) {
         /*
          * Verify parameters.
          */
@@ -217,7 +216,7 @@ public class ImageMath {
      * @return
      *         Image with combination of baseImage and injectImage. That image have same size and type as baseImage and have 3 channels.
      */
-    public static Image injectImage(Image baseImage, Point injectPosition, Image injectImage) {
+    public static Image injectImage(final Image baseImage, final Point injectPosition, final Image injectImage) {
         /*
          * Verify parameters.
          */
@@ -240,16 +239,18 @@ public class ImageMath {
          */
         final Image result = baseImage.copy();
 
-        final Image baseImageSub =
-            result.getSubimage(new Rectangle(injectPosition.getX(), injectPosition.getY(), Math.min(injectImage.getWidth(),
-                baseImage.getWidth() - injectPosition.getX()), Math.min(injectImage.getHeight(),
-                baseImage.getHeight() - injectPosition.getY())));
+        final Image baseImageSub = result.getSubimage(new Rectangle(
+            injectPosition.getX(),
+            injectPosition.getY(),
+            Math.min(injectImage.getWidth(),  baseImage.getWidth() - injectPosition.getX()),
+            Math.min(injectImage.getHeight(), baseImage.getHeight() - injectPosition.getY())
+        ));
         final Image injectImageSub = injectImage.getSubimage(new Rectangle(0, 0, baseImageSub.getWidth(), baseImageSub.getHeight()));
 
         // Inject images.
         Parallel.pixels(baseImageSub, new PixelsLoop() {
             @Override
-            public void execute(int x, int y) {
+            public void execute(final int x, final int y) {
                 for (int channel = 0; channel < 3; ++channel) {
                     double alpha1;
                     if (injectImageSub.getNumOfChannels() == 3) {

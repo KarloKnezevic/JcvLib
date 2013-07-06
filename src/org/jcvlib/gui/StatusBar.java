@@ -25,7 +25,6 @@ import javax.swing.JLabel;
 /**
  * Internal class for status bar on image window.
  *
- * @version 1.006
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 class StatusBar extends JLabel {
@@ -44,7 +43,7 @@ class StatusBar extends JLabel {
      * @param message
      *            New message into the status bar.
      */
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         this.setText(message);
     }
 }

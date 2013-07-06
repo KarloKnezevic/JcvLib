@@ -16,7 +16,7 @@
 /*
  * This class is part of Java Computer Vision Library (JcvLib).
  */
-package org.jcvlib.test.imageproc;
+package org.jcvlib.test.image;
 
 import static org.junit.Assert.*;
 
@@ -30,7 +30,6 @@ import org.junit.Test;
 /**
  * Test {@link Hist} .
  *
- * @version 1.020
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class HistTest {
@@ -40,6 +39,8 @@ public class HistTest {
     private Hist hMatch;    // Half-match.
 
     private Hist mMatch;    // Mismatch.
+
+    private double BHATTACHARYYA_PRECISION = 0.01;
 
     /**
      * Executes before creating instance of the class.
@@ -137,7 +138,7 @@ public class HistTest {
     @Test
     public void testBhattacharyya() {
         assertEquals(0.0,  this.model.compare(this.model,  Hist.HISTOGRAM_COMPARE_BHATTACHARYYA), JCV.PRECISION_MAX);
-        assertEquals(0.55, this.model.compare(this.hMatch, Hist.HISTOGRAM_COMPARE_BHATTACHARYYA), 0.010);
+        assertEquals(0.54, this.model.compare(this.hMatch, Hist.HISTOGRAM_COMPARE_BHATTACHARYYA), BHATTACHARYYA_PRECISION);
         assertEquals(1.0,  this.model.compare(this.mMatch, Hist.HISTOGRAM_COMPARE_BHATTACHARYYA), JCV.PRECISION_MAX);
     }
 }

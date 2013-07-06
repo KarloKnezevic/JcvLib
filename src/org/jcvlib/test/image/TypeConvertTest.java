@@ -1,12 +1,12 @@
 /*
  * Copyright 2012-2013 JcvLib Team
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,7 @@
 /*
  * This class is part of Java Computer Vision Library (JcvLib).
  */
-package org.jcvlib.test.imageproc;
+package org.jcvlib.test.image;
 
 import static org.junit.Assert.*;
 
@@ -29,23 +29,22 @@ import org.junit.Test;
 
 /**
  * Test {@link ColorConvert} to from/to {@link BufferedImage}.
- * 
- * @version 1.010
+ *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class TypeConvertTest {
     /*
      * (non-Javadoc)
      * 14 types of BufferedImage:
-     * http://docs.oracle.com/javase/6/docs/api/java/awt/image/BufferedImage.html
-     * http://java.sun.com/developer/technicalArticles/GUI/java2d/java2dpart2.html
-     * 
+     *  * http://docs.oracle.com/javase/6/docs/api/java/awt/image/BufferedImage.html
+     *  * http://java.sun.com/developer/technicalArticles/GUI/java2d/java2dpart2.html
+     *
      * With 1 channel:
      * ~~~~~~~~~~~~~~~
      * + TYPE_BYTE_BINARY 1 bit per pixel, 8 pixels to a byte.
      * + TYPE_BYTE_GRAY 8-bit gray value for each pixel.
      * + TYPE_USHORT_GRAY 16-bit gray values for each pixel.
-     * 
+     *
      * With 3 channels:
      * ~~~~~~~~~~~~~~~~
      * + TYPE_3BYTE_BGR Blue, green, and red values stored, 1 byte each.
@@ -53,7 +52,7 @@ public class TypeConvertTest {
      * + TYPE_INT_RGB 8-bit red, green, and blue values stored in a 32-bit integer.
      * + TYPE_USHORT_555_RGB 5-bit red, green, and blue values packed into 16 bits.
      * + TYPE_USHORT_565_RGB 5-bit red and blue values, 6-bit green values packed into 16 bits.
-     * 
+     *
      * With 4 channels:
      * ~~~~~~~~~~~~~~~~
      * + TYPE_BYTE_INDEXED 8-bit pixel value that references a color index table.
@@ -64,9 +63,9 @@ public class TypeConvertTest {
      * + TYPE_INT_ARGB_PRE 8-bit alpha and premultiplied red, green, and blue values stored in a 32-bit integer.
      */
     private int width = 2500;
-    
+
     private int height = 2500;
-    
+
     /**
      * Test method for: {@link TypeConvert#fromBufferedImage(BufferedImage)}, {@link TypeConvert#toBufferedImage(Image)}.
      */
@@ -74,13 +73,13 @@ public class TypeConvertTest {
     public void testBinary() {
         // Create.
         BufferedImage bufImg = new BufferedImage(this.width, this.height, BufferedImage.TYPE_BYTE_BINARY);
-        
+
         // Initialize.
         int value = 0;
         for (int y = 0; y < bufImg.getHeight(); ++y) {
             for (int x = 0; x < bufImg.getWidth(); ++x) {
                 bufImg.getRaster().setSample(x, y, 0, value);
-                
+
                 if (value == 0) {
                     value = 1;
                 } else {
@@ -88,12 +87,12 @@ public class TypeConvertTest {
                 }
             }
         }
-        
+
         // Check values.
         try {
             Image image = TypeConvert.fromBufferedImage(bufImg);
             assertEquals(1, image.getNumOfChannels());
-            
+
             for (int y = 0; y < image.getHeight(); ++y) {
                 for (int x = 0; x < image.getWidth(); ++x) {
                     assertEquals(image.get8I(x, y, 0), bufImg.getRaster().getSample(x, y, 0) * 255);
@@ -103,7 +102,7 @@ public class TypeConvertTest {
             fail(e.getMessage());
         }
     }
-    
+
     /**
      * Test method for: {@link TypeConvert#fromBufferedImage(BufferedImage)}, {@link TypeConvert#toBufferedImage(Image)}.
      */
@@ -112,7 +111,7 @@ public class TypeConvertTest {
         this.testGrayscaleImage(new BufferedImage(this.width, this.height, BufferedImage.TYPE_BYTE_GRAY), 255);
         this.testGrayscaleImage(new BufferedImage(this.width, this.height, BufferedImage.TYPE_USHORT_GRAY), 65535);
     }
-    
+
     /**
      * Test method for: {@link TypeConvert#fromBufferedImage(BufferedImage)}, {@link TypeConvert#toBufferedImage(Image)}.
      */
@@ -124,7 +123,7 @@ public class TypeConvertTest {
         this.testMultichannelImage(new BufferedImage(this.width, this.height, BufferedImage.TYPE_USHORT_555_RGB), false);
         this.testMultichannelImage(new BufferedImage(this.width, this.height, BufferedImage.TYPE_USHORT_565_RGB), false);
     }
-    
+
     /**
      * Test method for: {@link TypeConvert#fromBufferedImage(BufferedImage)}, {@link TypeConvert#toBufferedImage(Image)}.
      */
@@ -136,11 +135,11 @@ public class TypeConvertTest {
         this.testMultichannelImage(new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_ARGB), true);
         this.testMultichannelImage(new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_ARGB_PRE), true);
     }
-    
+
     /**
      * This method initialize {@link BufferedImage} with 1 channel, convert it to {@link Image} and
      * compare values of this images.
-     * 
+     *
      * @param bufImg
      *            {@link BufferedImage} with predefined type.
      * @param maxValue
@@ -152,19 +151,19 @@ public class TypeConvertTest {
         for (int y = 0; y < bufImg.getHeight(); ++y) {
             for (int x = 0; x < bufImg.getWidth(); ++x) {
                 bufImg.getRaster().setSample(x, y, 0, color);
-                
+
                 ++color;
                 if (color > maxValue) {
                     color = 0;
                 }
             }
         }
-        
+
         // Check values.
         try {
             Image image = TypeConvert.fromBufferedImage(bufImg);
             assertEquals(1, image.getNumOfChannels());
-            
+
             for (int y = 0; y < image.getHeight(); ++y) {
                 for (int x = 0; x < image.getWidth(); ++x) {
                     assertEquals(image.get(x, y, 0) / org.jcvlib.core.Color.COLOR_MAX_VALUE,
@@ -175,10 +174,10 @@ public class TypeConvertTest {
             fail(e.getMessage());
         }
     }
-    
+
     /**
      * Initialize given {@link BufferedImage} by different values.
-     * 
+     *
      * @param bufImg
      *            Source {@link BufferedImage} for initializing.
      * @param hasAlpha
@@ -198,7 +197,7 @@ public class TypeConvertTest {
                     rgb = new java.awt.Color(R, G, B);
                 }
                 bufImg.setRGB(x, y, rgb.getRGB());
-                
+
                 // Next color.
                 ++R;
                 if (R > 255) {
@@ -220,7 +219,7 @@ public class TypeConvertTest {
             }
         }
     }
-    
+
     /**
      * This method compare {@link BufferedImage} and {@link JcvImage64F}.
      */
@@ -231,7 +230,7 @@ public class TypeConvertTest {
             } else {
                 assertEquals(3, image.getNumOfChannels());
             }
-            
+
             // Check values.
             for (int y = 0; y < bufImg.getHeight(); ++y) {
                 for (int x = 0; x < bufImg.getWidth(); ++x) {
@@ -240,7 +239,7 @@ public class TypeConvertTest {
                      * http://docs.oracle.com/javase/6/docs/api/java/awt/Color.html
                      */
                     java.awt.Color rgb = new java.awt.Color(bufImg.getRGB(x, y), hasAlpha);
-                    
+
                     // Verify convert.
                     assertEquals(image.get8I(x, y, 0), rgb.getRed());
                     assertEquals(image.get8I(x, y, 1), rgb.getGreen());
@@ -254,14 +253,14 @@ public class TypeConvertTest {
             fail(e.getMessage());
         }
     }
-    
+
     /**
      * This method initialize {@link BufferedImage} with 3 or 4 channels, convert it to {@link JcvImage64F} and compare values of this
      * images
      * (testing {@link ColorConvert#fromBufferedImage(BufferedImage)}).
      * Then this method convert {@link JcvImage64F} back to {@link BufferedImage} and compare this {@link BufferedImage} with
      * {@link JcvImage64F} (testing {@link ColorConvert#toBufferedImage(JcvImage64F)}).
-     * 
+     *
      * @param bufImg
      *            {@link BufferedImage} with predefined type.
      * @param hasAlpha
@@ -269,13 +268,13 @@ public class TypeConvertTest {
      */
     private void testMultichannelImage(BufferedImage bufImg1, boolean hasAlpha) {
         this.initializeMultichannelImage(bufImg1, hasAlpha);
-        
+
         // Check values.
         try {
             // Convert. We testing this method.
             Image image = TypeConvert.fromBufferedImage(bufImg1);
             BufferedImage bufImg2 = TypeConvert.toBufferedImage(image);
-            
+
             // Compare results.
             this.compareMultichannelImage(bufImg1, hasAlpha, image);
             this.compareMultichannelImage(bufImg2, hasAlpha, image);

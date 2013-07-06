@@ -28,7 +28,6 @@ import org.junit.Test;
 /**
  * Test class for rectangle {@link Rectangle}.
  *
- * @version 1.010
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class RectangleTest {
@@ -37,7 +36,7 @@ public class RectangleTest {
      */
     @Test
     public void testToString() {
-        Rectangle rect = new Rectangle(2, 1, 20, 10);
+        final Rectangle rect = new Rectangle(2, 1, 20, 10);
 
         System.out.println("Printing example:");
         System.out.println(rect.toString());
@@ -48,7 +47,7 @@ public class RectangleTest {
      */
     @Test
     public void testEquals() {
-        Rectangle rect1 = new Rectangle(2, 1, 20, 10);
+        final Rectangle rect1 = new Rectangle(2, 1, 20, 10);
         assertTrue(rect1.equals(rect1));
         assertFalse(rect1.equals(null));
         assertFalse(rect1.equals(0));
@@ -64,7 +63,7 @@ public class RectangleTest {
      */
     @Test
     public void testInsideIn() {
-        Rectangle rect = new Rectangle(10, 20, 10, 20);
+        final Rectangle rect = new Rectangle(10, 20, 10, 20);
 
         assertTrue(rect.contains(new Rectangle(10, 20, 10, 20)));
 
@@ -83,7 +82,7 @@ public class RectangleTest {
      */
     @Test
     public void testContains() {
-        Rectangle rect = new Rectangle(10, 20, 10, 20);
+        final Rectangle rect = new Rectangle(10, 20, 10, 20);
 
         assertTrue(rect.contains(new Point(10, 20)));
         assertTrue(rect.contains(new Point(19, 39)));

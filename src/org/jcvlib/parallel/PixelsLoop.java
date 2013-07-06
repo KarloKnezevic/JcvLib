@@ -21,12 +21,11 @@ package org.jcvlib.parallel;
 /**
  * Interface for executor of code in many workers for independent pixels.
  *
- * @version 1.005
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public interface PixelsLoop {
     /**
      * Perform some operations.
      */
-    public void execute(int y, int x);
+    public void execute(final int y, final int x);
 }

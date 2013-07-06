@@ -1,12 +1,12 @@
 /*
  * Copyright 2012-2013 JcvLib Team
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,20 +28,19 @@ import org.jcvlib.io.ImageRW;
 
 /**
  * This is example show integral images for 2 different images.
- * 
- * @version 1.009
+ *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class IntegralImageExample {
     public static void main(String[] args) throws IOException {
         // Read images.
-        Image image1 = ImageRW.read("resources" + File.separatorChar + "Lenna.bmp");
-        Image image2 = ImageRW.read("resources" + File.separatorChar + "GreenApple.jpg");
-        
+        final Image image1 = ImageRW.read("resources" + File.separatorChar + "Lenna.bmp");
+        final Image image2 = ImageRW.read("resources" + File.separatorChar + "GreenApple.jpg");
+
         // Calculate integral images.
-        Image integral1 = Misc.integralImage(image1);
-        Image integral2 = Misc.integralImage(image2);
-        
+        final Image integral1 = Misc.integralImage(image1);
+        final Image integral2 = Misc.integralImage(image2);
+
         // Show window with images.
         Window.openAndShow(image1, "Lenna");
         Window.openAndShow(integral1, "Lenna Integral");

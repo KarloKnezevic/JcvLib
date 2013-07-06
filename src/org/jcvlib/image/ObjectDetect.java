@@ -26,7 +26,6 @@ import org.jcvlib.core.Point;
 /**
  * Detect objects on given image.
  *
- * @version 1.010
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class ObjectDetect {
@@ -52,7 +51,7 @@ public class ObjectDetect {
      * * http://docs.opencv.org/modules/imgproc/doc/object_detection.html#matchtemplate
      * * http://docs.opencv.org/2.4.2/doc/tutorials/imgproc/histograms/template_matching/template_matching.html
      */
-    public static Image matchTempleteEuclid(Image image, final Image template) {
+    public static Image matchTempleteEuclid(final Image image, final Image template) {
         /*
          * Verify parameters.
          */
@@ -106,7 +105,7 @@ public class ObjectDetect {
      * See:
      * * http://docs.opencv.org/modules/imgproc/doc/object_detection.html#matchtemplate
      */
-    public static Image matchTempleteHist(Image image, final Image template, final int compareType) {
+    public static Image matchTempleteHist(final Image image, final Image template, final int compareType) {
         /*
          * Verify parameters.
          */
@@ -153,7 +152,7 @@ public class ObjectDetect {
 
         Filters.noneLinearFilter(image, result, template.getSize(), new Point(0, 0), 1, Image.EXTRAPLOATION_ZERO, new Operator() {
             @Override
-            public Color execute(Image aperture) {
+            public Color execute(final Image aperture) {
                 return new Color(new double[]{ proxyScale * templateHist.compare(new Hist(aperture), compareType)
                     + proxyOffset });
             }

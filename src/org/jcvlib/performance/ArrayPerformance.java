@@ -27,19 +27,18 @@ import org.jcvlib.parallel.Parallel;
 /**
  * Compare time access to vales in {@link Image} and in standard array.
  *
- * @version 1.004
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class ArrayPerformance {
 
     private static final int channels = 4;
 
-    private static double testImage64F(int width, int height, int numOfIterations) {
+    private static double testImage64F(final int width, final int height, final int numOfIterations) {
         // Initialize.
-        Image image = new Image(width, height, channels, Image.TYPE_64F);
+        final Image image = new Image(width, height, channels, Image.TYPE_64F);
 
         // Time catch.
-        long startTime = System.currentTimeMillis();
+        final long startTime = System.currentTimeMillis();
 
         // Start testing.
         for (int num = 0; num < numOfIterations; ++num) {
@@ -55,12 +54,12 @@ public class ArrayPerformance {
         return (double) (System.currentTimeMillis() - startTime) / (double) numOfIterations;
     }
 
-    private static double testImage8I(int width, int height, int numOfIterations) {
+    private static double testImage8I(final int width, final int height, final int numOfIterations) {
         // Initialize.
-        Image image = new Image(width, height, channels, Image.TYPE_8I);
+        final Image image = new Image(width, height, channels, Image.TYPE_8I);
 
         // Time catch.
-        long startTime = System.currentTimeMillis();
+        final long startTime = System.currentTimeMillis();
 
         // Start testing.
         for (int num = 0; num < numOfIterations; ++num) {
@@ -76,12 +75,12 @@ public class ArrayPerformance {
         return (double) (System.currentTimeMillis() - startTime) / (double) numOfIterations;
     }
 
-    private static double testImageArray64F(int width, int height, int numOfIterations) {
+    private static double testImageArray64F(final int width, final int height, final int numOfIterations) {
         // Initialize.
-        ImageArray array = new ImageArray64F(width, height, channels);
+        final ImageArray array = new ImageArray64F(width, height, channels);
 
         // Time catch.
-        long startTime = System.currentTimeMillis();
+        final long startTime = System.currentTimeMillis();
 
         // Start testing.
         for (int num = 0; num < numOfIterations; ++num) {
@@ -97,12 +96,12 @@ public class ArrayPerformance {
         return (double) (System.currentTimeMillis() - startTime) / (double) numOfIterations;
     }
 
-    private static double testImageArray8I(int width, int height, int numOfIterations) {
+    private static double testImageArray8I(final int width, final int height, final int numOfIterations) {
         // Initialize.
-        ImageArray array = new ImageArray8I(width, height, channels);
+        final ImageArray array = new ImageArray8I(width, height, channels);
 
         // Time catch.
-        long startTime = System.currentTimeMillis();
+        final long startTime = System.currentTimeMillis();
 
         // Start testing.
         for (int num = 0; num < numOfIterations; ++num) {
@@ -118,12 +117,12 @@ public class ArrayPerformance {
         return (double) (System.currentTimeMillis() - startTime) / (double) numOfIterations;
     }
 
-    private static double testDoubleArray(int width, int height, int numOfIterations) {
+    private static double testDoubleArray(final int width, final int height, final int numOfIterations) {
         // Initialize.
-        double[] array = new double[width * height * channels];
+        final double[] array = new double[width * height * channels];
 
         // Time catch.
-        long startTime = System.currentTimeMillis();
+        final long startTime = System.currentTimeMillis();
 
         // Start testing.
         for (int num = 0; num < numOfIterations; ++num) {
@@ -135,12 +134,12 @@ public class ArrayPerformance {
         return (double) (System.currentTimeMillis() - startTime) / (double) numOfIterations;
     }
 
-    private static double testByteArray(int width, int height, int numOfIterations) {
+    private static double testByteArray(final int width, final int height, final int numOfIterations) {
         // Initialize.
-        byte[] array = new byte[width * height * channels];
+        final byte[] array = new byte[width * height * channels];
 
         // Time catch.
-        long startTime = System.currentTimeMillis();
+        final long startTime = System.currentTimeMillis();
 
         // Start testing.
         for (int num = 0; num < numOfIterations; ++num) {

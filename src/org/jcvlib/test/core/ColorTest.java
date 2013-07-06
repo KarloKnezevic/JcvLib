@@ -28,7 +28,6 @@ import org.junit.Test;
 /**
  * Test class for colors {@link Color}.
  *
- * @version 1.012
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class ColorTest {
@@ -39,14 +38,14 @@ public class ColorTest {
     public void testCreate() {
         new Color(1);
 
-        double vlaue = 127.5;
-        Color color1 = new Color(3, vlaue);
+        final double vlaue = 127.5;
+        final Color color1 = new Color(3, vlaue);
         assertEquals(vlaue, color1.get(0), JCV.PRECISION_MAX);
         assertEquals(vlaue, color1.get(1), JCV.PRECISION_MAX);
         assertEquals(vlaue, color1.get(2), JCV.PRECISION_MAX);
 
-        double[] c = new double[]{ 32.1, 64.2, 128.3 };
-        Color color2 = new Color(c);
+        final double[] c = new double[]{ 32.1, 64.2, 128.3 };
+        final Color color2 = new Color(c);
         assertEquals(c[0], color2.get(0), JCV.PRECISION_MAX);
         assertEquals(c[1], color2.get(1), JCV.PRECISION_MAX);
         assertEquals(c[2], color2.get(2), JCV.PRECISION_MAX);
@@ -98,7 +97,7 @@ public class ColorTest {
      */
     @Test
     public void testSetGet() {
-        Color color = new Color(3);
+        final Color color = new Color(3);
 
         color.set(0, Color.COLOR_MIN_VALUE + 0.0);
         color.set(1, Color.COLOR_MIN_VALUE + 0.1);
@@ -114,7 +113,7 @@ public class ColorTest {
      */
     @Test
     public void testGetSetException() {
-        Color color = new Color(5);
+        final Color color = new Color(5);
 
         // Set in incorrect position.
         try {
@@ -138,7 +137,7 @@ public class ColorTest {
      */
     @Test
     public void testSetTruncate() {
-        Color color = new Color(4);
+        final Color color = new Color(4);
 
         // Test truncate to min value.
         color.set(0, Color.COLOR_MIN_VALUE - 1.0);
@@ -160,17 +159,17 @@ public class ColorTest {
      */
     @Test
     public void testCopyEquals() {
-        Color color1 = new Color(2, 32.1);
+        final Color color1 = new Color(2, 32.1);
         assertTrue(color1.equals(color1));
         assertFalse(color1.equals(null));
 
-        Color color2 = color1.copy();
+        final Color color2 = color1.copy();
         assertTrue(color1.equals(color2));
 
         color2.set(1, 64.2);
         assertFalse(color1.equals(color2));
 
-        Color color3 = new Color(3, 1);
+        final Color color3 = new Color(3, 1);
         assertFalse(color1.equals(color3));
     }
 
@@ -181,8 +180,8 @@ public class ColorTest {
     public void testEuclidDist() {
         assertEquals(1.0, (new Color(new double[]{ 5.0, 5.0 })).euclidDist(new Color(new double[]{ 4.0, 6.0 })), JCV.PRECISION_MAX);
 
-        Color min = new Color(new double[]{ Color.COLOR_MIN_VALUE, Color.COLOR_MIN_VALUE });
-        Color max = new Color(new double[]{ Color.COLOR_MAX_VALUE, Color.COLOR_MAX_VALUE });
+        final Color min = new Color(new double[]{ Color.COLOR_MIN_VALUE, Color.COLOR_MIN_VALUE });
+        final Color max = new Color(new double[]{ Color.COLOR_MAX_VALUE, Color.COLOR_MAX_VALUE });
         assertEquals(Color.COLOR_MAX_VALUE, min.euclidDist(max), JCV.PRECISION_MAX);
     }
 

@@ -63,7 +63,6 @@ import com.xuggle.xuggler.Utils;
  * </PRE></CODE>
  * </P>
  *
- * @version 1.017
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 /*
@@ -139,7 +138,7 @@ public class WebCamReader implements VideoReader, Runnable {
      * @param numWebCam
      *            Number of web-camera to open.
      */
-    public WebCamReader(int numWebCam) {
+    public WebCamReader(final int numWebCam) {
         this(numWebCam, 30, new Size(320, 240));
     }
 
@@ -154,7 +153,7 @@ public class WebCamReader implements VideoReader, Runnable {
      * @param sizeOfImage
      *            Size of getting image
      */
-    public WebCamReader(int numWebCam, int FPS, Size sizeOfImage) {
+    public WebCamReader(final int numWebCam, final int FPS, final Size sizeOfImage) {
         if (numWebCam < 0) {
             throw new IllegalArgumentException("Parameter 'numWebCam' (=" + Integer.toString(numWebCam) + ") must be more or equals 0!");
         }
@@ -182,7 +181,7 @@ public class WebCamReader implements VideoReader, Runnable {
         this.bufImg = null;
     }
 
-    private void generateError(String errorMessage) throws IOException {
+    private void generateError(final String errorMessage) throws IOException {
         this.errorMessage = errorMessage;
         this.checkErrors();
     }
@@ -203,8 +202,8 @@ public class WebCamReader implements VideoReader, Runnable {
      */
     @Override
     public void open() throws IOException {
-        int maxWaitTime = 10000; // In milliseconds (10^{-3} seconds).
-        int waitStep = 10; // In milliseconds (10^{-3} seconds).
+        final int maxWaitTime = 10000;  // In milliseconds (10^{-3} seconds).
+        final int waitStep = 10;        // In milliseconds (10^{-3} seconds).
         int timeCounter;
 
         // Reopened if needed.

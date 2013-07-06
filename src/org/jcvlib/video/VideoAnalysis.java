@@ -29,9 +29,6 @@ import org.jcvlib.parallel.PixelsLoop;
  * This class contains methods for <A href="http://en.wikipedia.org/wiki/Motion_analysis">Motion analysis</A> and
  * <A href="http://en.wikipedia.org/wiki/Video_tracking">Video tracking</A>.
  *
- *
- *
- * @version 1.005
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class VideoAnalysis {
@@ -46,7 +43,7 @@ public class VideoAnalysis {
      * @param outOfDate
      *            Out of date coefficients on motion history image. Should be in diapasone <CODE>[0.0, 255.0]</CODE>.
      */
-    public static void updateHistoryImage(Image history, Image mask, final double outOfDate) {
+    public static void updateHistoryImage(final Image history, final Image mask, final double outOfDate) {
         /*
          * Verify parameters.
          */
@@ -63,7 +60,7 @@ public class VideoAnalysis {
         final Image proxyHistory = history;
         Parallel.pixels(proxyHistory, new PixelsLoop() {
             @Override
-            public void execute(int x, int y) {
+            public void execute(final int x, final int y) {
                 for (int channel = 0; channel < proxyHistory.getNumOfChannels(); ++channel) {
                     proxyHistory.set(x, y, channel, proxyHistory.get(x, y, channel) - outOfDate);
                 }

@@ -50,7 +50,6 @@ import org.jcvlib.parallel.PixelsLoop;
  * </OL>
  * </P>
  *
- * @version 1.030
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class ColorConvert {
@@ -84,7 +83,7 @@ public class ColorConvert {
 
         Parallel.pixels(image, new PixelsLoop() {
             @Override
-            public void execute(int x, int y) {
+            public void execute(final int x, final int y) {
                 double gray =
                     // Red
                     0.299 * image.get(x, y, 0) +
@@ -132,7 +131,7 @@ public class ColorConvert {
             final int proxyChannel = channel;
             Parallel.pixels(image, new PixelsLoop() {
                 @Override
-                public void execute(int x, int y) {
+                public void execute(final int x, final int y) {
                     result.set(x, y, proxyChannel, image.get(x, y, 0));
                 }
             });
@@ -179,7 +178,7 @@ public class ColorConvert {
 
         Parallel.pixels(image, new PixelsLoop() {
             @Override
-            public void execute(int x, int y) {
+            public void execute(final int x, final int y) {
                 // Initialization.
                 double R = image.get(x, y, 0);
                 double G = image.get(x, y, 1);
@@ -279,7 +278,7 @@ public class ColorConvert {
 
         Parallel.pixels(image, new PixelsLoop() {
             @Override
-            public void execute(int x, int y) {
+            public void execute(final int x, final int y) {
                 // Initialization.
                 double H = image.get(x, y, 0);
                 double S = image.get(x, y, 1);
@@ -368,7 +367,7 @@ public class ColorConvert {
 
         Parallel.pixels(image, new PixelsLoop() {
             @Override
-            public void execute(int x, int y) {
+            public void execute(final int x, final int y) {
                 // Initialization.
                 double R = image.get(x, y, 0);
                 double G = image.get(x, y, 1);
@@ -458,7 +457,7 @@ public class ColorConvert {
 
         Parallel.pixels(image, new PixelsLoop() {
             @Override
-            public void execute(int x, int y) {
+            public void execute(final int x, final int y) {
                 // Initialization.
                 double H = image.get(x, y, 0);
                 double S = image.get(x, y, 1);

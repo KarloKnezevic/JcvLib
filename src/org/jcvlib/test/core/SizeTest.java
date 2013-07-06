@@ -28,7 +28,6 @@ import org.junit.Test;
 /**
  * Test class for points {@link Size}.
  *
- * @version 1.010
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class SizeTest {
@@ -59,7 +58,7 @@ public class SizeTest {
      */
     @Test
     public void testToString() {
-        Size size = new Size(1, 2);
+        final Size size = new Size(1, 2);
 
         System.out.println("Printing example:");
         System.out.println(size.toString());
@@ -70,7 +69,7 @@ public class SizeTest {
      */
     @Test
     public void testWidthHeight() {
-        Size size = new Size(1, 2);
+        final Size size = new Size(1, 2);
 
         assertEquals(1, size.getWidth());
         assertEquals(2, size.getHeight());
@@ -89,15 +88,16 @@ public class SizeTest {
      */
     @Test
     public void testLessOrEquals() {
-        Size size1 = new Size(6, 7);
+        final Size size1 = new Size(6, 7);
         assertTrue(size1.lessOrEqualsThan(size1));
 
-        Size size2 = new Size(5, 5);
+        final Size size2 = new Size(5, 5);
         assertTrue(size2.lessOrEqualsThan(size1));
 
-        Size size3 = new Size(6, 8);
+        final Size size3 = new Size(6, 8);
         assertFalse(size3.lessOrEqualsThan(size1));
-        Size size4 = new Size(7, 7);
+
+        final Size size4 = new Size(7, 7);
         assertFalse(size4.lessOrEqualsThan(size1));
     }
 
@@ -131,15 +131,15 @@ public class SizeTest {
      */
     @Test
     public void testEquals() {
-        Size size1 = new Size(1, 2);
+        final Size size1 = new Size(1, 2);
         assertTrue(size1.equals(size1));
         assertFalse(size1.equals(null));
         assertFalse(size1.equals(0));
 
-        Size size2 = new Size(2, 2);
+        final Size size2 = new Size(2, 2);
         assertFalse(size1.equals(size2));
 
-        Size size3 = new Size(1, 3);
+        final Size size3 = new Size(1, 3);
         assertFalse(size1.equals(size3));
     }
 }

@@ -29,7 +29,6 @@ import org.junit.Test;
 /**
  * Test class for points {@link JCV}.
  *
- * @version 1.008
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class JCVTest {
@@ -39,7 +38,6 @@ public class JCVTest {
     @Test
     public void testEqualValues() {
         assertTrue(JCV.equalValues(JCV.PRECISION_MAX, JCV.PRECISION_MAX));
-        assertFalse(JCV.equalValues(JCV.PRECISION_MAX, 3 * JCV.PRECISION_MAX));
     }
 
     /**
@@ -120,10 +118,10 @@ public class JCVTest {
      */
     @Test
     public void testVerifySameSizeImage() {
-        Image image1 = new Image(100, 100, 4, Image.TYPE_8I);
-        Image image2 = new Image(100, 100, 6, Image.TYPE_8I);
-        Image image3 = new Image(100, 101, 5, Image.TYPE_8I);
-        Image image4 = new Image(101, 100, 6, Image.TYPE_8I);
+        final Image image1 = new Image(100, 100, 4, Image.TYPE_8I);
+        final Image image2 = new Image(100, 100, 6, Image.TYPE_8I);
+        final Image image3 = new Image(100, 101, 5, Image.TYPE_8I);
+        final Image image4 = new Image(101, 100, 6, Image.TYPE_8I);
 
         JCV.verifyIsSameSize(image1, "image1", image2, "image2");
 

@@ -34,7 +34,6 @@ import Jama.Matrix;
 /**
  * This is a base class for geometry transformations.
  *
- * @version 1.022
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class Geom {
@@ -139,7 +138,7 @@ public class Geom {
 
         Parallel.pixels(result, new PixelsLoop() {
             @Override
-            public void execute(int x, int y) {
+            public void execute(final int x, final int y) {
                 for (int channel = 0; channel < result.getNumOfChannels(); ++channel) {
                     double t =   invP.get(2, 0) * x + invP.get(2, 1) * y + invP.get(2, 2);
                     double nx = (invP.get(0, 0) * x + invP.get(0, 1) * y + invP.get(0, 2)) / t;
@@ -176,7 +175,7 @@ public class Geom {
      * @return
      *         Matrix that apply transformation image.
      */
-    public static Matrix getPerspectiveTransfrom(List<Point> srcPoint, List<Point> dstPoint) {
+    public static Matrix getPerspectiveTransfrom(final List<Point> srcPoint, final List<Point> dstPoint) {
         /*
          * Verify parameters.
          */
@@ -293,7 +292,7 @@ public class Geom {
      * @return
      *         Matrix that apply transformation image.
      */
-    public static Matrix getAffineTransfrom(List<Point> srcPoint, List<Point> dstPoint) {
+    public static Matrix getAffineTransfrom(final List<Point> srcPoint, final List<Point> dstPoint) {
         /*
          * Verify parameters.
          */
@@ -405,7 +404,7 @@ public class Geom {
      * @return
      *         Image with new size and same number of channels and same type as source image.
      */
-    public static Image scale(Image image, double scale, int interpolationType, Color fillColor) {
+    public static Image scale(final Image image, final double scale, final int interpolationType, final Color fillColor) {
         /*
          * Verify parameters.
          */
@@ -441,7 +440,7 @@ public class Geom {
      * @return
      *         Image with new size and same number of channels and same type as source image.
      */
-    public static Image scale(Image image, double scale) {
+    public static Image scale(final Image image, final double scale) {
         return Geom.scale(image, scale, Image.INTERPOLATION_BILINEAR, new Color(image.getNumOfChannels(), Color.COLOR_MIN_VALUE));
     }
 
@@ -459,7 +458,7 @@ public class Geom {
      * @return
      *         Image with new size and same number of channels and same type as source image.
      */
-    public static Image resize(Image image, Size newSize, int interpolationType, Color fillColor) {
+    public static Image resize(final Image image, final Size newSize, final int interpolationType, final Color fillColor) {
         /*
          * Verify parameters.
          */
@@ -494,7 +493,7 @@ public class Geom {
      * @return
      *         Image with new size and same number of channels and same type as source image.
      */
-    public static Image resize(Image image, Size newSize) {
+    public static Image resize(final Image image, final Size newSize) {
         return Geom.resize(image, newSize, Image.INTERPOLATION_BILINEAR, new Color(image.getNumOfChannels(), Color.COLOR_MIN_VALUE));
     }
 
@@ -514,7 +513,8 @@ public class Geom {
      * @return
      *         Rotated image.
      */
-    public static Image rotate(Image image, double angle, Point centerOfRotation, int interpolationType, Color fillColor) {
+    public static Image rotate(final Image image, final double angle, final Point centerOfRotation, final int interpolationType,
+        final Color fillColor) {
         /*
          * Verify parameters.
          */
@@ -622,7 +622,7 @@ public class Geom {
      * @return
      *         Rotated image.
      */
-    public static Image rotate(Image image, double angle) {
+    public static Image rotate(final Image image, final double angle) {
         /*
          * Verify parameters.
          */

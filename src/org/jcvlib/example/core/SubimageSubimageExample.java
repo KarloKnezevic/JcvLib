@@ -1,12 +1,12 @@
 /*
  * Copyright 2012-2013 JcvLib Team
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,18 +29,17 @@ import org.jcvlib.io.ImageRW;
 
 /**
  * This is example show how to work with sub-images of existing sub-images.
- * 
- * @version 1.006
+ *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class SubimageSubimageExample {
     public static void main(String[] args) throws IOException {
         // Read image.
-        Image image = ImageRW.read("resources" + File.separatorChar + "Lenna.bmp");
-        
+        final Image image = ImageRW.read("resources" + File.separatorChar + "Lenna.bmp");
+
         // Get sub-image.
-        Image subImage = image.getSubimage(new Rectangle(100, 200, 400, 300));
-        
+        final Image subImage = image.getSubimage(new Rectangle(100, 200, 400, 300));
+
         // Do some modifications with sub-image.
         for (int x = 0; x < 10; ++x) {
             for (int y = 0; y < 20; ++y) {
@@ -50,10 +49,10 @@ public class SubimageSubimageExample {
                 subImage.set8I(x, y, 2, 0); // Blue
             }
         }
-        
+
         // Get sub-image.
-        Image subSubImage = subImage.getSubimage(new Rectangle(50, 0, 300, 200));
-        
+        final Image subSubImage = subImage.getSubimage(new Rectangle(50, 0, 300, 200));
+
         // Do some modifications with sub-sub-image.
         for (int x = 0; x < 20; ++x) {
             for (int y = 0; y < 10; ++y) {
@@ -63,7 +62,7 @@ public class SubimageSubimageExample {
                 subSubImage.set8I(x, y, 2, 0); // Blue
             }
         }
-        
+
         // Show window with images.
         Window.openAndShow(image, "Lenna");
         Window.openAndShow(subImage, "Lenna sub-image");

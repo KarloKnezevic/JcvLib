@@ -76,7 +76,6 @@ import com.sixlegs.png.PngImage;
  * </OL>
  * </P>
  *
- * @version 1.013
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class ImageRW {
@@ -102,7 +101,7 @@ public class ImageRW {
      * </OL>
      * </P>
      */
-    public static Image read(File imageFile) throws IOException {
+    public static Image read(final File imageFile) throws IOException {
         /*
          * Verify parameters.
          */
@@ -153,7 +152,7 @@ public class ImageRW {
      * </OL>
      * </P>
      */
-    public static Image read(String fileName) throws IOException {
+    public static Image read(final String fileName) throws IOException {
         /*
          * Verify parameters.
          */
@@ -194,7 +193,7 @@ public class ImageRW {
      * @param fileFormat
      *            File extension to define saving image format.
      */
-    public static void write(Image image, File fileImage, String fileFormat) throws IOException {
+    public static void write(final Image image, final File fileImage, final String fileFormat) throws IOException {
         /*
          * Verify parameters.
          */
@@ -235,7 +234,7 @@ public class ImageRW {
      * @param fileName
      *            Name of file for saving. Must contain file extension.
      */
-    public static void write(Image image, String fileName) throws IOException {
+    public static void write(final Image image, final String fileName) throws IOException {
         /*
          * Verify parameters.
          */

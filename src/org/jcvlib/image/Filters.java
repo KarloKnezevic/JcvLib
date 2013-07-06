@@ -35,7 +35,6 @@ import Jama.Matrix;
 /**
  * Contains base filters.
  *
- * @version 1.021
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class Filters {
@@ -391,8 +390,8 @@ public class Filters {
      * @param operator
      *            Operation that should get kernel on each step.
      */
-    public static void noneLinearFilter(final Image source, Image result, final Size kernelSize, final Point anchor, final int iterations,
-        final int extrapolationType, final Operator operator) {
+    public static void noneLinearFilter(final Image source, Image result, final Size kernelSize, final Point anchor,
+        final int iterations, final int extrapolationType, final Operator operator) {
         /*
          * Verify parameters.
          */
@@ -439,9 +438,11 @@ public class Filters {
             // Fill extend image.
             Parallel.pixels(sourceExtend, new PixelsLoop() {
                 @Override
-                public void execute(int x, int y) {
+                public void execute(final int x, final int y) {
                     for (int channel = 0; channel < sourceExtend.getNumOfChannels(); ++channel) {
-                        sourceExtend.set(x, y, channel, currentSource.get(x - anchor.getX(), y - anchor.getY(), channel, extrapolationType));
+                        sourceExtend.set(x, y, channel,
+                            currentSource.get(x - anchor.getX(), y - anchor.getY(), channel,
+                                extrapolationType));
                     }
                 }
             });
@@ -451,7 +452,7 @@ public class Filters {
                 sourceExtend.getSubimage(0, 0, sourceExtend.getWidth() - kernelSize.getWidth() + 1,
                     sourceExtend.getHeight() - kernelSize.getHeight() + 1), new PixelsLoop() {
                     @Override
-                    public void execute(int x, int y) {
+                    public void execute(final int x, final int y) {
                         Image aperture = sourceExtend.getSubimage(new Rectangle(new Point(x, y), kernelSize));
                         currentResult.set(new Point(x, y), operator.execute(aperture));
                     }
@@ -520,7 +521,7 @@ public class Filters {
 
         Filters.noneLinearFilter(image, result, dervSize, dervSize.getCenter(), 1, extrapolationType, new Operator() {
             @Override
-            public Color execute(Image aperture) {
+            public Color execute(final Image aperture) {
                 double[] Gx = ImageMath.convolve(aperture, derivativeX);
                 double[] Gy = ImageMath.convolve(aperture, derivativeY);
 
@@ -603,7 +604,8 @@ public class Filters {
      * @return
      *         Image with result of applying linear filter. Have same size, number of channels and type as a source image.
      */
-    public static Image linearFilter(Image image, final Matrix kernel, final double div, final double offset, int extrapolationType) {
+    public static Image linearFilter(final Image image, final Matrix kernel, final double div, final double offset,
+        final int extrapolationType) {
         /*
          * Verify parameters.
          */
@@ -681,7 +683,7 @@ public class Filters {
      * @return
      *         Image with result of applying Laplace operator. Have same size, number of channels and type as a source image.
      */
-    public static Image laplacian(Image image, int extrapolationType) {
+    public static Image laplacian(final Image image, final int extrapolationType) {
         Matrix laplaceKernel = new Matrix(new double[][]{
             { 0.0, 1.0, 0.0 },
             { 1.0,-4.0, 1.0 },
@@ -707,14 +709,14 @@ public class Filters {
      * </OL>
      * </P>
      */
-    public static Image laplacian(Image image) {
+    public static Image laplacian(final Image image) {
         return Filters.laplacian(image, Image.EXTRAPLOATION_REPLICATE);
     }
 
     /**
      * Invert values into image: each value V invert to <CODE>({@link Color#COLOR_MAX_VALUE} - V)</CODE>.
      */
-    public static Image invert(Image image) {
+    public static Image invert(final Image image) {
         Matrix invertKernel = new Matrix(new double[][]{
             {-1.0 }
         });
@@ -749,7 +751,7 @@ public class Filters {
      * @return
      *         Image with result of applying detecting edges filter. Have same size, number of channels and type as a source image.
      */
-    public static Image edgeDetection(Image image, int edgeDetectiontype, double scale, int extrapolationType) {
+    public static Image edgeDetection(final Image image, final int edgeDetectiontype, final double scale, final int extrapolationType) {
         Matrix matrixKernelX = null;
         Matrix matrixKernelY = null;
 
@@ -835,7 +837,7 @@ public class Filters {
      * @return
      *         Image with result of applying detecting edges filter. Have same size, number of channels and type as a source image.
      */
-    public static Image edgeDetection(Image image, int edgeDetectiontype) {
+    public static Image edgeDetection(final Image image, final int edgeDetectiontype) {
         return Filters.edgeDetection(image, edgeDetectiontype, 1.0, Image.EXTRAPLOATION_REFLECT);
     }
 
@@ -863,7 +865,7 @@ public class Filters {
      * @return
      *         Image with result of applying detecting edges filter. Have same size, number of channels and type as a source image.
      */
-    public static Image edgeDetection(Image image) {
+    public static Image edgeDetection(final Image image) {
         return Filters.edgeDetection(image, Filters.EDGE_DETECT_SOBEL, 1.0, Image.EXTRAPLOATION_REFLECT);
     }
 
@@ -883,7 +885,7 @@ public class Filters {
      * </OL>
      * </P>
      */
-    public static Matrix getGaussianKernel(int kernelSize, double sigma2) {
+    public static Matrix getGaussianKernel(final int kernelSize, final double sigma2) {
         /*
          * Verify parameters.
          */
@@ -933,14 +935,14 @@ public class Filters {
      * </OL>
      * </P>
      */
-    public static Matrix getGaussianKernel(int kernelSize) {
+    public static Matrix getGaussianKernel(final int kernelSize) {
         return Filters.getGaussianKernel(kernelSize, Filters.getSigma(kernelSize));
     }
 
     /**
      * Return size of one dimension base on <CODE>sigma</CODE> value (see Gaussian blur).
      */
-    public static int getKernelSize(double sigma) {
+    public static int getKernelSize(final double sigma) {
         int size = JCV.roundDown(sigmaSizeCoeff * sigma);
         if (size % 2 == 0) {
             ++size;
@@ -952,7 +954,7 @@ public class Filters {
     /**
      * Return <CODE>sigma</CODE> base on size value of one dimension (see Gaussian blur).
      */
-    public static double getSigma(int size) {
+    public static double getSigma(final int size) {
         return (double) size / sigmaSizeCoeff;
     }
 
@@ -979,7 +981,8 @@ public class Filters {
      * @return
      *         Image with result of applying Gaussian blur filter. Have same size, number of channels and type as a source image.
      */
-    public static Image gaussianBlur(Image image, Size kernelSize, double sigmaX, double sigmaY, int extrapolationType) {
+    public static Image gaussianBlur(final Image image, final Size kernelSize, final double sigmaX, final double sigmaY,
+        final int extrapolationType) {
         Matrix gaussianKernelX = Filters.getGaussianKernel(kernelSize.getWidth(), sigmaX);
         Matrix gaussianKernelY = Filters.getGaussianKernel(kernelSize.getHeight(), sigmaY).transpose();
         double div = 1.0;
@@ -991,7 +994,7 @@ public class Filters {
     /**
      * Calculate variance of sub-rectangle of kernel. Used into Kuwahara blur.
      */
-    private static double[] variance(Image aperture, Color average) {
+    private static double[] variance(final Image aperture, final Color average) {
         double[] result = new double[aperture.getNumOfChannels()];
         for (int i = 0; i < aperture.getNumOfChannels(); ++i) {
             result[i] = 0.0;
@@ -1019,7 +1022,7 @@ public class Filters {
      * </OL>
      * </P>
      */
-    private static Image kuwaharaBlur(Image image, Size kernelSize, int extrapolationType) {
+    private static Image kuwaharaBlur(final Image image, final Size kernelSize, final int extrapolationType) {
         /*
          * Verify parameters.
          */
@@ -1038,7 +1041,7 @@ public class Filters {
 
             Filters.noneLinearFilter(image, result, kernelSize, kernelCenter, 1, extrapolationType, new Operator() {
                 @Override
-                public Color execute(Image aperture) {
+                public Color execute(final Image aperture) {
                     Image[] windows = new Image[4];
 
                     Color[] mean = new Color[windows.length];
@@ -1102,7 +1105,7 @@ public class Filters {
      * @return
      *         Image with result of applying blur filter. Have same size, number of channels and type as a source image.
      */
-    public static Image blur(Image image, Size kernelSize, int blurType, int extrapolationType) {
+    public static Image blur(final Image image, final Size kernelSize, final int blurType, final int extrapolationType) {
         /*
          * Verify parameters.
          */
@@ -1136,7 +1139,7 @@ public class Filters {
 
                 Filters.noneLinearFilter(image, result, kernelSize, kernelCenter, 1, extrapolationType, new Operator() {
                     @Override
-                    public Color execute(Image aperture) {
+                    public Color execute(final Image aperture) {
                         Color res = new Color(aperture.getNumOfChannels());
                         for (int channel = 0; channel < aperture.getNumOfChannels(); ++channel) {
                             // Copy content into temporary array.
@@ -1185,7 +1188,7 @@ public class Filters {
      * @return
      *         Image with result of applying blur filter. Have same size, number of channels and type as a source image.
      */
-    public static Image blur(Image image, Size kernelSize, int blurType) {
+    public static Image blur(final Image image, final Size kernelSize, final int blurType) {
         return Filters.blur(image, kernelSize, blurType, Image.EXTRAPLOATION_REPLICATE);
     }
 
@@ -1203,7 +1206,7 @@ public class Filters {
      * @return
      *         Image with result of applying blur filter. Have same size, number of channels and type as a source image.
      */
-    public static Image blur(Image image, Size kernelSize) {
+    public static Image blur(final Image image, final Size kernelSize) {
         return Filters.blur(image, kernelSize, Filters.BLUR_GAUSSIAN, Image.EXTRAPLOATION_REPLICATE);
     }
 
@@ -1217,13 +1220,17 @@ public class Filters {
      * @return
      *         Image with result of applying sharpen filter. Have same size, number of channels and type as a source image.
      */
-    public static Image sharpen(Image image, int sharpenType, int extrapolationType) {
+    public static Image sharpen(final Image image, final int sharpenType, final int extrapolationType) {
         switch (sharpenType) {
             case Filters.SHARPEN_LAPLACIAN:
                 return ImageMath.sum(Filters.laplacian(image), image);
 
             case Filters.SHARPEN_MODERN:
-                Matrix modernSharpen = new Matrix(new double[][]{ { 0.0, -1.0, 0.0 }, { -1.0, 5.0, -1.0 }, { 0.0, -1.0, 0.0 } });
+                Matrix modernSharpen = new Matrix(new double[][]{
+                    { 0.0,-1.0, 0.0 },
+                    {-1.0, 5.0,-1.0 },
+                    { 0.0,-1.0, 0.0 }
+                 });
                 double div = 1.0;
                 double offset = Color.COLOR_MIN_VALUE;
 
@@ -1248,7 +1255,7 @@ public class Filters {
      * @return
      *         Image with result of applying sharpen filter. Have same size, number of channels and type as a source image.
      */
-    public static Image sharpen(Image image, int sharpenType) {
+    public static Image sharpen(final Image image, final int sharpenType) {
         return Filters.sharpen(image, sharpenType, Image.EXTRAPLOATION_REPLICATE);
     }
 
@@ -1264,7 +1271,7 @@ public class Filters {
      * @return
      *         Image with result of applying sharpen filter. Have same size, number of channels and type as a source image.
      */
-    public static Image sharpen(Image source) {
+    public static Image sharpen(final Image source) {
         return Filters.sharpen(source, Filters.SHARPEN_MODERN, Image.EXTRAPLOATION_REPLICATE);
     }
 
@@ -1291,7 +1298,8 @@ public class Filters {
      * @return
      *         Image with result of applying morphology filter. Have same size, number of channels and type as a source image.
      */
-    public static Image morphology(Image image, Size kernelSize, int morphologyType, int iterations, int extrapolationType) {
+    public static Image morphology(final Image image, final Size kernelSize, final int morphologyType, final int iterations,
+        final int extrapolationType) {
         /*
          * Verify parameters.
          */
@@ -1308,7 +1316,7 @@ public class Filters {
             case Filters.MORPHOLOGY_DILATE:
                 Filters.noneLinearFilter(image, result, kernelSize, kernelSize.getCenter(), iterations, extrapolationType, new Operator() {
                     @Override
-                    public Color execute(Image aperture) {
+                    public Color execute(final Image aperture) {
                         Color max = new Color(aperture.getNumOfChannels(), Color.COLOR_MIN_VALUE);
 
                         // Find maximum.
@@ -1331,7 +1339,7 @@ public class Filters {
             case Filters.MORPHOLOGY_ERODE:
                 Filters.noneLinearFilter(image, result, kernelSize, kernelSize.getCenter(), iterations, extrapolationType, new Operator() {
                     @Override
-                    public Color execute(Image aperture) {
+                    public Color execute(final Image aperture) {
                         Color min = new Color(aperture.getNumOfChannels(), Color.COLOR_MAX_VALUE);
 
                         // Find minimum.
@@ -1417,7 +1425,7 @@ public class Filters {
      * @return
      *         Image with result of applying morphology filter. Have same size, number of channels and type as a source image.
      */
-    public static Image morphology(Image image, Size kernelSize, int morphologyType, int iterations) {
+    public static Image morphology(final Image image, final Size kernelSize, final int morphologyType, final int iterations) {
         return Filters.morphology(image, kernelSize, morphologyType, iterations, Image.EXTRAPLOATION_REPLICATE);
     }
 
@@ -1444,7 +1452,7 @@ public class Filters {
      * @return
      *         Image with result of applying morphology filter. Have same size, number of channels and type as a source image.
      */
-    public static Image morphology(Image image, Size kernelSize, int morphologyType) {
+    public static Image morphology(final Image image, final Size kernelSize, final int morphologyType) {
         return Filters.morphology(image, kernelSize, morphologyType, 1, Image.EXTRAPLOATION_REPLICATE);
     }
 
@@ -1462,7 +1470,7 @@ public class Filters {
      * @return
      *         Value after applying threshold.
      */
-    private static double applyThreshold(double val, double threshold, double maxVal, int thresholdType) {
+    private static double applyThreshold(final double val, final double threshold, final double maxVal, final int thresholdType) {
         switch (thresholdType) {
             case Filters.THRESHOLD_BINARY:
                 if (val <= threshold) {
@@ -1547,7 +1555,7 @@ public class Filters {
 
         Parallel.pixels(image, new PixelsLoop() {
             @Override
-            public void execute(int x, int y) {
+            public void execute(final int x, final int y) {
                 for (int channel = 0; channel < image.getNumOfChannels(); ++channel) {
                     result.set(x, y, channel, applyThreshold(image.get(x, y, channel), threshold, maxVal, thresholdType));
                 }
@@ -1580,7 +1588,7 @@ public class Filters {
      * @return
      *         Image with result of applying threshold filter. Have same size, number of channels and type as a source image.
      */
-    public static Image threshold(Image image, double threshold, int thresholdType) {
+    public static Image threshold(final Image image, final double threshold, final int thresholdType) {
         return Filters.threshold(image, threshold, thresholdType, Color.COLOR_MAX_VALUE);
     }
 
@@ -1626,7 +1634,8 @@ public class Filters {
                 coeff.setMatrix(0, blockSize - 1, 0, blockSize - 1, gaussianKernel.times(gaussianKernel.transpose()));
                 break;
             default:
-                throw new IllegalArgumentException("Parameter 'adaptiveType' have unknown value! Use 'Filters.ADAPTIVE_*' as a parameters!");
+                throw
+                new IllegalArgumentException("Parameter 'adaptiveType' have unknown value! Use 'Filters.ADAPTIVE_*' as a parameters!");
         }
 
         final int thresholdType;
@@ -1640,7 +1649,8 @@ public class Filters {
                 thresholdType = Filters.THRESHOLD_BINARY_INV;
                 break;
             default:
-                throw new IllegalArgumentException("Parameter 'adaptiveType' have unknown value! Use 'Filters.ADAPTIVE_*' as a parameters!");
+                throw
+                new IllegalArgumentException("Parameter 'adaptiveType' have unknown value! Use 'Filters.ADAPTIVE_*' as a parameters!");
         }
 
         if (C < Color.COLOR_MIN_VALUE || C > Color.COLOR_MAX_VALUE) {
@@ -1654,7 +1664,7 @@ public class Filters {
         Size apertureSize = new Size(blockSize, blockSize);
         Filters.noneLinearFilter(image, result, apertureSize, apertureSize.getCenter(), 1, Image.EXTRAPLOATION_REPLICATE, new Operator() {
             @Override
-            public Color execute(Image aperture) {
+            public Color execute(final Image aperture) {
                 Color res = new Color(aperture.getNumOfChannels());
 
                 for (int channel = 0; channel < aperture.getNumOfChannels(); ++channel) {
@@ -1722,10 +1732,56 @@ public class Filters {
         return Filters.adapriveThreshold(image, blockSize, type, C, Color.COLOR_MAX_VALUE);
     }
 
-    // TODO
-    public static Image otsuThreshold(final Image image) {
-        Image result = new Image(image);
+    /**
+     * Theshold by Otsu method.
+     *
+     * @param image
+     * @return
+     */
+    public static int calcOtsuThreshold(final Image image) {
+        final Hist hist = new Hist(image);
 
-        return result;
+        // Initialize q1(t).
+        final double[] q1 = new double[256];
+        q1[0] = hist.get(0);
+        for (int i = 1; i < q1.length; ++i) {
+            q1[i] = q1[i - 1] + hist.get(i);
+        }
+
+        // Initialize mu1(t).
+        final double[] mu1 = new double[256];
+        mu1[0] = 0;
+        for (int i = 1; i < mu1.length; ++i) {
+            mu1[i] = (q1[i - 1] * mu1[i - 1] + i * hist.get(i)) / q1[i];
+        }
+
+        // Initialize mu.
+        double mu = 0.0;
+        for (int i = 0; i < hist.getLength(); ++i) {
+            mu += i * hist.get(i);
+        }
+
+        // Initialize mu2(t).
+        final double[] mu2 = new double[256];
+        for (int i = 0; i < mu2.length; ++i) {
+            mu2[i] = (mu - q1[i] * mu1[i]) / (1.0 - q1[i]);
+        }
+
+
+        double[] sb = new double[256];
+        for (int i = 0; i < sb.length; ++i) {
+            sb[i] = q1[i] * (1.0 - q1[i]) * Math.pow(mu1[i] - mu2[i], 2);
+        }
+
+        double max = sb[0];
+        int t = 0;
+        for (int i = 1; i < sb.length; ++i) {
+            if (max < sb[i]) {
+                max = sb[i];
+                t = i;
+            }
+        }
+
+        return t;
     }
 }

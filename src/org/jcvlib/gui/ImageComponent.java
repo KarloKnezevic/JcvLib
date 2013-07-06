@@ -29,10 +29,10 @@ import org.jcvlib.core.JCV;
 /**
  * Internal class for display image.
  *
- * @version 1.009
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 class ImageComponent extends JComponent {
+
     private static final long serialVersionUID = 1L;
 
     private BufferedImage bufImg;
@@ -41,7 +41,7 @@ class ImageComponent extends JComponent {
 
     private double scale;
 
-    public ImageComponent(BufferedImage image) {
+    public ImageComponent(final BufferedImage image) {
         this.bufImg = image;
         this.setScale(this.defaultScale);
     }
@@ -51,7 +51,7 @@ class ImageComponent extends JComponent {
      * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
      */
     @Override
-    protected void paintComponent(Graphics g) {
+    protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
 
         // Update image.
@@ -78,7 +78,7 @@ class ImageComponent extends JComponent {
     /**
      * Set new value of scale for contained image.
      */
-    public void setScale(double scale) {
+    public void setScale(final double scale) {
         this.scale = scale;
 
         // Resize image.
@@ -92,7 +92,7 @@ class ImageComponent extends JComponent {
     /**
      * Update contained image.
      */
-    public void setBufferedImage(BufferedImage bufImg) {
+    public void setBufferedImage(final BufferedImage bufImg) {
         this.bufImg = bufImg;
     }
 }

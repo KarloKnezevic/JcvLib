@@ -32,7 +32,6 @@ import org.jcvlib.parallel.PixelsLoop;
  * </UL>
  * </P>
  *
- * @version 1.035
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class Image {
@@ -137,7 +136,7 @@ public class Image {
     /**
      * Create new image base on given source.
      */
-    private Image(int type, ImageArray source, Rectangle currentImage, int startChannel, int sizeLayer) {
+    private Image(final int type, final ImageArray source, final Rectangle currentImage, final int startChannel, final int sizeLayer) {
         this.sourceType = type;
         this.source = source;
         this.currentImage = currentImage;
@@ -157,7 +156,7 @@ public class Image {
      * @param type
      *            Type of image. You should use 'Image.TYPE_*' as a parameter!
      */
-    public Image(int width, int height, int numOfChannels, int type) {
+    public Image(final int width, final int height, final int numOfChannels, final int type) {
         switch (type) {
             case Image.TYPE_8I:
                 this.source = new ImageArray8I(width, height, numOfChannels);
@@ -192,7 +191,7 @@ public class Image {
      * @param initColor
      *            Color to initialize image. Should have same number of channels as current image.
      */
-    public Image(int width, int height, int numOfChannels, int type, final Color initColor) {
+    public Image(final int width, final int height, final int numOfChannels, final int type, final Color initColor) {
         this(width, height, numOfChannels, type);
 
         /*
@@ -224,7 +223,7 @@ public class Image {
      * <STRONG>Values from given image will be not copied!</STRONG>
      * </P>
      */
-    public Image(Image image) {
+    public Image(final Image image) {
         this(image.getWidth(), image.getHeight(), image.getNumOfChannels(), image.getType());
     }
 
@@ -273,7 +272,7 @@ public class Image {
     /**
      * Verify given point.
      */
-    private void verifyPoint(int x, int y, int channel) {
+    private void verifyPoint(final int x, final int y, final int channel) {
         if (x < 0 || x >= this.getWidth()) {
             throw new IllegalArgumentException("Value of 'x' (= " + Integer.toString(x) + ") " + "must in interval 0.."
                 + Integer.toString(this.getWidth() - 1) + "!");
@@ -293,7 +292,7 @@ public class Image {
     /**
      * Return float-point value of selected channel from selected pixel.
      */
-    public double get(int x, int y, int channel) {
+    public double get(final int x, final int y, final int channel) {
         /*
          * Verify parameters.
          */
@@ -308,7 +307,7 @@ public class Image {
     /**
      * Return integer value in interval <CODE>[0, 255]</CODE> of selected channel from selected pixel.
      */
-    public int get8I(int x, int y, int channel) {
+    public int get8I(final int x, final int y, final int channel) {
         /*
          * Verify parameters.
          */
@@ -323,7 +322,7 @@ public class Image {
     /**
      * Set float-point value to selected channel from selected pixel.
      */
-    public void set(int x, int y, int channel, double value) {
+    public void set(final int x, final int y, final int channel, double value) {
         /*
          * Verify parameters.
          */
@@ -347,7 +346,7 @@ public class Image {
     /**
      * Set integer value in interval <CODE>[0, 255]</CODE> to selected channel from selected pixel.
      */
-    public void set8I(int x, int y, int channel, int value) {
+    public void set8I(final int x, final int y, final int channel, int value) {
         /*
          * Verify parameters.
          */
@@ -368,7 +367,7 @@ public class Image {
     /**
      * Return color from selected pixel.
      */
-    public Color get(Point point) {
+    public Color get(final Point point) {
         /*
          * Verify parameters.
          */
@@ -389,7 +388,7 @@ public class Image {
     /**
      * Set color to selected pixel.
      */
-    public void set(Point point, Color color) {
+    public void set(final Point point, final Color color) {
         /*
          * Verify parameters.
          */
@@ -416,7 +415,7 @@ public class Image {
      * @return
      *         Coordinates that are should be used for extrapolation.
      */
-    private int translateCoordinateUnsafe(int xy, int wh, int extrapolationType) {
+    private int translateCoordinateUnsafe(final int xy, final int wh, final int extrapolationType) {
         int res;
         switch (extrapolationType) {
             case EXTRAPLOATION_REPLICATE:
@@ -475,7 +474,7 @@ public class Image {
      *         Values of color from current image using extrapolation. It means, that you can using negative values of <CODE>x</CODE> and
      *         <CODE>y</CODE> or values more than <CODE>width</CODE> and <CODE>height</CODE>.
      */
-    public double get(int x, int y, int channel, int extrapolationType) {
+    public double get(final int x, final int y, final int channel, final int extrapolationType) {
         /*
          * Check bounds.
          */
@@ -515,7 +514,7 @@ public class Image {
      * @param x
      *            Position that we want to interpolate.
      */
-    private double cubicInterpolation(double[] p, double x) {
+    private double cubicInterpolation(final double[] p, final double x) {
         /*
          * (non-Javadoc)
          * See:
@@ -527,7 +526,7 @@ public class Image {
     /**
      * Return nearest values to given position.
      */
-    private double[] getNearPos(int x, int y, int channel) {
+    private double[] getNearPos(final int x, final int y, final int channel) {
         return new double[]{
             this.get(x - 1, y, channel, Image.EXTRAPLOATION_REFLECT),
             this.get(x    , y, channel, Image.EXTRAPLOATION_REFLECT),
@@ -551,7 +550,7 @@ public class Image {
      *         Values of color from current image using interpolation. It means, that you can using fractional
      *         pixel position values of <CODE>x</CODE> and <CODE>y</CODE> result will be interpolate.
      */
-    public double get(double x, double y, int channel, int interpolationType) {
+    public double get(final double x, final double y, final int channel, final int interpolationType) {
         switch (interpolationType) {
             case Image.INTERPOLATION_NEAREST_NEIGHBOR:
                 return this.get(JCV.round(x), JCV.round(y), channel);
@@ -626,7 +625,7 @@ public class Image {
          */
         Parallel.pixels(this, new PixelsLoop() {
             @Override
-            public void execute(int x, int y) {
+            public void execute(final int x, final int y) {
                 for (int channel = 0; channel < getNumOfChannels(); ++channel) {
                     target.set(x, y, channel, get(x, y, channel));
                 }
@@ -647,14 +646,14 @@ public class Image {
     /**
      * Return sub-image based on current source. It is <STRONG>NOT COPY</STRONG> current image.
      */
-    public Image getSubimage(int x, int y, int width, int height) {
+    public Image getSubimage(final int x, final int y, final int width, final int height) {
         return this.getSubimage(new Rectangle(x, y, width, height));
     }
 
     /**
      * Return sub-image based on current source. It is <STRONG>NOT COPY</STRONG> current image.
      */
-    public Image getSubimage(Rectangle subImageRect) {
+    public Image getSubimage(final Rectangle subImageRect) {
         /*
          * Verify parameters.
          */
@@ -681,7 +680,7 @@ public class Image {
      * <STRONG>SAME</STRONG> channels from current image!
      * </P>
      */
-    public Image getLayer(int startChannel, int sizeLayer) {
+    public Image getLayer(final int startChannel, final int sizeLayer) {
         /*
          * Verify parameters.
          */
@@ -712,7 +711,7 @@ public class Image {
      * a list. It is <STRONG>NOT COPY</STRONG> current image -- this is <STRONG>SAME</STRONG> channel from image!
      * </P>
      */
-    public Image getChannel(int numChannel) {
+    public Image getChannel(final int numChannel) {
         return this.getLayer(numChannel, 1);
     }
 
@@ -728,7 +727,7 @@ public class Image {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         return this.equals(object, JCV.PRECISION_MAX);
     }
 
@@ -740,7 +739,7 @@ public class Image {
      * @param precision
      *            Precision for compare values of pixels.
      */
-    public boolean equals(Object object, double precision) {
+    public boolean equals(final Object object, final double precision) {
         if (object == null) {
             return false;
         }

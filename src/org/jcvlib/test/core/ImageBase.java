@@ -36,12 +36,11 @@ import org.junit.Test;
 /**
  * Test main image class {@link Image}, {@link ImageArray}, {@link ImageArray8I}, {@link ImageArray64F}.
  *
- * @version 1.008
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class ImageBase extends TestSuite {
 
-    private void testSize(Image image) {
+    private void testSize(final Image image) {
         assertEquals(300, image.getWidth());
         assertEquals(200, image.getHeight());
         assertEquals(4, image.getNumOfChannels());
@@ -78,10 +77,12 @@ public class ImageBase extends TestSuite {
      */
     @Test
     public void testPrecision() {
-        double value = 123.123_456_789_123_456_789;
+        double value = 254.123_456_789_123_4;
 
-        Image image1 = new Image(300, 200, 1, Image.TYPE_64F);
-        Image image2 = new Image(300, 200, 1, Image.TYPE_8I);
+        System.out.println(value);
+
+        final Image image1 = new Image(300, 200, 1, Image.TYPE_64F);
+        final Image image2 = new Image(300, 200, 1, Image.TYPE_8I);
 
         image1.set(0, 0, 0, value);
         image2.set(0, 0, 0, value);
@@ -95,9 +96,9 @@ public class ImageBase extends TestSuite {
      */
     @Test
     public void testSetGet() {
-        Image image = new Image(1500, 1200, 4, Image.TYPE_64F);
+        final Image image = new Image(1500, 1200, 4, Image.TYPE_64F);
         double value;
-        double inc = 0.0001;
+        final double inc = 0.000_1;
 
         // Test set method.
         value = Color.COLOR_MIN_VALUE;
@@ -141,7 +142,7 @@ public class ImageBase extends TestSuite {
      */
     @Test
     public void testSetGet8I() {
-        Image image = new Image(300, 200, 4, Image.TYPE_8I);
+        final Image image = new Image(300, 200, 4, Image.TYPE_8I);
         int value;
 
         // Test set method.
@@ -178,7 +179,7 @@ public class ImageBase extends TestSuite {
         }
     }
 
-    private void testSetTruncate(Image image) {
+    private void testSetTruncate(final Image image) {
         image.set(0, 0, 0, Color.COLOR_MIN_VALUE - 0.1);
         assertEquals(Color.COLOR_MIN_VALUE, image.get(0, 0, 0), JCV.PRECISION_MAX);
         assertEquals(Color.COLOR_MIN_VALUE, image.get8I(0, 0, 0), JCV.PRECISION_MAX);
@@ -211,13 +212,13 @@ public class ImageBase extends TestSuite {
      */
     @Test
     public void testSetGetPointAndColor() {
-        double val1 = 32.1;
-        Image image = new Image(100, 100, 4, Image.TYPE_64F, new Color(4, val1));
+        final double val1 = 32.1;
+        final Image image = new Image(100, 100, 4, Image.TYPE_64F, new Color(4, val1));
         assertTrue(image.get(new Point(10, 10)).equals(new Color(new double[]{ val1, val1, val1, val1 })));
 
-        double val2 = 64.2;
-        Color c = new Color(new double[]{ val2, val2, val2, val2 });
-        Point p = new Point(10, 10);
+        final double val2 = 64.2;
+        final Color c = new Color(new double[]{ val2, val2, val2, val2 });
+        final Point p = new Point(10, 10);
         image.set(p, c);
         assertTrue(image.get(p).equals(c));
     }
@@ -228,7 +229,7 @@ public class ImageBase extends TestSuite {
      */
     @Test
     public void testSetGetException() {
-        Image image = new Image(300, 200, 4, Image.TYPE_64F);
+        final Image image = new Image(300, 200, 4, Image.TYPE_64F);
 
         // Get on incorrect Height.
         try {
@@ -328,7 +329,7 @@ public class ImageBase extends TestSuite {
      */
     @Test
     public void testInitialColor() {
-        Image image = new Image(300, 200, 4, Image.TYPE_64F, new Color(new double[]{ 1.1, 2.2, 3.3, 4.4 }));
+        final Image image = new Image(300, 200, 4, Image.TYPE_64F, new Color(new double[]{ 1.1, 2.2, 3.3, 4.4 }));
         for (int x = 0; x < image.getWidth(); ++x) {
             for (int y = 0; y < image.getHeight(); ++y) {
                 for (int channel = 0; channel < image.getNumOfChannels(); ++channel) {
@@ -413,7 +414,7 @@ public class ImageBase extends TestSuite {
      */
     @Test
     public void testCopyCloneEquals() {
-        Image image = new Image(100, 100, 4, Image.TYPE_64F, new Color(new double[]{ 0.1, 0.2, 0.3, 0.4 }));
+        final Image image = new Image(100, 100, 4, Image.TYPE_64F, new Color(new double[]{ 0.1, 0.2, 0.3, 0.4 }));
         assertTrue(image.equals(image));
         assertTrue(image.equals(image.copy()));
         assertFalse(image.equals(null));
@@ -421,16 +422,16 @@ public class ImageBase extends TestSuite {
         assertFalse(image.equals(image.getLayer(1, 2)));
         assertFalse(image.equals(0));
 
-        Image copy = image.copy();
+        final Image copy = image.copy();
         copy.set(0, 0, 0, 0.5);
         assertFalse(image.equals(copy));
 
-        Image image1 = new Image(100, 100, 5, image.getType());
+        final Image image1 = new Image(100, 100, 5, image.getType());
         assertFalse(image.equals(image1));
     }
 
-    private void testCopyTo(Image image) {
-        Image copy = image.copy();
+    private void testCopyTo(final Image image) {
+        final Image copy = image.copy();
         copy.set(10, 10, 2, 1.0);
         assertFalse(image.equals(copy));
 
@@ -447,8 +448,8 @@ public class ImageBase extends TestSuite {
         this.testCopyTo(new Image(100, 100, 4, Image.TYPE_8I));
     }
 
-    private void testCopyToException(Image image) {
-        Image subImg = image.getSubimage(10, 10, 20, 20);
+    private void testCopyToException(final Image image) {
+        final Image subImg = image.getSubimage(10, 10, 20, 20);
         try {
             image.copyTo(subImg);
             fail("Not thrown IllegalArgumentException!");
@@ -456,7 +457,7 @@ public class ImageBase extends TestSuite {
             System.out.println("Exception message example:\n" + e.getMessage() + "\n");
         }
 
-        Image layer = image.getLayer(0, 2);
+        final Image layer = image.getLayer(0, 2);
         try {
             image.copyTo(layer);
             fail("Not thrown IllegalArgumentException!");
@@ -474,9 +475,9 @@ public class ImageBase extends TestSuite {
         this.testCopyToException(new Image(100, 100, 3, Image.TYPE_64F));
     }
 
-    private void testGetSubimage(Image image, double precision) {
-        Image subImage = image.getSubimage(new Rectangle(new Point(80, 80), new Size(20, 20)));
-        Image subSubImage = subImage.getSubimage(10, 10, 10, 10);
+    private void testGetSubimage(final Image image, final double precision) {
+        final Image subImage = image.getSubimage(new Rectangle(new Point(80, 80), new Size(20, 20)));
+        final Image subSubImage = subImage.getSubimage(10, 10, 10, 10);
 
         assertEquals(subImage.getHeight(), 20);
         assertEquals(subImage.getWidth(), 20);
@@ -518,7 +519,7 @@ public class ImageBase extends TestSuite {
         this.testGetSubimage(new Image(100, 100, 4, Image.TYPE_8I), 1.0);
     }
 
-    private void testGetSubimageException(Image image) {
+    private void testGetSubimageException(final Image image) {
         image.getSubimage(new Rectangle(80, 80, 20, 20));
 
         // Incorrect Width.
@@ -547,16 +548,16 @@ public class ImageBase extends TestSuite {
         this.testGetSubimageException(new Image(100, 100, 4, Image.TYPE_64F));
     }
 
-    private void testGetLayerAndChannel(Image image) {
+    private void testGetLayerAndChannel(final Image image) {
         double value;
-        double inc = JCV.PRECISION_MAX * 1000;
+        final double inc = JCV.PRECISION_MAX * 1000;
 
         int startChannel = 1;
         int sizeLayer = 2;
         int numChannel = 3;
 
-        Image layer = image.getLayer(startChannel, sizeLayer);
-        Image channel = image.getChannel(numChannel);
+        final Image layer = image.getLayer(startChannel, sizeLayer);
+        final Image channel = image.getChannel(numChannel);
 
         /*
          * Check size.

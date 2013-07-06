@@ -22,7 +22,6 @@ package org.jcvlib.core;
  * Contain <CODE>(x, y)</CODE> position on image. This is <STRONG>immutable object</STRONG> -- you can not change values of it after
  * creation.
  *
- * @version 1.016
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class Point {
@@ -34,7 +33,7 @@ public class Point {
     /**
      * Create new point.
      */
-    public Point(int x, int y) {
+    public Point(final int x, final int y) {
         /*
          * Verify parameters.
          */
@@ -74,7 +73,7 @@ public class Point {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         if (object == null) {
             return false;
         }

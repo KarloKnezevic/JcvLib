@@ -1,12 +1,12 @@
 /*
  * Copyright 2012-2013 JcvLib Team
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,22 +29,21 @@ import org.jcvlib.io.ImageRW;
 
 /**
  * This is example show how to inject one image to another.
- * 
- * @version 1.006
+ *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class InjectImageExample {
     public static void main(String[] args) throws IOException {
         // Read image.
-        Image baseImage = ImageRW.read("resources" + File.separatorChar + "Lenna.bmp");
-        Image injectImage = ImageRW.read("resources" + File.separatorChar + "JcvLibLogo.png");
-        
+        final Image baseImage = ImageRW.read("resources" + File.separatorChar + "Lenna.bmp");
+        final Image injectImage = ImageRW.read("resources" + File.separatorChar + "JcvLibLogo.png");
+
         // Inject image.
-        Image result = ImageMath.injectImage(baseImage, // Source image.
+        final Image result = ImageMath.injectImage(baseImage, // Source image.
             new Point(30, 0), // Injected point.
             injectImage // Injected image.
-            );
-        
+        );
+
         // Show window with images.
         Window.openAndShow(baseImage, "Base image");
         Window.openAndShow(injectImage, "Inject image");

@@ -63,7 +63,6 @@ import com.xuggle.xuggler.video.IConverter;
  * </PRE></CODE>
  * </P>
  *
- * @version 1.011
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 /*
@@ -111,7 +110,8 @@ public class VideoFileWriter implements VideoWriter {
      *            the size of the video. Why this is I don't know, but just as a precaution you might want
      *            to play with the bit rate a little bit.
      */
-    public VideoFileWriter(String filePath, Size sizeOfVideo, int FPS, int numPicturesInGroupOfPictures, int bitRate) throws IOException {
+    public VideoFileWriter(final String filePath, final Size sizeOfVideo, final int FPS, final int numPicturesInGroupOfPictures,
+        final int bitRate) throws IOException {
 
         this.outContainer = IContainer.make();
 
@@ -173,7 +173,7 @@ public class VideoFileWriter implements VideoWriter {
      * @param sizeOfImageIntoVideo
      *            Size of image (width and height) into video.
      */
-    public VideoFileWriter(String filePath, Size sizeOfImageIntoVideo) throws IOException {
+    public VideoFileWriter(final String filePath, final Size sizeOfImageIntoVideo) throws IOException {
         this(filePath, sizeOfImageIntoVideo, 30, 10, 128);
     }
 
@@ -209,7 +209,7 @@ public class VideoFileWriter implements VideoWriter {
      * @see org.jcvlib.core.VideoWriter#addImage(org.jcvlib.core.Image)
      */
     @Override
-    public void addImage(Image image) throws IOException {
+    public void addImage(final Image image) throws IOException {
         if (!this.isOpen()) {
             throw new IOException("Current object does not opened yet! Please call #open() method!");
         }
@@ -254,7 +254,7 @@ public class VideoFileWriter implements VideoWriter {
      * @return
      *         BufferedImage of the specified target type.
      */
-    private BufferedImage convertToType(BufferedImage sourceImage, int targetType) {
+    private BufferedImage convertToType(final BufferedImage sourceImage, final int targetType) {
         BufferedImage image;
         if (sourceImage.getType() == targetType) {
             // If the source image is already the target type, return the source image.

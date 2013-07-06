@@ -1,12 +1,12 @@
 /*
  * Copyright 2012-2013 JcvLib Team
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,14 +28,13 @@ import org.jcvlib.parallel.PixelsLoop;
 
 /**
  * This class contains algorithms for <A href="http://en.wikipedia.org/wiki/Computer_stereo_vision">stereo vision</A>.
- * 
- * @version 1.001
+ *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class Stereo {
     /**
      * Create map of distance base on 2 images.
-     * 
+     *
      * @param left
      *            Left image.
      * @param right
@@ -52,12 +51,12 @@ public class Stereo {
         JCV.verifyIsSameSize(left, "left", right, "right");
         JCV.verifyIsSameChannels(left, "left", right, "right");
         JCV.verifyIsSameType(left, "left", right, "right");
-        
+
         JCV.verifyIsNotNull(windowSize, "window");
         if (windowSize.getWidth() % 2 != 1 || windowSize.getHeight() % 2 != 1) {
             throw new IllegalArgumentException("Parameter 'window' should have odd size!");
         }
-        
+
         /*
          * Perform transformation.
          */
@@ -68,21 +67,21 @@ public class Stereo {
         final double maxDist = Math.sqrt(widthShift * widthShift + heightShift * heightShift);
         final Image result =
             new Image(left.getWidth() - windowSize.getWidth() + 1, left.getHeight() - windowSize.getHeight() + 1, 1, left.getType());
-        
+
         Parallel.pixels(result, new PixelsLoop() {
             @Override
-            public void execute(int x, int y) {
+            public void execute(final int x, final int y) {
                 double minColor = Double.MAX_VALUE;
                 double minDist = Double.MAX_VALUE;
-                
+
                 Color leftColor = left.get(new Point(x + widthShift, y + heightShift));
                 for (int cx = 0; cx < windowSize.getWidth(); ++cx) {
                     for (int cy = 0; cy < windowSize.getHeight(); ++cy) {
                         int rx = x + cx;
                         int ry = y + cy;
-                        
+
                         Color rightColor = right.get(new Point(rx, ry));
-                        
+
                         double distColor = leftColor.euclidDist(rightColor);
                         if (distColor < minColor) {
                             minColor = distColor;
@@ -90,21 +89,21 @@ public class Stereo {
                         }
                     }
                 }
-                
+
                 result.set(x, y, 0, (1.0 - minDist / maxDist) * Color.COLOR_MAX_VALUE);
             }
         });
-        
+
         return result;
     }
-    
+
     /**
      * Create map of distance base on 2 images.
-     * 
+     *
      * <P>
      * Uses 10 % (percent) of image width by default window size.
      * </P>
-     * 
+     *
      * @param left
      *            Left image.
      * @param right

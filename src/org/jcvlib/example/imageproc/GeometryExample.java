@@ -1,12 +1,12 @@
 /*
  * Copyright 2012-2013 JcvLib Team
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,25 +29,24 @@ import org.jcvlib.io.ImageRW;
 
 /**
  * This is example show how to use geometry transformations.
- * 
- * @version 1.009
+ *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class GeometryExample {
     public static void main(String[] args) throws IOException {
         // Read image.
-        Image image = ImageRW.read("resources" + File.separatorChar + "Lenna.bmp");
-        
+        final Image image = ImageRW.read("resources" + File.separatorChar + "Lenna.bmp");
+
         // Resize image.
-        Image reflectD = Geom.reflect(image, Geom.REFLECT_DIAGONAL);
-        Image resize = Geom.resize(image, new Size(800, 800));
-        Image rotate45 = Geom.rotate(image, 45.0);
-        
+        final Image reflectD = Geom.reflect(image, Geom.REFLECT_DIAGONAL);
+        final Image resize = Geom.resize(image, new Size(800, 800));
+        final Image rotate45 = Geom.rotate(image, 45.0);
+
         // Show windows with images.
         Window.openAndShow(image, "Lenna");
         Window.openAndShow(reflectD, "Lenna diagonal");
         Window.openAndShow(resize, "Lenna resized");
         Window.openAndShow(rotate45, "Lenna rotate 45");
-        
+
     }
 }

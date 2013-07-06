@@ -37,7 +37,6 @@ import org.jcvlib.parallel.Parallel;
  * </OL>
  * </P>
  *
- * @version 1.004
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class ThresholdPerformance {
@@ -50,19 +49,19 @@ public class ThresholdPerformance {
 
     private static final double maxVal = Color.COLOR_MAX_VALUE;
 
-    private static double testImageNonlinear(int width, int height, int numOfIterations) {
+    private static double testImageNonlinear(final int width, final int height, final int numOfIterations) {
         // Initialize.
-        Image image = new Image(width, height, channels, Image.TYPE_64F, new Color(channels, 10.0));
+        final Image image = new Image(width, height, channels, Image.TYPE_64F, new Color(channels, 10.0));
 
         // Time catch.
-        long startTime = System.currentTimeMillis();
+        final long startTime = System.currentTimeMillis();
 
         // Start testing.
         for (int num = 0; num < numOfIterations; ++num) {
             Filters.noneLinearFilter(image, image, new Size(1, 1), (new Size(1, 1)).getCenter(), 1, Image.EXTRAPLOATION_REFLECT,
                 new Operator() {
                     @Override
-                    public Color execute(Image aperture) {
+                    public Color execute(final Image aperture) {
                         Color res = new Color(aperture.getNumOfChannels());
 
                         for (int channel = 0; channel < aperture.getNumOfChannels(); ++channel) {
@@ -125,12 +124,12 @@ public class ThresholdPerformance {
         return (double) (System.currentTimeMillis() - startTime) / (double) numOfIterations;
     }
 
-    private static double testImageThreshold(int width, int height, int numOfIterations) {
+    private static double testImageThreshold(final int width, final int height, final int numOfIterations) {
         // Initialize.
-        Image image = new Image(width, height, channels, Image.TYPE_64F, new Color(channels, 10.0));
+        final Image image = new Image(width, height, channels, Image.TYPE_64F, new Color(channels, 10.0));
 
         // Time catch.
-        long startTime = System.currentTimeMillis();
+        final long startTime = System.currentTimeMillis();
 
         // Start testing.
         for (int num = 0; num < numOfIterations; ++num) {
@@ -140,9 +139,9 @@ public class ThresholdPerformance {
         return (double) (System.currentTimeMillis() - startTime) / (double) numOfIterations;
     }
 
-    private static double testArray(int width, int height, int numOfIterations) {
+    private static double testArray(final int width, final int height, final int numOfIterations) {
         // Initialize.
-        double[] array = new double[width * height * channels];
+        final double[] array = new double[width * height * channels];
         double value = 0.0;
         for (int x = 0; x < width; ++x) {
             for (int y = 0; y < height; ++y) {
@@ -154,7 +153,7 @@ public class ThresholdPerformance {
         }
 
         // Time catch.
-        long startTime = System.currentTimeMillis();
+        final long startTime = System.currentTimeMillis();
 
         // Start testing.
         for (int num = 0; num < numOfIterations; ++num) {
@@ -228,8 +227,8 @@ public class ThresholdPerformance {
      * Run this test.
      */
     public static void main(String[] args) {
-        int numOfIterations = 10;
-        int[] sizes = new int[]{ 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500 };
+        final int numOfIterations = 10;
+        final int[] sizes = new int[]{ 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500 };
 
         Parallel.setNumOfWorkers(1);
         for (int mSize : sizes) {

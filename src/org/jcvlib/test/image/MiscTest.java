@@ -16,7 +16,7 @@
 /*
  * This class is part of Java Computer Vision Library (JcvLib).
  */
-package org.jcvlib.test.imageproc;
+package org.jcvlib.test.image;
 
 import static org.junit.Assert.*;
 
@@ -30,7 +30,6 @@ import org.junit.Test;
 /**
  * Test {@link Misc}.
  *
- * @version 1.007
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class MiscTest {
@@ -58,7 +57,7 @@ public class MiscTest {
                 ++color;
             }
         }
-        image.set(4, 1, 0, 0.03);
+        image.set(4, 1, 0, 3.0);
 
         /*
          * Test 1.

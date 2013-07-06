@@ -47,7 +47,6 @@ import pro.zavodnikov.jparfor.core.JParfor;
  * </PRE></CODE>
  * </P>
  *
- * @version 1.009
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class Parallel {
@@ -68,7 +67,7 @@ public class Parallel {
     /**
      * Set min size for parallelization.
      */
-    public static void setMinSize(int minSize) {
+    public static void setMinSize(final int minSize) {
         currentMinSize = minSize;
     }
 
@@ -82,7 +81,7 @@ public class Parallel {
     /**
      * Set number of workers that will be used.
      */
-    public static void setNumOfWorkers(int maxWork) {
+    public static void setNumOfWorkers(final int maxWork) {
         JParfor.setMaxWorkers(maxWork);
     }
 
@@ -102,7 +101,7 @@ public class Parallel {
         JParfor.setMinIterations(JCV.roundUp((double) Parallel.getMinSize() / (double) image.getSize().getN()));
         JParfor.exec(image.getNumOfChannels(), new JLoopI() {
             @Override
-            public void execute(int channel, int nThread) {
+            public void execute(final int channel, final int nThread) {
                 runner.execute(channel);
             }
         });
@@ -129,7 +128,7 @@ public class Parallel {
         JParfor.setMinIterations(JCV.roundUp(Parallel.getMinSize() / image.getWidth()));
         JParfor.exec(image.getHeight(), new JLoopI() {
             @Override
-            public void execute(int y, int nThread) {
+            public void execute(final int y, final int nThread) {
                 for (int x = 0; x < image.getWidth(); ++x) {
                     runner.execute(x, y);
                 }

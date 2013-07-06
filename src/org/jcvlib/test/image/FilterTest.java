@@ -1,12 +1,12 @@
 /*
  * Copyright 2012-2013 JcvLib Team
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,7 @@
 /*
  * This class is part of Java Computer Vision Library (JcvLib).
  */
-package org.jcvlib.test.imageproc;
+package org.jcvlib.test.image;
 
 import static org.junit.Assert.*;
 
@@ -33,8 +33,7 @@ import Jama.Matrix;
 
 /**
  * Test class for colors {@link Filters}.
- * 
- * @version 1.010
+ *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class FilterTest {
@@ -52,7 +51,7 @@ public class FilterTest {
         }
         System.out.println();
     }
-    
+
     /**
      * Test method for: {@link Filters#noneLinearFilter(Image, Image, Size, Point, int, int, Operator)}.
      */
@@ -60,7 +59,7 @@ public class FilterTest {
     public void testNonlinearFilter1() {
         Image image = new Image(5, 5, 1, Image.TYPE_64F, new Color(1, Color.COLOR_MIN_VALUE));
         int counter;
-        
+
         // Initialize test image.
         counter = 1;
         // Do not change the loop order!
@@ -70,21 +69,21 @@ public class FilterTest {
                 ++counter;
             }
         }
-        
+
         printImage(image, "Image before any filter applying:");
-        
+
         /*
-         * 0 1 2 3 4
-         * +-----------+
+         *     0 1 2 3 4
+         *   +-----------+
          * 0 | o o o o o |
          * 1 | o o o o o |
          * 2 | o o o x o |
          * 3 | o o o o o |
-         * +-----------+
+         *   +-----------+
          */
         Size kernelSize = new Size(5, 4);
         final Point anchor = new Point(3, 2);
-        
+
         Image result = new Image(5, 5, 1, Image.TYPE_64F);
         Filters.noneLinearFilter(image, result, kernelSize, anchor, 3, Image.EXTRAPLOATION_ZERO, new Operator() {
             @Override
@@ -93,9 +92,9 @@ public class FilterTest {
                 return aperture.get(anchor);
             }
         });
-        
+
         printImage(result, "Image after nonlinear filter applying:");
-        
+
         // Check values.
         counter = 1;
         for (int y = 0; y < image.getHeight(); ++y) {
@@ -105,7 +104,7 @@ public class FilterTest {
             }
         }
     }
-    
+
     /**
      * Test method for: {@link Filters#noneLinearFilter(Image, Image, Size, Point, int, int, Operator)}.
      */
@@ -113,64 +112,64 @@ public class FilterTest {
     public void testNonlinearFilter2() {
         Image image = new Image(5, 5, 1, Image.TYPE_64F, new Color(1, Color.COLOR_MIN_VALUE));
         /*
-         * A 0 1 2 3 4 B
-         * +----------------+
+         * A   0 1 2 3 4   B
+         *   +-----------+
          * 0 | 0 1 0 0 0 |
          * 1 | 0 0 0 0 0 |
          * 2 | 0 0 0 0 0 |
          * 3 | 0 0 0 0 0 |
          * 4 | 0 0 0 0 0 |
-         * +----------------+
-         * D C
+         *   +-----------+
+         * D               C
          */
         image.set(1, 0, 0, 1.0);
         printImage(image, "Matrix before any filter applying:");
-        
+
         /*
-         * 0 1 2 3 4
-         * +-----------+
+         *     0 1 2 3 4
+         *   +-----------+
          * 0 | o o o o o |
          * 1 | o o o o o |
          * 2 | o o o x o |
          * 3 | o o o o o |
-         * +-----------+
+         *   +-----------+
          */
         Size kernelSize = new Size(5, 4);
         final Point anchor = new Point(3, 2);
-        
+
         Image result = new Image(5, 5, 1, Image.TYPE_64F);
         Filters.noneLinearFilter(image, result, kernelSize, anchor, 2, Image.EXTRAPLOATION_ZERO, new Operator() {
             @Override
             public Color execute(Image aperture) {
                 /*
-                 * 0 1 2 3 4
-                 * +-----------+
+                 *     0 1 2 3 4
+                 *   +-----------+
                  * 0 | o o f o o |
                  * 1 | o o o o o |
                  * 2 | o o o t o |
                  * 3 | o o o o o |
-                 * +-----------+
-                 * f --> t
+                 *   +-----------+
+                 *      f --> t
                  */
                 return aperture.get(new Point(2, 0));
                 // return aperture.get(anchor);
             }
         });
-        
+
         // Check values.
         /*
-         * A 0 1 2 3 4 B
-         * +----------------+
+         * A   0 1 2 3 4   B
+         *   +-----------+
          * 0 | 0 0 0 0 0 |
          * 1 | 0 0 0 0 0 |
          * 2 | 0 0 0 0 0 |
          * 3 | 0 0 0 0 0 |
          * 4 | 0 0 0 1 0 |
-         * +----------------+
-         * D C
+         *   +-----------+
+         * D               C
          */
         printImage(result, "Matrix after nonlinear filter applying:");
-        
+
         // Check values.
         for (int y = 0; y < result.getHeight(); ++y) {
             for (int x = 0; x < result.getWidth(); ++x) {
@@ -182,7 +181,7 @@ public class FilterTest {
             }
         }
     }
-    
+
     /**
      * Test method for: {@link Filters#noneLinearFilter(Image, Image, Size, Point, int, int, Operator)}.
      */
@@ -194,7 +193,7 @@ public class FilterTest {
                 return new Color(aperture.getNumOfChannels(), 0.0);
             }
         };
-        
+
         // Incorrect anchor X position.
         try {
             Filters.noneLinearFilter(new Image(100, 100, 3, Image.TYPE_64F), new Image(100, 100, 3, Image.TYPE_64F), new Size(5, 5),
@@ -203,7 +202,7 @@ public class FilterTest {
         } catch (IllegalArgumentException e) {
             System.out.println("Exception message example:\n" + e.getMessage() + "\n");
         }
-        
+
         // Incorrect anchor Y position.
         try {
             Filters.noneLinearFilter(new Image(100, 100, 3, Image.TYPE_64F), new Image(100, 100, 3, Image.TYPE_64F), new Size(5, 5),
@@ -212,7 +211,7 @@ public class FilterTest {
         } catch (IllegalArgumentException e) {
             System.out.println("Exception message example:\n" + e.getMessage() + "\n");
         }
-        
+
         // Incorrect iterations.
         try {
             Filters.noneLinearFilter(new Image(100, 100, 3, Image.TYPE_64F), new Image(100, 100, 3, Image.TYPE_64F), new Size(5, 5),
@@ -222,7 +221,7 @@ public class FilterTest {
             System.out.println("Exception message example:\n" + e.getMessage() + "\n");
         }
     }
-    
+
     /**
      * Test method for: {@link Filters#linearFilter(Image, Matrix, double, double, int)}.
      */
@@ -230,28 +229,33 @@ public class FilterTest {
     public void testMatrixFilter() {
         Image image = new Image(5, 5, 1, Image.TYPE_64F, new Color(1, Color.COLOR_MIN_VALUE));
         /*
-         * A 0 1 2 3 4 B
-         * +--------------------------+
+         * A    0   1   2   3   4    B
+         *   +---------------------+
          * 0 | 0.0 0.0 0.0 0.0 0.0 |
          * 1 | 0.0 0.0 0.0 0.0 0.0 |
          * 2 | 0.0 0.0 0.1 0.0 0.0 |
          * 3 | 0.0 0.0 0.0 0.0 0.0 |
          * 4 | 0.0 0.0 0.0 0.0 0.0 |
-         * +--------------------------+
-         * D C
+         *   +---------------------+
+         * D                         C
          */
         image.set(2, 2, 0, 0.1);
-        
+
         printImage(image, "Matrix after linear filter applying:");
-        
+
         /*
          * Second kernel.
          */
-        Matrix kernel =
-            new Matrix(new double[][]{ { 1.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 } });
-        
+        Matrix kernel = new Matrix(new double[][]{
+                { 1.0, 0.0, 0.0 },
+                { 0.0, 0.0, 0.0 },
+                { 0.0, 0.0, 0.0 },
+                { 0.0, 0.0, 0.0 },
+                { 0.0, 0.0, 0.0 }
+            });
+
         Image result = Filters.linearFilter(image, kernel, 0.5, 0.3, Image.EXTRAPLOATION_ZERO);
-        
+
         // Check values.
         /*
          * A 0 1 2 3 4 B
@@ -265,7 +269,7 @@ public class FilterTest {
          * D C
          */
         printImage(result, "Matrix after linear filter applying:");
-        
+
         // Check values.
         for (int y = 0; y < image.getHeight(); ++y) {
             for (int x = 0; x < image.getWidth(); ++x) {
@@ -277,7 +281,7 @@ public class FilterTest {
             }
         }
     }
-    
+
     /**
      * Test method for: {@link Filters#getGaussianKernel(int, double)}.
      */
@@ -286,29 +290,34 @@ public class FilterTest {
         /*
          * Use values from: http://www.embege.com/gauss/
          */
-        double[] kernelTest =
-            new double[]{ 0.05448868454964433, 0.24420134200323346, 0.40261994689424435, 0.24420134200323346, 0.05448868454964433 };
-        
+        double[] kernelTest =new double[]{
+                0.054_488_684_549_644_33,
+                0.244_201_342_003_233_46,
+                0.402_619_946_894_244_35,
+                0.244_201_342_003_233_46,
+                0.054_488_684_549_644_33
+            };
+
         Matrix kernel = Filters.getGaussianKernel(5, 1.0);
-        
+
         assertEquals(kernelTest.length, kernel.getRowDimension());
         assertEquals(1, kernel.getColumnDimension());
-        
+
         double sumTest = 0.0;
         double sum = 0.0;
         for (int i = 0; i < kernelTest.length; ++i) {
             sumTest += kernelTest[i];
             sum += kernel.get(i, 0);
         }
-        assertEquals(1.0, sumTest, 100 * JCV.PRECISION_MAX);
-        assertEquals(1.0, sum, 100 * JCV.PRECISION_MAX);
-        
+        assertEquals(1.0, sumTest, JCV.PRECISION_MAX);
+        assertEquals(1.0, sum, JCV.PRECISION_MAX);
+
         // Check values.
         for (int i = 0; i < kernelTest.length; ++i) {
-            assertEquals(kernelTest[i], kernel.get(i, 0), 1000 * JCV.PRECISION_MAX);
+            assertEquals(kernelTest[i], kernel.get(i, 0), JCV.PRECISION_MAX);
         }
     }
-    
+
     /**
      * Test method for: {@link Filters#getGaussianKernel(int, double)}.
      */
@@ -321,7 +330,7 @@ public class FilterTest {
         } catch (IllegalArgumentException e) {
             System.out.println("Exception message example:\n" + e.getMessage() + "\n");
         }
-        
+
         // Incorrect kernel size (should be odd: 1, 3, 5, ...).
         try {
             Filters.getGaussianKernel(2, 1.0);
@@ -330,7 +339,7 @@ public class FilterTest {
             System.out.println("Exception message example:\n" + e.getMessage() + "\n");
         }
     }
-    
+
     /**
      * Test method for: {@link Filters#getSigma(int)}, {@link Filters#getKernelSize(double)}.
      */
@@ -338,13 +347,13 @@ public class FilterTest {
     public void testSigmaAndKernelSize() {
         double sigma1 = 1.5;
         int kernelSize1 = 9;
-        
+
         assertEquals(kernelSize1, Filters.getKernelSize(sigma1), JCV.PRECISION_MAX);
         assertEquals(sigma1, Filters.getSigma(kernelSize1), JCV.PRECISION_MAX);
-        
+
         double sigma2 = 1.0;
         int kernelSize2 = 6;
-        
+
         assertEquals(kernelSize2 + 1, Filters.getKernelSize(sigma2), JCV.PRECISION_MAX);
         assertEquals(sigma2, Filters.getSigma(kernelSize2), JCV.PRECISION_MAX);
     }

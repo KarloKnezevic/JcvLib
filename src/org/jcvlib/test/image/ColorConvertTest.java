@@ -16,7 +16,7 @@
 /*
  * This class is part of Java Computer Vision Library (JcvLib).
  */
-package org.jcvlib.test.imageproc;
+package org.jcvlib.test.image;
 
 import static org.junit.Assert.*;
 
@@ -30,7 +30,6 @@ import org.junit.Test;
 /**
  * Test {@link ColorConvert} to convert color schemas.
  *
- * @version 1.026
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class ColorConvertTest {
@@ -79,7 +78,7 @@ public class ColorConvertTest {
     @Test
     public void testRGBtoGrayToRGB() {
         Image imgGray = ColorConvert.fromRGBtoGray(this.imageRGB);
-        assertFalse(imgGray.equals(this.imageRGB, 0.5));
+        assertFalse(imgGray.equals(this.imageRGB, JCV.PRECISION_MIN));
 
         Image imgRGB = ColorConvert.fromGrayToRGB(imgGray);
         for (int channel = 0; channel < imgRGB.getNumOfChannels(); ++channel) {
@@ -93,10 +92,10 @@ public class ColorConvertTest {
     @Test
     public void testRGBtoHSLtoRGB() {
         Image imgHLS = ColorConvert.fromRGBtoHSL(this.imageRGB);
-        assertFalse(imgHLS.equals(this.imageRGB, 0.5));
+        assertFalse(imgHLS.equals(this.imageRGB, JCV.PRECISION_MIN));
 
         Image imgRGB = ColorConvert.fromHSLtoRGB(imgHLS);
-        assertTrue(imgRGB.equals(this.imageRGB, 0.01));
+        assertTrue(imgRGB.equals(this.imageRGB));
     }
 
     /**
@@ -105,7 +104,7 @@ public class ColorConvertTest {
     @Test
     public void testRGBtoHSVtoRGB() {
         Image imgHSV = ColorConvert.fromRGBtoHSV(this.imageRGB);
-        assertFalse(imgHSV.equals(this.imageRGB, 0.5));
+        assertFalse(imgHSV.equals(this.imageRGB, JCV.PRECISION_MIN));
 
         Image imgRGB = ColorConvert.fromHSVtoRGB(imgHSV);
         assertTrue(imgRGB.equals(this.imageRGB));

@@ -59,7 +59,6 @@ import org.jcvlib.io.ImageRW;
  * </PRE></CODE>
  * </P>
  *
- * @version 1.013
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 /*
@@ -116,14 +115,14 @@ public final class Window {
     /**
      * Simplest way show image. As name of image will be used hash code of given image.
      */
-    public static void openAndShow(Image image) {
+    public static void openAndShow(final Image image) {
         Window.openAndShow(image, null);
     }
 
     /**
      * Simplest way show image.
      */
-    public static void openAndShow(Image image, String title) {
+    public static void openAndShow(final Image image, final String title) {
         Window localWind = new Window(title);
         localWind.show(image);
     }
@@ -139,7 +138,7 @@ public final class Window {
      * Create new window with defined size and given name of this window.
      */
     @SuppressWarnings("static-access")
-    public Window(String title) {
+    public Window(final String title) {
         this.wasOpened = false;
         this.title = title;
 
@@ -217,7 +216,7 @@ public final class Window {
         this.frame.setVisible(true);
     }
 
-    private void setKeyChar(int keyChar) {
+    private void setKeyChar(final int keyChar) {
         this.pressedKeyChar = keyChar;
         allLastPressedKeyChar = keyChar;
     }
@@ -225,7 +224,7 @@ public final class Window {
     /**
      * Show or update image in current window.
      */
-    public void show(Image image) {
+    public void show(final Image image) {
         this.image = image;
 
         // Create window if needed.
@@ -287,7 +286,7 @@ public final class Window {
         return allLastPressedKeyChar;
     }
 
-    private void createFileMenu(JMenuBar menuBar) {
+    private void createFileMenu(final JMenuBar menuBar) {
         // Create menu 'File'.
         JMenu fileMenu = new JMenu(" File   ");
         menuBar.add(fileMenu);
@@ -303,7 +302,7 @@ public final class Window {
              * Opens a save dialog box when the user selects "Save As..." from the menu.
              */
             @Override
-            public void actionPerformed(ActionEvent action) {
+            public void actionPerformed(final ActionEvent action) {
                 FileDialog chooser = new FileDialog(frame, "Select path and name to save file", FileDialog.SAVE);
 
                 chooser.setVisible(true);
@@ -349,7 +348,7 @@ public final class Window {
 
         quitMenuItem.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent action) {
+            public void actionPerformed(final ActionEvent action) {
                 /*
                  * (non-Javadoc)
                  * See:
@@ -362,7 +361,7 @@ public final class Window {
         quitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
     }
 
-    private void createResizeMenu(JMenuBar menuBar) {
+    private void createResizeMenu(final JMenuBar menuBar) {
         // Create menu 'Resize'.
         JMenu resizeMenu = new JMenu(" Resize ");
         menuBar.add(resizeMenu);
@@ -375,7 +374,7 @@ public final class Window {
 
         zoomPlusMenuItem.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent action) {
+            public void actionPerformed(final ActionEvent action) {
                 imageComponent.setScale(imageComponent.getScale() + 0.1f);
             }
         });
@@ -390,7 +389,7 @@ public final class Window {
 
         zoomMinusMenuItem.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent action) {
+            public void actionPerformed(final ActionEvent action) {
                 imageComponent.setScale(imageComponent.getScale() - 0.1f);
             }
         });
@@ -405,7 +404,7 @@ public final class Window {
 
         zoomDefaultMenuItem.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent action) {
+            public void actionPerformed(final ActionEvent action) {
                 imageComponent.setDefaultScale();
             }
         });
@@ -423,7 +422,7 @@ public final class Window {
         statusBar.setMessage(baseMsg);
         this.imageComponent.addMouseMotionListener(new MouseMotionListener() {
             @Override
-            public void mouseDragged(MouseEvent event) {
+            public void mouseDragged(final MouseEvent event) {
                 // Do nothing.
                 System.out.println(event.getX() + ", " + event.getY());
             }

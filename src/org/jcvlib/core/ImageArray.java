@@ -21,7 +21,6 @@ package org.jcvlib.core;
 /**
  * Base class for all image arrays. Contains values in 3-dimensional space.
  *
- * @version 1.005
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public abstract class ImageArray {
@@ -38,7 +37,7 @@ public abstract class ImageArray {
     /**
      * Create new empty array.
      */
-    protected ImageArray(int width, int height, int numOfChannels) {
+    protected ImageArray(final int width, final int height, final int numOfChannels) {
         this.size = new Size(width, height);
 
         if (numOfChannels <= 0) {
@@ -86,7 +85,7 @@ public abstract class ImageArray {
     /**
      * Return position in source array for given point and channel.
      */
-    protected int getArrayPosition(int x, int y, int channel) {
+    protected int getArrayPosition(final int x, final int y, final int channel) {
         return this.getNumOfChannels() * this.getHeight() * x + this.getNumOfChannels() * y + channel;
     }
 
@@ -94,23 +93,23 @@ public abstract class ImageArray {
      * Return float-point value from interval <CODE>[0.0, 255.0]</CODE> of selected channel from selected pixel
      * <STRONG>without position checking</STRONG>.
      */
-    public abstract double getUnsafe(int x, int y, int channel);
+    public abstract double getUnsafe(final int x, final int y, final int channel);
 
     /**
      * Return integer value from interval <CODE>0..255</CODE> of selected channel from selected pixel
      * <STRING>rounded to integer values</STRONG>.
      */
-    public abstract int getUnsafe8I(int x, int y, int channel);
+    public abstract int getUnsafe8I(final int x, final int y, final int channel);
 
     /**
      * Set float-point value from interval <CODE>[0.0, 255.0]</CODE> to selected channel from selected pixel
      * <STRONG>without position checking</STRONG>.
      */
-    public abstract void setUnsafe(int x, int y, int channel, double value);
+    public abstract void setUnsafe(final int x, final int y, final int channel, final double value);
 
     /**
      * Set integer value from interval <CODE>0..255</CODE> to selected channel from selected pixel
      * <STRONG>without position checking</STRONG>.
      */
-    public abstract void setUnsafe8I(int x, int y, int channel, int value);
+    public abstract void setUnsafe8I(final int x, final int y, final int channel, final int value);
 }

@@ -29,7 +29,6 @@ import org.junit.Test;
 /**
  * Test main image classes {@link Image}.
  *
- * @version 1.008
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class ImageInterpolationExtrapolation {
@@ -38,7 +37,7 @@ public class ImageInterpolationExtrapolation {
 
     private Image image64F;
 
-    private void setUp(Image image) {
+    private void setUp(final Image image) {
         /*
          * A    0  1  2  3  4   B
          *   +----------------+

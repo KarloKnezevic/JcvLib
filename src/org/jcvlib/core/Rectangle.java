@@ -21,7 +21,6 @@ package org.jcvlib.core;
 /**
  * Contain rectangle on image. This is <STRONG>immutable object</STRONG> -- you can not change values of it after creation.
  *
- * @version 1.016
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class Rectangle {
@@ -41,7 +40,7 @@ public class Rectangle {
     /**
      * Create new rectangle.
      */
-    public Rectangle(int x, int y, int width, int height) {
+    public Rectangle(final int x, final int y, final int width, final int height) {
         this(new Point(x, y), new Size(width, height));
     }
 
@@ -97,7 +96,7 @@ public class Rectangle {
     /**
      * Check if given rectangle can be placed into current rectangle.
      */
-    public boolean contains(Rectangle insideRectangle) {
+    public boolean contains(final Rectangle insideRectangle) {
         /*
          * Verify parameters.
          */
@@ -118,7 +117,7 @@ public class Rectangle {
     /**
      * Check if current rectangle contains given point.
      */
-    public boolean contains(Point insidePoint) {
+    public boolean contains(final Point insidePoint) {
         /*
          * Verify parameters.
          */
@@ -143,7 +142,7 @@ public class Rectangle {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         if (object == null) {
             return false;
         }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2012-2013 JcvLib Team
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,33 +33,31 @@ import org.jcvlib.io.ImageRW;
 
 /**
  * This is example show how to perspective transform works.
- * 
- * @version 1.004
+ *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class PerspectiveTransformExample {
     public static void main(String[] args) throws IOException {
         // Read image.
-        Image image = ImageRW.read("resources" + File.separatorChar + "Calibr.png");
-        
+        final Image image = ImageRW.read("resources" + File.separatorChar + "Calibr.png");
+
         // Find transform.
-        List<Point> srcPoint = new LinkedList<Point>();
+        final List<Point> srcPoint = new LinkedList<Point>();
         srcPoint.add(new Point(49, 83));
         srcPoint.add(new Point(210, 66));
         srcPoint.add(new Point(238, 174));
         srcPoint.add(new Point(67, 207));
-        
-        List<Point> dstPoint = new LinkedList<Point>();
+
+        final List<Point> dstPoint = new LinkedList<Point>();
         dstPoint.add(new Point(0, 0));
         dstPoint.add(new Point(400, 0));
         dstPoint.add(new Point(400, 300));
         dstPoint.add(new Point(0, 300));
-        
+
         // Apply transform.
-        Image calibr =
-            Geom.wrapPerspectiveTransform(image, Geom.getPerspectiveTransfrom(srcPoint, dstPoint), new Size(400, 300),
+        final Image calibr = Geom.wrapPerspectiveTransform(image, Geom.getPerspectiveTransfrom(srcPoint, dstPoint), new Size(400, 300),
                 Image.INTERPOLATION_BILINEAR, new Color(image.getNumOfChannels(), Color.COLOR_MIN_VALUE));
-        
+
         // Show windows with images.
         Window.openAndShow(image, "Source image");
         Window.openAndShow(calibr, "Transform image");

@@ -1,12 +1,12 @@
 /*
  * Copyright 2012-2013 JcvLib Team
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,7 @@ import org.jcvlib.gui.Window;
 
 /**
  * This is example show how to get and set pixels values on images.
- * 
+ *
  * <P>
  * There are 2 types of images:
  * <OL>
@@ -32,15 +32,14 @@ import org.jcvlib.gui.Window;
  * </OL>
  * Both this classes implements interface {@link Image}.
  * </P>
- * 
- * @version 1.007
+ *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class AccessToPixelExample {
     public static void main(String[] args) {
         // Create empty image with one channel.
-        Image image = new Image(400, 400, 1, Image.TYPE_8I);
-        
+        final Image image = new Image(400, 400, 1, Image.TYPE_8I);
+
         // Set values into image.
         for (int x = 50; x < 350; ++x) {
             for (int y = 50; y < 350; ++y) {
@@ -57,12 +56,12 @@ public class AccessToPixelExample {
                 image.set8I(x, y, 0, 255);
             }
         }
-        
+
         // Get values into image.
         System.out.println("Brightness of first  sqaure: " + image.get(10, 10, 0));
         System.out.println("Brightness of second sqaure: " + image.get(110, 110, 0));
         System.out.println("Brightness of third  sqaure: " + image.get(210, 210, 0));
-        
+
         // Show windows with images.
         Window.openAndShow(image, "White squares");
     }

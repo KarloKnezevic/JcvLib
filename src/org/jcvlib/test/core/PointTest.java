@@ -27,7 +27,6 @@ import org.junit.Test;
 /**
  * Test class for points {@link Point}.
  *
- * @version 1.010
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class PointTest {
@@ -77,7 +76,7 @@ public class PointTest {
      */
     @Test
     public void testToString() {
-        Point point = new Point(1, 2);
+        final Point point = new Point(1, 2);
 
         System.out.println("Printing example:");
         System.out.println(point.toString());
@@ -88,15 +87,15 @@ public class PointTest {
      */
     @Test
     public void testEquals() {
-        Point point1 = new Point(1, 2);
+        final Point point1 = new Point(1, 2);
         assertTrue(point1.equals(point1));
         assertFalse(point1.equals(null));
         assertFalse(point1.equals(0));
 
-        Point point2 = new Point(2, 2);
+        final Point point2 = new Point(2, 2);
         assertFalse(point1.equals(point2));
 
-        Point point3 = new Point(1, 3);
+        final Point point3 = new Point(1, 3);
         assertFalse(point1.equals(point3));
     }
 }

@@ -21,14 +21,13 @@ package org.jcvlib.core;
 /**
  * This type of arrays contains values into integer values and uses 8-bit for each value.
  *
- * @version 1.005
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class ImageArray8I extends ImageArray {
 
     private final byte[] source;
 
-    public ImageArray8I(int height, int width, int numOfChannels) {
+    public ImageArray8I(final int height, final int width, final int numOfChannels) {
         super(height, width, numOfChannels);
 
         this.source = new byte[this.getN()];
@@ -39,7 +38,7 @@ public class ImageArray8I extends ImageArray {
      * @see org.jcvlib.core.ImageArray#getUnsafe(int, int, int)
      */
     @Override
-    public double getUnsafe(int x, int y, int channel) {
+    public double getUnsafe(final int x, final int y, final int channel) {
         return this.getUnsafe8I(x, y, channel);
     }
 
@@ -48,7 +47,7 @@ public class ImageArray8I extends ImageArray {
      * @see org.jcvlib.core.ImageArray#getUnsafe8I(int, int, int)
      */
     @Override
-    public int getUnsafe8I(int x, int y, int channel) {
+    public int getUnsafe8I(final int x, final int y, final int channel) {
         /*
          * (non-Javadoc)
          * See:
@@ -62,7 +61,7 @@ public class ImageArray8I extends ImageArray {
      * @see org.jcvlib.core.ImageArray#setUnsafe(int, int, int, double)
      */
     @Override
-    public void setUnsafe(int x, int y, int channel, double value) {
+    public void setUnsafe(final int x, final int y, final int channel, final double value) {
         this.setUnsafe8I(x, y, channel, JCV.round(value));
     }
 
@@ -71,7 +70,7 @@ public class ImageArray8I extends ImageArray {
      * @see org.jcvlib.core.ImageArray#setUnsafe8I(int, int, int, int)
      */
     @Override
-    public void setUnsafe8I(int x, int y, int channel, int value) {
+    public void setUnsafe8I(final int x, final int y, final int channel, final int value) {
         this.source[this.getArrayPosition(x, y, channel)] = (byte) value;
     }
 }

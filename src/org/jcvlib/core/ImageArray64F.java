@@ -21,14 +21,13 @@ package org.jcvlib.core;
 /**
  * This type of image arrays contains values into float-point values and uses 64-bit for each value.
  *
- * @version 1.005
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class ImageArray64F extends ImageArray {
 
     private final double[] source;
 
-    public ImageArray64F(int width, int height, int numOfChannels) {
+    public ImageArray64F(final int width, final int height, final int numOfChannels) {
         super(width, height, numOfChannels);
 
         this.source = new double[this.getN()];
@@ -39,7 +38,7 @@ public class ImageArray64F extends ImageArray {
      * @see org.jcvlib.core.ImageArray#getUnsafe(int, int, int)
      */
     @Override
-    public double getUnsafe(int x, int y, int channel) {
+    public double getUnsafe(final int x, final int y, final int channel) {
         return this.source[this.getArrayPosition(x, y, channel)];
     }
 
@@ -48,7 +47,7 @@ public class ImageArray64F extends ImageArray {
      * @see org.jcvlib.core.ImageArray#getUnsafe8I(int, int, int)
      */
     @Override
-    public int getUnsafe8I(int x, int y, int channel) {
+    public int getUnsafe8I(final int x, final int y, final int channel) {
         return JCV.round(this.getUnsafe(x, y, channel));
     }
 
@@ -57,7 +56,7 @@ public class ImageArray64F extends ImageArray {
      * @see org.jcvlib.core.ImageArray#setUnsafe(int, int, int, double)
      */
     @Override
-    public void setUnsafe(int x, int y, int channel, double value) {
+    public void setUnsafe(final int x, final int y, final int channel, final double value) {
         this.source[this.getArrayPosition(x, y, channel)] = value;
     }
 
@@ -66,7 +65,7 @@ public class ImageArray64F extends ImageArray {
      * @see org.jcvlib.core.ImageArray#setUnsafe8I(int, int, int, int)
      */
     @Override
-    public void setUnsafe8I(int x, int y, int channel, int value) {
+    public void setUnsafe8I(final int x, final int y, final int channel, final int value) {
         this.setUnsafe(x, y, channel, value);
     }
 }

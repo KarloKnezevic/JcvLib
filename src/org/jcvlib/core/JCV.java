@@ -23,7 +23,6 @@ import Jama.Matrix;
 /**
  * Contains common useful constants and methods.
  *
- * @version 1.031
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class JCV {
@@ -33,9 +32,14 @@ public class JCV {
     public static final String LIB_VER = "5.010";
 
     /**
-     * Precision allowed by current realization for {@link Image#TYPE_64F} is <CODE>10<SUP>-15</SUP></CODE>.
+     * Precision allowed by current realization for {@link Image#TYPE_64F} is <CODE>1.0</CODE>.
      */
-    public static final double PRECISION_MAX = 0.000_000_000_000_001;
+    public static final double PRECISION_MIN = 1.0;
+
+    /**
+     * Precision allowed by current realization for {@link Image#TYPE_64F} is <CODE>10<SUP>-13</SUP></CODE>.
+     */
+    public static final double PRECISION_MAX = 0.000_000_000_000_1;
 
     /**
      * Constant to define OS Linux.
@@ -152,7 +156,7 @@ public class JCV {
      * </PRE></CODE> Useful for compare values of 2 float-point colors.
      * </P>
      */
-    public static boolean equalValues(double num1, double num2) {
+    public static boolean equalValues(final double num1, final double num2) {
         return JCV.equalValues(num1, num2, JCV.PRECISION_MAX);
     }
 
@@ -168,7 +172,7 @@ public class JCV {
      * </PRE></CODE> Useful for compare values of 2 float-point colors.
      * </P>
      */
-    public static boolean equalValues(double num1, double num2, double precision) {
+    public static boolean equalValues(final double num1, final double num2, final double precision) {
         if (Math.abs(num1 - num2) <= precision) {
             return true;
         } else {
@@ -190,7 +194,7 @@ public class JCV {
      * </UL>
      * </P>
      */
-    public static int round(double value) {
+    public static int round(final double value) {
         if (value == Double.POSITIVE_INFINITY) {
             return Integer.MAX_VALUE;
         }
@@ -214,7 +218,7 @@ public class JCV {
      * </UL>
      * </P>
      */
-    public static int roundUp(double value) {
+    public static int roundUp(final double value) {
         return (int) Math.ceil(value);
     }
 
@@ -232,7 +236,7 @@ public class JCV {
      * </UL>
      * </P>
      */
-    public static int roundDown(double value) {
+    public static int roundDown(final double value) {
         return (int) Math.floor(value);
     }
 
@@ -244,7 +248,7 @@ public class JCV {
      * @param paramName
      *            Name of parameter that should be not null. Uses for generate more useful exception message.
      */
-    public static void verifyIsNotNull(Object obj, String paramName) {
+    public static void verifyIsNotNull(final Object obj, final String paramName) {
         /*
          * Verify parameters.
          */
@@ -272,7 +276,7 @@ public class JCV {
      * @param paramName2
      *            Name of second image parameter. Uses for generate more useful exception message.
      */
-    public static void verifyIsSameSize(Image image1, String paramName1, Image image2, String paramName2) {
+    public static void verifyIsSameSize(final Image image1, final String paramName1, final Image image2, final String paramName2) {
         /*
          * Verify parameters.
          */
@@ -302,7 +306,7 @@ public class JCV {
      * @param paramName2
      *            Name of second image parameter. Uses for generate more useful exception message.
      */
-    public static void verifyIsSameChannels(Image image1, String paramName1, Image image2, String paramName2) {
+    public static void verifyIsSameChannels(final Image image1, final String paramName1, final Image image2, final String paramName2) {
         /*
          * Verify parameters.
          */
@@ -331,7 +335,7 @@ public class JCV {
      * @param num
      *            Required number of channels.
      */
-    public static void verifyNumOfChannels(Image image, String paramName, int num) {
+    public static void verifyNumOfChannels(final Image image, final String paramName, final int num) {
         /*
          * Verify parameters.
          */
@@ -362,7 +366,7 @@ public class JCV {
      * @param paramName2
      *            Name of second image parameter. Uses for generate more useful exception message.
      */
-    public static void verifyIsSameType(Image image1, String paramName1, Image image2, String paramName2) {
+    public static void verifyIsSameType(final Image image1, final String paramName1, final Image image2, final String paramName2) {
         /*
          * Verify parameters.
          */
@@ -392,7 +396,7 @@ public class JCV {
      * @param paramName2
      *            Name of second matrix parameter. Uses for generate more useful exception message.
      */
-    public static void verifyIsSameSize(Matrix mat1, String paramName1, Matrix mat2, String paramName2) {
+    public static void verifyIsSameSize(final Matrix mat1, final String paramName1, final Matrix mat2, final String paramName2) {
         /*
          * Verify parameters.
          */
@@ -419,7 +423,7 @@ public class JCV {
     /**
      * Verify that given size is odd.
      */
-    public static void verifyOddSize(Size kernelSize, String paramName) {
+    public static void verifyOddSize(final Size kernelSize, final String paramName) {
         /*
          * Verify parameters.
          */
@@ -446,7 +450,7 @@ public class JCV {
      * @param mName
      *            Matrix name.
      */
-    public static void printMatrix(Matrix M, String mName) {
+    public static void printMatrix(final Matrix M, final String mName) {
         /*
          * Verify parameters.
          */
@@ -479,7 +483,7 @@ public class JCV {
      * @param M
      *            Source matrix.
      */
-    public static void printMatrix(Matrix M) {
+    public static void printMatrix(final Matrix M) {
         JCV.printMatrix(M, "M");
     }
 }

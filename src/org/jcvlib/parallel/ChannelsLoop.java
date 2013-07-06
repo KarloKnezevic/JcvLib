@@ -21,12 +21,11 @@ package org.jcvlib.parallel;
 /**
  * Interface for executor of code in many workers for independent channels.
  *
- * @version 1.001
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public interface ChannelsLoop {
     /**
      * Perform some operations.
      */
-    public void execute(int channel);
+    public void execute(final int channel);
 }

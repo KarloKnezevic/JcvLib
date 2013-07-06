@@ -62,7 +62,6 @@ import com.xuggle.xuggler.Utils;
  * </PRE></CODE>
  * </P>
  *
- * @version 1.015
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 /*
@@ -119,7 +118,7 @@ public class VideoFileReader implements VideoReader, Runnable {
      * @param filePath
      *            Path to file.
      */
-    public VideoFileReader(String filePath) {
+    public VideoFileReader(final String filePath) {
         /*
          * Verify parameters.
          */
@@ -137,7 +136,7 @@ public class VideoFileReader implements VideoReader, Runnable {
         this.errorMessage = null;
     }
 
-    private void generateError(String errorMessage) throws IOException {
+    private void generateError(final String errorMessage) throws IOException {
         this.errorMessage = errorMessage;
         this.checkErrors();
     }
@@ -157,8 +156,8 @@ public class VideoFileReader implements VideoReader, Runnable {
      */
     @Override
     public void open() throws IOException {
-        int maxWaitTime = 10000; // In milliseconds (10^{-3} seconds).
-        int waitStep = 10; // In milliseconds (10^{-3} seconds).
+        final int maxWaitTime = 10000;  // In milliseconds (10^{-3} seconds).
+        final int waitStep = 10;        // In milliseconds (10^{-3} seconds).
         int timeCounter;
 
         // Reopened if needed.

@@ -21,7 +21,6 @@ package org.jcvlib.core;
 /**
  * This class contains all color values of some pixel.
  *
- * @version 1.016
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class Color {
@@ -43,7 +42,7 @@ public class Color {
     /**
      * Create empty color.
      */
-    public Color(int numOfChannels) {
+    public Color(final int numOfChannels) {
         /*
          * Verify parameters.
          */
@@ -60,7 +59,7 @@ public class Color {
     /**
      * Create empty color and initialize all channels by given value (from interval <CODE>[0.0, 255.0]</CODE>).
      */
-    public Color(int numOfChannels, double value) {
+    public Color(final int numOfChannels, final double value) {
         this(numOfChannels);
 
         for (int channel = 0; channel < this.getNumOfChannels(); ++channel) {
@@ -71,7 +70,7 @@ public class Color {
     /**
      * Create empty color and initialize it by given float-point color values (from interval <CODE>[0.0, 1.0]</CODE>).
      */
-    public Color(double[] colorValues) {
+    public Color(final double[] colorValues) {
         /*
          * Verify parameters.
          */
@@ -99,7 +98,7 @@ public class Color {
     /**
      * Verify given number of channel.
      */
-    private void verifyChannel(int channel) {
+    private void verifyChannel(final int channel) {
         if (channel < 0 || channel >= this.getNumOfChannels()) {
             throw new IllegalArgumentException("Value of 'channel' (= " + Integer.toString(channel) + ") must in interval 0.."
                 + Integer.toString(this.getNumOfChannels() - 1) + "!");
@@ -109,7 +108,7 @@ public class Color {
     /**
      * Return value (from interval <CODE>[0.0, 255.0]</CODE>) of color from given channel number.
      */
-    public double get(int channel) {
+    public double get(final int channel) {
         /*
          * Verify parameters.
          */
@@ -124,7 +123,7 @@ public class Color {
     /**
      * Set value (from interval <CODE>[0.0, 255.0]</CODE>) of color to given channel number.
      */
-    public void set(int channel, double value) {
+    public void set(final int channel, double value) {
         /*
          * Verify parameters.
          */
@@ -156,7 +155,7 @@ public class Color {
      * </OL>
      * </P>
      */
-    public double euclidDist(Color c) {
+    public double euclidDist(final Color c) {
         /*
          * Verify parameters.
          */
@@ -190,7 +189,7 @@ public class Color {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         return this.equals(object, JCV.PRECISION_MAX);
     }
 
@@ -202,7 +201,7 @@ public class Color {
      * @param precision
      *            Precision for compare values of pixels.
      */
-    public boolean equals(Object object, double precision) {
+    public boolean equals(final Object object, final double precision) {
         if (object == null) {
             return false;
         }
