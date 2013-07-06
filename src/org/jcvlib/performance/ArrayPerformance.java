@@ -33,6 +33,8 @@ public class ArrayPerformance {
 
     private static final int channels = 4;
 
+    private static final double threshold = 127.5;
+
     private static double testImage64F(final int width, final int height, final int numOfIterations) {
         // Initialize.
         final Image image = new Image(width, height, channels, Image.TYPE_64F);
@@ -45,7 +47,13 @@ public class ArrayPerformance {
             for (int x = 0; x < image.getWidth(); ++x) {
                 for (int y = 0; y < image.getHeight(); ++y) {
                     for (int channel = 0; channel < image.getNumOfChannels(); ++channel) {
-                        image.set(x, y, channel, x * y * channel * image.get(x, y, channel));
+                        double val = image.get(x, y, channel);
+                        if (val < threshold) {
+                            val = 0.0;
+                        } else {
+                            val = 255.0;
+                        }
+                        image.set(x, y, channel, val);
                     }
                 }
             }
@@ -66,7 +74,13 @@ public class ArrayPerformance {
             for (int x = 0; x < image.getWidth(); ++x) {
                 for (int y = 0; y < image.getHeight(); ++y) {
                     for (int channel = 0; channel < image.getNumOfChannels(); ++channel) {
-                        image.set(x, y, channel, x * y * channel * image.get(x, y, channel));
+                        double val = image.get(x, y, channel);
+                        if (val < threshold) {
+                            val = 0.0;
+                        } else {
+                            val = 255.0;
+                        }
+                        image.set(x, y, channel, val);
                     }
                 }
             }
@@ -87,7 +101,13 @@ public class ArrayPerformance {
             for (int x = 0; x < array.getWidth(); ++x) {
                 for (int y = 0; y < array.getHeight(); ++y) {
                     for (int channel = 0; channel < array.getNumOfChannels(); ++channel) {
-                        array.setUnsafe(x, y, channel, x * y * channel * array.getUnsafe(x, y, channel));
+                        double val = array.getUnsafe(x, y, channel);
+                        if (val < threshold) {
+                            val = 0.0;
+                        } else {
+                            val = 255.0;
+                        }
+                        array.setUnsafe(x, y, channel, val);
                     }
                 }
             }
@@ -108,7 +128,13 @@ public class ArrayPerformance {
             for (int x = 0; x < array.getWidth(); ++x) {
                 for (int y = 0; y < array.getHeight(); ++y) {
                     for (int channel = 0; channel < array.getNumOfChannels(); ++channel) {
-                        array.setUnsafe(x, y, channel, x * y * channel * array.getUnsafe(x, y, channel));
+                        double val = array.getUnsafe(x, y, channel);
+                        if (val < threshold) {
+                            val = 0.0;
+                        } else {
+                            val = 255.0;
+                        }
+                        array.setUnsafe(x, y, channel, val);
                     }
                 }
             }
@@ -127,7 +153,13 @@ public class ArrayPerformance {
         // Start testing.
         for (int num = 0; num < numOfIterations; ++num) {
             for (int i = 0; i < array.length; ++i) {
-                array[i] = i * array[i];
+                double val = array[i];
+                if (val < threshold) {
+                    val = 0.0;
+                } else {
+                    val = 255.0;
+                }
+                array[i] = val;
             }
         }
 
@@ -144,7 +176,13 @@ public class ArrayPerformance {
         // Start testing.
         for (int num = 0; num < numOfIterations; ++num) {
             for (int i = 0; i < array.length; ++i) {
-                array[i] = (byte) (i * array[i]);
+                byte val = array[i];
+                if (val < threshold) {
+                    val = 0;
+                } else {
+                    val = (byte) 255.0;
+                }
+                array[i] = val;
             }
         }
 
@@ -161,12 +199,12 @@ public class ArrayPerformance {
         Parallel.setNumOfWorkers(1);
         for (int mSize : sizes) {
             System.out.println("Size " + mSize + "x" + mSize + " by " + numOfIterations + " iterations: ");
-            System.out.println("    Image64F:      " + testImage64F(mSize, mSize, numOfIterations));
-            System.out.println("    Image8I:       " + testImage8I(mSize, mSize, numOfIterations));
-            System.out.println("    ImageArray64F: " + testImageArray64F(mSize, mSize, numOfIterations));
-            System.out.println("    ImageArray8I:  " + testImageArray8I(mSize, mSize, numOfIterations));
-            System.out.println("    double[]:      " + testDoubleArray(mSize, mSize, numOfIterations));
-            System.out.println("    byte[]:        " + testByteArray(mSize, mSize, numOfIterations));
+            System.out.println("    Image64F:      " + testImage64F(mSize, mSize, numOfIterations));        // ~2.4
+            System.out.println("    Image8I:       " + testImage8I(mSize, mSize, numOfIterations));         // ~4.4
+            System.out.println("    ImageArray64F: " + testImageArray64F(mSize, mSize, numOfIterations));   // ~1
+            System.out.println("    ImageArray8I:  " + testImageArray8I(mSize, mSize, numOfIterations));    // ~3
+            System.out.println("    double[]:      " + testDoubleArray(mSize, mSize, numOfIterations));     // ~1
+            System.out.println("    byte[]:        " + testByteArray(mSize, mSize, numOfIterations));       // ~1
         }
     }
 }
