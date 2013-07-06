@@ -176,13 +176,13 @@ public class ArrayPerformance {
         // Start testing.
         for (int num = 0; num < numOfIterations; ++num) {
             for (int i = 0; i < array.length; ++i) {
-                byte val = array[i];
+                int val = array[i] & 0xFF;
                 if (val < threshold) {
                     val = 0;
                 } else {
-                    val = (byte) 255.0;
+                    val = 255;
                 }
-                array[i] = val;
+                array[i] = (byte) val;
             }
         }
 
@@ -203,8 +203,8 @@ public class ArrayPerformance {
             System.out.println("    Image8I:       " + testImage8I(mSize, mSize, numOfIterations));         // ~4.4
             System.out.println("    ImageArray64F: " + testImageArray64F(mSize, mSize, numOfIterations));   // ~1
             System.out.println("    ImageArray8I:  " + testImageArray8I(mSize, mSize, numOfIterations));    // ~3
-            System.out.println("    double[]:      " + testDoubleArray(mSize, mSize, numOfIterations));     // ~1
-            System.out.println("    byte[]:        " + testByteArray(mSize, mSize, numOfIterations));       // ~1
+            System.out.println("    double[]:      " + testDoubleArray(mSize, mSize, numOfIterations));     // =1
+            System.out.println("    byte[]:        " + testByteArray(mSize, mSize, numOfIterations));       // =1
         }
     }
 }
