@@ -327,13 +327,13 @@ public class Image {
          * Verify parameters.
          */
         this.verifyPoint(x, y, channel);
-        if (Double.isNaN(value)) {
-            throw new IllegalArgumentException("Value of color should not be a NaN!");
-        }
 
         /*
          * Set value.
          */
+        if (Double.isNaN(value)) {
+            throw new IllegalArgumentException("Value of color should not be a NaN!");
+        }
         if (value < Color.COLOR_MIN_VALUE) {
             value = Color.COLOR_MIN_VALUE;
         }
