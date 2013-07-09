@@ -220,7 +220,7 @@ public class Image {
      * Create <STRONG>empty</STRONG> image with size, number of channels and source type as in given image.
      *
      * <P>
-     * <STRONG>Values from given image will be not copied!</STRONG>
+     * <STRONG>It is not copy -- values from given image will be not copied!</STRONG>
      * </P>
      */
     public Image(final Image image) {

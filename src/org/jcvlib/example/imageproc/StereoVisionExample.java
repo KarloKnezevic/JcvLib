@@ -25,6 +25,7 @@ import org.jcvlib.core.Image;
 import org.jcvlib.core.Size;
 import org.jcvlib.gui.Window;
 import org.jcvlib.image.Filters;
+import org.jcvlib.image.Morphology;
 import org.jcvlib.image.Stereo;
 import org.jcvlib.io.ImageRW;
 
@@ -49,7 +50,7 @@ public class StereoVisionExample {
         map = Filters.blur(map, new Size(5, 5), Filters.BLUR_MEDIAN);
         //map = Filters.blur(map, new Size(5, 5), Filters.BLUR_GAUSSIAN);
 
-        map = Filters.morphology(map, new Size(5, 5), Filters.MORPHOLOGY_CLOSE, 3);
+        map = Morphology.morphology(map, new Size(5, 5), Morphology.CLOSE, 3);
 
         //map = Filters.blur(map, new Size(5, 5), Filters.BLUR_GAUSSIAN);
 

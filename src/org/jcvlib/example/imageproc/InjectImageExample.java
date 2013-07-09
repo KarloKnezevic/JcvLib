@@ -24,7 +24,7 @@ import java.io.IOException;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Point;
 import org.jcvlib.gui.Window;
-import org.jcvlib.image.ImageMath;
+import org.jcvlib.image.Misc;
 import org.jcvlib.io.ImageRW;
 
 /**
@@ -39,7 +39,7 @@ public class InjectImageExample {
         final Image injectImage = ImageRW.read("resources" + File.separatorChar + "JcvLibLogo.png");
 
         // Inject image.
-        final Image result = ImageMath.injectImage(baseImage, // Source image.
+        final Image result = Misc.injectImage(baseImage, // Source image.
             new Point(30, 0), // Injected point.
             injectImage // Injected image.
         );

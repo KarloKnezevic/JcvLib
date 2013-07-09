@@ -270,78 +270,6 @@ public class Filters {
     public static final int SHARPEN_MODERN = 1;
 
     /**
-     * Dilation.
-     *
-     * <P>
-     * <H6>Links:</H6>
-     * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/Dilation_(morphology)">Dilation (morphology) -- Wikipedia</A>.</LI>
-     * </OL>
-     * </P>
-     */
-    public static final int MORPHOLOGY_DILATE = 0;
-
-    /**
-     * Erosion.
-     *
-     * <P>
-     * <H6>Links:</H6>
-     * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/Erosion_(morphology)">Erosion (morphology) -- Wikipedia</A>.</LI>
-     * </OL>
-     * </P>
-     */
-    public static final int MORPHOLOGY_ERODE = 1;
-
-    /**
-     * Opening.
-     *
-     * <P>
-     * <CODE>open(image, kernel) = dilate(erode(image, kernel), kernel)</CODE>
-     * </P>
-     *
-     * <P>
-     * <H6>Links:</H6>
-     * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/Opening_(morphology)">Opening (morphology) -- Wikipedia</A>.</LI>
-     * </OL>
-     * </P>
-     */
-    public static final int MORPHOLOGY_OPEN = 2;
-
-    /**
-     * Closing.
-     *
-     * <P>
-     * <CODE>close(image, kernel) = erode(dilate(image, kernel), kernel)</CODE>
-     * </P>
-     *
-     * <P>
-     * <H6>Links:</H6>
-     * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/Closing_(morphology)">Closing (morphology) -- Wikipedia</A>.</LI>
-     * </OL>
-     * </P>
-     */
-    public static final int MORPHOLOGY_CLOSE = 3;
-
-    /**
-     * Morphological gradient.
-     *
-     * <P>
-     * <CODE>morphologyGradient(image, kernel) = dilate(image, kernel) - erode(image, kernel)</CODE>
-     * </P>
-     *
-     * <P>
-     * <H6>Links:</H6>
-     * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/Morphological_gradient">Morphological gradient -- Wikipedia</A>.</LI>
-     * </OL>
-     * </P>
-     */
-    public static final int MORPHOLOGY_GRADIENT = 4;
-
-    /**
      * Nonlinear filter.
      *
      * <P>
@@ -522,8 +450,8 @@ public class Filters {
         Filters.noneLinearFilter(image, result, dervSize, dervSize.getCenter(), 1, extrapolationType, new Operator() {
             @Override
             public Color execute(final Image aperture) {
-                double[] Gx = ImageMath.convolve(aperture, derivativeX);
-                double[] Gy = ImageMath.convolve(aperture, derivativeY);
+                double[] Gx = Misc.convolve(aperture, derivativeX);
+                double[] Gy = Misc.convolve(aperture, derivativeY);
 
                 Color res = new Color(aperture.getNumOfChannels());
                 for (int channel = 0; channel < res.getNumOfChannels(); ++channel) {
@@ -625,7 +553,7 @@ public class Filters {
             public Color execute(Image aperture) {
                 Color res = new Color(aperture.getNumOfChannels());
 
-                double[] conv = ImageMath.convolve(aperture, kernel);
+                double[] conv = Misc.convolve(aperture, kernel);
                 for (int i = 0; i < res.getNumOfChannels(); ++i) {
                     res.set(i, conv[i] / div + offset);
                 }
@@ -1061,7 +989,7 @@ public class Filters {
 
                     // Calculate average and variance.
                     for (int i = 0; i < windows.length; ++i) {
-                        mean[i] = ImageMath.getMean(windows[i]);
+                        mean[i] = Misc.getMean(windows[i]);
                         variance[i] = variance(windows[i], mean[i]);
                     }
 
@@ -1223,7 +1151,7 @@ public class Filters {
     public static Image sharpen(final Image image, final int sharpenType, final int extrapolationType) {
         switch (sharpenType) {
             case Filters.SHARPEN_LAPLACIAN:
-                return ImageMath.sum(Filters.laplacian(image), image);
+                return Morphology.sum(Filters.laplacian(image), image);
 
             case Filters.SHARPEN_MODERN:
                 Matrix modernSharpen = new Matrix(new double[][]{
@@ -1273,187 +1201,6 @@ public class Filters {
      */
     public static Image sharpen(final Image source) {
         return Filters.sharpen(source, Filters.SHARPEN_MODERN, Image.EXTRAPLOATION_REPLICATE);
-    }
-
-    /**
-     * Morphology transformation.
-     *
-     * <P>
-     * <H6>Links:</H6>
-     * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/Mathematical_morphology">Mathematical morphology -- Wikipedia</A>.</LI>
-     * </OL>
-     * </P>
-     *
-     * @param image
-     *            Source image.
-     * @param kernelSize
-     *            Size of kernel for applying filter. <STRONG>Should have odd size for both dimensions (1, 3, 5, ...)!</STRONG>
-     * @param morphologyType
-     *            Type of morphology filter. Use <CODE>Filters.MORPHOLOGY_*</CODE> parameters.
-     * @param iterations
-     *            Number of applying this filter to source image.
-     * @param extrapolationType
-     *            Type of extrapolation. Use <CODE>Filters.EXTRAPLOATION_*</CODE> parameters.
-     * @return
-     *         Image with result of applying morphology filter. Have same size, number of channels and type as a source image.
-     */
-    public static Image morphology(final Image image, final Size kernelSize, final int morphologyType, final int iterations,
-        final int extrapolationType) {
-        /*
-         * Verify parameters.
-         */
-        JCV.verifyIsNotNull(image, "image");
-        JCV.verifyOddSize(kernelSize, "kernelSize");
-
-        /*
-         * Perform transformation.
-         */
-        Image result = new Image(image);
-
-        Image temp;
-        switch (morphologyType) {
-            case Filters.MORPHOLOGY_DILATE:
-                Filters.noneLinearFilter(image, result, kernelSize, kernelSize.getCenter(), iterations, extrapolationType, new Operator() {
-                    @Override
-                    public Color execute(final Image aperture) {
-                        Color max = new Color(aperture.getNumOfChannels(), Color.COLOR_MIN_VALUE);
-
-                        // Find maximum.
-                        for (int x = 0; x < aperture.getWidth(); ++x) {
-                            for (int y = 0; y < aperture.getHeight(); ++y) {
-                                for (int channel = 0; channel < aperture.getNumOfChannels(); ++channel) {
-                                    if (max.get(channel) < aperture.get(x, y, channel)) {
-                                        max.set(channel, aperture.get(x, y, channel));
-                                    }
-                                }
-                            }
-                        }
-
-                        return max;
-                    }
-                });
-
-                return result;
-
-            case Filters.MORPHOLOGY_ERODE:
-                Filters.noneLinearFilter(image, result, kernelSize, kernelSize.getCenter(), iterations, extrapolationType, new Operator() {
-                    @Override
-                    public Color execute(final Image aperture) {
-                        Color min = new Color(aperture.getNumOfChannels(), Color.COLOR_MAX_VALUE);
-
-                        // Find minimum.
-                        for (int x = 0; x < aperture.getWidth(); ++x) {
-                            for (int y = 0; y < aperture.getHeight(); ++y) {
-                                for (int channel = 0; channel < aperture.getNumOfChannels(); ++channel) {
-                                    if (min.get(channel) > aperture.get(x, y, channel)) {
-                                        min.set(channel, aperture.get(x, y, channel));
-                                    }
-                                }
-                            }
-                        }
-
-                        return min;
-                    }
-                });
-
-                return result;
-
-            case Filters.MORPHOLOGY_OPEN:
-                result = null;
-
-                temp = image;
-                for (int i = 0; i < iterations; ++i) {
-                    temp = Filters.morphology(temp, kernelSize, Filters.MORPHOLOGY_DILATE, 1, extrapolationType);
-                    temp = Filters.morphology(temp, kernelSize, Filters.MORPHOLOGY_ERODE, 1, extrapolationType);
-                }
-
-                return temp;
-
-            case Filters.MORPHOLOGY_CLOSE:
-                result = null;
-
-                temp = image;
-                for (int i = 0; i < iterations; ++i) {
-                    temp = Filters.morphology(temp, kernelSize, Filters.MORPHOLOGY_ERODE, 1, extrapolationType);
-                    temp = Filters.morphology(temp, kernelSize, Filters.MORPHOLOGY_DILATE, 1, extrapolationType);
-                }
-
-                return temp;
-
-            case Filters.MORPHOLOGY_GRADIENT:
-                result = null;
-
-                temp = image;
-                for (int i = 0; i < iterations; ++i) {
-                    Image dilate = Filters.morphology(temp, kernelSize, Filters.MORPHOLOGY_DILATE, 1, extrapolationType);
-                    Image erode = Filters.morphology(temp, kernelSize, Filters.MORPHOLOGY_ERODE, 1, extrapolationType);
-
-                    temp = ImageMath.absDiff(dilate, erode);
-                }
-
-                return temp;
-
-            default:
-                throw new IllegalArgumentException(
-                    "Parameter 'morphologyType' have unknown value! Use 'Filters.MORPHOLOGY_*' as a parameters!");
-        }
-    }
-
-    /**
-     * Morphology transformation.
-     *
-     * <P>
-     * Use {@link Image#EXTRAPLOATION_REPLICATE} as default extrapolation type.
-     * </P>
-     *
-     * <P>
-     * <H6>Links:</H6>
-     * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/Mathematical_morphology">Mathematical morphology -- Wikipedia</A>.</LI>
-     * </OL>
-     * </P>
-     *
-     * @param image
-     *            Source image.
-     * @param kernelSize
-     *            Size of kernel for applying filter. <STRONG>Should have odd size for both dimensions (1, 3, 5, ...)!</STRONG>
-     * @param morphologyType
-     *            Type of morphology filter. Use <CODE>Filters.MORPHOLOGY_*</CODE> parameters.
-     * @param iterations
-     *            Number of applying this filter to source image.
-     * @return
-     *         Image with result of applying morphology filter. Have same size, number of channels and type as a source image.
-     */
-    public static Image morphology(final Image image, final Size kernelSize, final int morphologyType, final int iterations) {
-        return Filters.morphology(image, kernelSize, morphologyType, iterations, Image.EXTRAPLOATION_REPLICATE);
-    }
-
-    /**
-     * Morphology transformation.
-     *
-     * <P>
-     * Use <CODE>1</CODE> as default iteration and {@link Image#EXTRAPLOATION_REPLICATE} as default extrapolation type.
-     * </P>
-     *
-     * <P>
-     * <H6>Links:</H6>
-     * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/Mathematical_morphology">Mathematical morphology -- Wikipedia</A>.</LI>
-     * </OL>
-     * </P>
-     *
-     * @param image
-     *            Source image.
-     * @param kernelSize
-     *            Size of kernel for applying filter. <STRONG>Should have odd size for both dimensions (1, 3, 5, ...)!</STRONG>
-     * @param morphologyType
-     *            Type of morphology filter. Use <CODE>Filters.MORPHOLOGY_*</CODE> parameters.
-     * @return
-     *         Image with result of applying morphology filter. Have same size, number of channels and type as a source image.
-     */
-    public static Image morphology(final Image image, final Size kernelSize, final int morphologyType) {
-        return Filters.morphology(image, kernelSize, morphologyType, 1, Image.EXTRAPLOATION_REPLICATE);
     }
 
     /**

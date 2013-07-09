@@ -21,6 +21,8 @@ package org.jcvlib.image;
 import org.jcvlib.core.JCV;
 import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
+import org.jcvlib.parallel.Parallel;
+import org.jcvlib.parallel.PixelsLoop;
 
 /**
  * This class contains methods for manipulate image histograms.
@@ -143,12 +145,28 @@ public class Hist {
 
     private final double[] histogram;
 
-    private int pow(final int a, final int b) {
+    private final int size;
+
+    private final int channels;
+
+    private final double blob;
+
+    private int calcLength() {
         int res = 1;
-        for (int i = 0; i < b; ++i) {
-            res *= a;
+        for (int i = 0; i < this.channels; ++i) {
+            res *= this.size;
         }
         return res;
+    }
+
+    private int pos(final Image image, final int x, final int y) {
+        double base = 1.0;
+        int val = 0;
+        for (int channel = 0; channel < image.getNumOfChannels(); ++channel) {
+            val += JCV.roundDown(image.get(x, y, channel) * base / this.blob);
+            base *= this.size;
+        }
+        return val;
     }
 
     /**
@@ -171,30 +189,23 @@ public class Hist {
         /*
          * Perform operation.
          */
+        this.size = size;
+        this.channels = image.getNumOfChannels();
+        this.blob = (1.0 + Color.COLOR_MAX_VALUE) / (double) this.size;
+
         // Initialize histogram.
-        this.histogram = new double[this.pow(size, image.getNumOfChannels())];
+        this.histogram = new double[this.calcLength()];
         for (int i = 0; i < this.histogram.length; ++i) {
             this.histogram[i] = 0.0;
         }
 
         // Calculate.
-        final double blob = (1.0 + Color.COLOR_MAX_VALUE) / (double) size;
         for (int x = 0; x < image.getWidth(); ++x) {
             for (int y = 0; y < image.getHeight(); ++y) {
-                double base = 1.0;
-                int val = 0;
-                for (int channel = 0; channel < image.getNumOfChannels(); ++channel) {
-                    val += JCV.round(image.get(x, y, channel) * base / blob);
-                    base *= size;
-                }
-                this.histogram[val] += 1.0;
+                this.histogram[this.pos(image, x, y)] += 1.0;
             }
         }
-
-        // Normalize.
-        for (int i = 0; i < this.histogram.length; ++i) {
-            this.histogram[i] /= (double) image.getSize().getN();
-        }
+        this.normalize();
     }
 
     /**
@@ -209,45 +220,58 @@ public class Hist {
         this(image, JCV.roundDown(Color.COLOR_MAX_VALUE) + 1);
     }
 
-    /**
-     * Create histogram from given source.
-     */
-    public Hist(final double[] histogram) {
-        /*
-         * Verify parameters.
-         */
-        JCV.verifyIsNotNull(histogram, "histogram");
+//    /**
+//     * Create histogram from given source.
+//     */
+//    public Hist(final double[] histogram, int size, int channels) {
+//        /*
+//         * Verify parameters.
+//         */
+//        JCV.verifyIsNotNull(histogram, "histogram");
+//
+//        /*
+//         * Perform operation.
+//         */
+//        this.histogram = histogram;
+//        this.size = size;
+//        this.channels = channels;
+//        this.blob = this.calcBlob(this.size);
+//
+//        this.normalize();
+//    }
 
-        /*
-         * Perform operation.
-         */
-        this.histogram = histogram;
+    /**
+     * @return
+     *      Number of channels source image.
+     */
+    public int getChannels() {
+        return this.channels;
     }
 
+    /**
+     * @return
+     *      Length of current histogram.
+     */
     public int getLength() {
         return this.histogram.length;
     }
 
+    /**
+     * Return value of selected histogram bin.
+     */
     public double get(int bin) {
         return this.histogram[bin];
     }
 
-    /**
-     * Return average of current histogram.
-     *
-     * <P>
-     * <H6>Links:</H6>
-     * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/Average">Average -- Wikipedia</A>.</LI>
-     * </OL>
-     * </P>
-     */
-    public double getAverage() {
+    private void normalize() {
         double sum = 0.0;
-        for (int i = 0; i < this.getLength(); ++i) {
-            sum += this.get(i);
+        for (int i = 0; i < this.histogram.length; ++i) {
+            sum += this.histogram[i];
         }
-        return sum / this.getLength();
+
+        for (int i = 0; i < this.histogram.length; ++i) {
+            this.histogram[i] /= sum;
+        }
     }
 
     /**
@@ -261,12 +285,17 @@ public class Hist {
      * </P>
      */
     public double getVariance() {
-        final double average = this.getAverage();
+        final double average = 1.0 / this.getLength();
         double sum = 0.0;
         for (int i = 0; i < this.getLength(); ++i) {
             sum += Math.pow(this.get(i) - average, 2);
         }
         return sum;
+    }
+
+    // TODO
+    public Hist resize(final int newSize) {
+        return null;
     }
 
     /**
@@ -296,24 +325,20 @@ public class Hist {
         /*
          * Perform operation.
          */
-        double average1 = this.getAverage();
-        double average2 = hist.getAverage();
+        final double average = 1.0 / this.getLength();
         double result = 0.0;
-        double num;
-        double denSq;
+        double num = 0.0;
+        double denSq = 0.0;
         switch (compareType) {
             case Hist.HISTOGRAM_COMPARE_CORREL:
                 // Calculate numerator and denominator.
-                num = 0.0;
                 for (int i = 0; i < this.getLength(); ++i) {
-                    num += (this.get(i) - average1) * (hist.get(i) - average2);
+                    num += (this.get(i) - average) * (hist.get(i) - average);
                 }
 
                 denSq = Math.sqrt(this.getVariance() * hist.getVariance());
                 if (!JCV.equalValues(denSq, 0.0, JCV.PRECISION_MAX) && !Double.isNaN(denSq)) {
                     result = num / denSq;
-                } else {
-                    result = 0.0;
                 }
 
                 break;
@@ -336,9 +361,8 @@ public class Hist {
                 break;
 
             case Hist.HISTOGRAM_COMPARE_BHATTACHARYYA:
-                denSq = Math.sqrt(average1 * average2 * this.getLength() * hist.getLength());
+                denSq = average * this.getLength();
 
-                num = 0.0;
                 for (int i = 0; i < this.getLength(); ++i) {
                     num += Math.sqrt(this.get(i) * hist.get(i));
                 }
@@ -351,6 +375,68 @@ public class Hist {
                 throw new IllegalArgumentException("Unknown compare type! Use 'JCV.HISTOGRAM_COMPARE_*' values!");
         }
 
+        return result;
+    }
+
+    /**
+     * Threshold to zero.
+     *
+     * <P>
+     * <CODE><PRE>
+     * if hist(i) <= threshold
+     *      hist(i) := 0
+     * else
+     *      // Do nothing.
+     * </PRE></CODE>
+     * </P>
+     */
+    public void threshold(final double threshold) {
+        /*
+         * Verify parameters.
+         */
+        if (threshold < 0.0 || threshold > 1.0) {
+            throw new IllegalArgumentException("Parameter 'threshold' (= " + Double.toString(threshold)
+                + ") should be in interval [0.0, 1.0]!");
+        }
+
+        /*
+         * Perform operation.
+         */
+        for (int i = 0; i < this.getLength(); ++i) {
+            if (this.get(i) < threshold) {
+                this.histogram[i] = 0.0;
+            }
+        }
+        this.normalize();
+    }
+
+    /**
+     *
+     * @param image
+     * @return
+     */
+    public Image selectPixels(final Image image) {
+        /*
+         * Verify parameters.
+         */
+        JCV.verifyIsNotNull(image, "image");
+
+        /*
+         * Perform operation.
+         */
+        final Image result = new Image(image.getWidth(), image.getHeight(), 1, image.getType());
+        Parallel.pixels(image, new PixelsLoop() {
+            @Override
+            public void execute(final int x, final int y) {
+                double val;
+                if (histogram[pos(image, x, y)] > 0.0) {
+                    val = Color.COLOR_MAX_VALUE;
+                } else {
+                    val = Color.COLOR_MIN_VALUE;
+                }
+                result.set(x, y, 0, val);
+            }
+        });
         return result;
     }
 }

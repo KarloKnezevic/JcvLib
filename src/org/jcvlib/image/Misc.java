@@ -28,9 +28,11 @@ import org.jcvlib.core.Image;
 import org.jcvlib.core.Point;
 import org.jcvlib.core.Rectangle;
 import org.jcvlib.core.Size;
-
 import org.jcvlib.parallel.ChannelsLoop;
 import org.jcvlib.parallel.Parallel;
+import org.jcvlib.parallel.PixelsLoop;
+
+import Jama.Matrix;
 
 /**
  * Contains miscellaneous image processing methods.
@@ -351,5 +353,173 @@ public class Misc {
      */
     public static List<Image> buildPyramid(final Image image) {
         return Misc.buildPyramid(image, new Size(8, 8));
+    }
+
+    /**
+     * Put one image to another (using Alpha channel). The images must have the same channels size. The last channel uses as Alpha channel.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Alpha_compositing">Alpha channel</A>.</LI>
+     * </OL>
+     * </P>
+     *
+     * @param baseImage
+     *            This image will be changed. <STRONG>This image should have 3 or 4 channels!</STRONG>
+     * @param injectPosition
+     *            Position where will be injected <CODE>injectImage</CODE> on <CODE>baseImage</CODE>.
+     * @param injectImage
+     *            This image injected to <CODE>baseImage</CODE> image. <STRONG>This image should have 3 or 4 channels!</STRONG>
+     * @return
+     *         Image with combination of baseImage and injectImage. That image have same size and type as baseImage and have 3 channels.
+     */
+    public static Image injectImage(final Image baseImage, final Point injectPosition, final Image injectImage) {
+        /*
+         * Verify parameters.
+         */
+        JCV.verifyIsNotNull(baseImage, "baseImage");
+        JCV.verifyIsNotNull(injectPosition, "injectPosition");
+        JCV.verifyIsNotNull(injectImage, "injectedImage");
+    
+        // Verify images.
+        if (baseImage.getNumOfChannels() < 3 || baseImage.getNumOfChannels() > 4) {
+            throw new IllegalArgumentException("Channel number of 'baseImage' (= " + Integer.toString(baseImage.getNumOfChannels())
+                + ") must be 3 or 4!");
+        }
+        if (injectImage.getNumOfChannels() < 3 || injectImage.getNumOfChannels() > 4) {
+            throw new IllegalArgumentException("Channel number of 'injectImage' (= " + Integer.toString(injectImage.getNumOfChannels())
+                + ") must be 3 or 4!");
+        }
+    
+        /*
+         * Perform operation.
+         */
+        final Image result = baseImage.copy();
+    
+        final Image baseImageSub = result.getSubimage(new Rectangle(
+            injectPosition.getX(),
+            injectPosition.getY(),
+            Math.min(injectImage.getWidth(),  baseImage.getWidth() - injectPosition.getX()),
+            Math.min(injectImage.getHeight(), baseImage.getHeight() - injectPosition.getY())
+        ));
+        final Image injectImageSub = injectImage.getSubimage(new Rectangle(0, 0, baseImageSub.getWidth(), baseImageSub.getHeight()));
+    
+        // Inject images.
+        Parallel.pixels(baseImageSub, new PixelsLoop() {
+            @Override
+            public void execute(final int x, final int y) {
+                for (int channel = 0; channel < 3; ++channel) {
+                    double alpha1;
+                    if (injectImageSub.getNumOfChannels() == 3) {
+                        alpha1 = 1.0;
+                    } else {
+                        alpha1 = injectImageSub.get(x, y, 3) / Color.COLOR_MAX_VALUE;
+                    }
+    
+                    double alpha2;
+                    if (baseImageSub.getNumOfChannels() == 3) {
+                        alpha2 = 1.0;
+                    } else {
+                        alpha2 = baseImageSub.get(x, y, 3) / Color.COLOR_MAX_VALUE;
+                    }
+    
+                    double value = alpha1 * injectImageSub.get(x, y, channel) + alpha2 * baseImageSub.get(x, y, channel) * (1.0 - alpha1);
+                    if (value > Color.COLOR_MAX_VALUE) {
+                        value = Color.COLOR_MAX_VALUE;
+                    }
+    
+                    baseImageSub.set(x, y, channel, value);
+                }
+            }
+        });
+    
+        return result;
+    }
+
+    /**
+     * Return arithmetic mean of colors in current image.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Arithmetic_mean">Arithmetic mean -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
+     */
+    public static Color getMean(final Image image) {
+        /*
+         * Verify parameters.
+         */
+        JCV.verifyIsNotNull(image, "image");
+    
+        /*
+         * Perform operation.
+         */
+        // Initialize.
+        double[] sum = new double[image.getNumOfChannels()];
+        for (int channel = 0; channel < sum.length; ++channel) {
+            sum[channel] = 0.0;
+        }
+    
+        // Sum all values.
+        for (int x = 0; x < image.getWidth(); ++x) {
+            for (int y = 0; y < image.getHeight(); ++y) {
+                for (int channel = 0; channel < image.getNumOfChannels(); ++channel) {
+                    sum[channel] += image.get(x, y, channel);
+                }
+            }
+        }
+    
+        // Calculate average.
+        Color mean = new Color(image.getNumOfChannels());
+        for (int channel = 0; channel < sum.length; ++channel) {
+            mean.set(channel, sum[channel] / image.getSize().getN());
+        }
+    
+        return mean;
+    }
+
+    /**
+     * Calculate matrix convolution.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://docs.gimp.org/en/plug-in-convmatrix.html">Convolution Matrix -- GIMP Docs</A>.</LI>
+     * </OL>
+     * </P>
+     *
+     * @param image
+     *            Source image.
+     * @param kernel
+     *            Matrix for convolution.
+     * @return
+     *         Array with result of convolution matrix to all channels of image.
+     */
+    public static double[] convolve(final Image image, final Matrix kernel) {
+        /*
+         * Verify parameters.
+         */
+        JCV.verifyIsNotNull(image, "image");
+        JCV.verifyIsNotNull(kernel, "kernel");
+    
+        /*
+         * Perform operation.
+         */
+        double[] result = new double[image.getNumOfChannels()];
+        for (int i = 0; i < result.length; ++i) {
+            result[i] = 0.0;
+        }
+    
+        for (int x = 0; x < image.getWidth(); ++x) {
+            for (int y = 0; y < image.getHeight(); ++y) {
+                for (int channel = 0; channel < image.getNumOfChannels(); ++channel) {
+                    result[channel] += image.get(x, y, channel) * kernel.get(y, x);
+                }
+            }
+        }
+    
+        return result;
     }
 }
