@@ -22,7 +22,7 @@ import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Size;
 import org.jcvlib.image.Filters;
-import org.jcvlib.image.Operator;
+import org.jcvlib.image.Filters.Operator;
 import org.jcvlib.parallel.Parallel;
 
 /**

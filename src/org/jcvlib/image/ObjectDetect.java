@@ -22,6 +22,7 @@ import org.jcvlib.core.JCV;
 import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Point;
+import org.jcvlib.image.Filters.Operator;
 
 /**
  * Detect objects on given image.

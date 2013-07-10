@@ -1531,4 +1531,16 @@ public class Filters {
 
         return t;
     }
+
+    /**
+     * Interface for implement linear and nonlinear operations.
+     *
+     * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
+     */
+    public interface Operator {
+        /**
+         * Perform some operations and return a result.
+         */
+        public Color execute(final Image aperture);
+    }
 }

@@ -26,7 +26,7 @@ import org.jcvlib.core.Image;
 import org.jcvlib.core.Point;
 import org.jcvlib.core.Size;
 import org.jcvlib.image.Filters;
-import org.jcvlib.image.Operator;
+import org.jcvlib.image.Filters.Operator;
 import org.junit.Test;
 
 import Jama.Matrix;

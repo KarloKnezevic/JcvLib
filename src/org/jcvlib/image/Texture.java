@@ -22,6 +22,7 @@ import org.jcvlib.core.JCV;
 import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Size;
+import org.jcvlib.image.Filters.Operator;
 
 /**
  * Contains methods to <A href="http://en.wikipedia.org/wiki/Image_texture">texture</A> analysis.
@@ -30,8 +31,7 @@ import org.jcvlib.core.Size;
  */
 public class Texture {
     /**
-     * Implements <A href="http://en.wikipedia.org/wiki/Local_binary_patterns">LBP (Local Binary Patterns)</A>. But with different
-     * values processing order and another type of result compare coding.
+     * Implements LBP (Local Binary Patterns). But with different values processing order and another type of result compare coding.
      *
      * <P>
      * For example, for size <CODE>[5 x 3]</CODE> (both dimensions should be odd) <STRONG>order of processing</STRONG> will be following:
@@ -42,6 +42,13 @@ public class Texture {
      * </PRE></CODE> Each value compare with center (marked as <CODE>(x)</CODE>) and if value more or equals than center selected
      * <CODE>1</CODE> and <CODE>0</CODE> otherwise. Then this values are coded using
      * <A heref="http://en.wikipedia.org/wiki/Arithmetic_coding"> arithmetic coding</A>.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Local_binary_patterns">Local binary patterns -- Wikipedia</A>.</LI>
+     * </OL>
      * </P>
      *
      * @param image

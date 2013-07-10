@@ -218,9 +218,13 @@ public class Misc {
             }
         }
 
-        return new FloodFillStruct(totalFillPixels, new Rectangle(leftSide, topSide, rigthSide - leftSide + 1, bottomSide - topSide + 1),
-            new Point(JCV.round((double) centerOfGravityX / (double) totalFillPixels), JCV.round((double) centerOfGravityY
-                / (double) totalFillPixels)));
+        return new FloodFillStruct(totalFillPixels,
+            new Rectangle(leftSide, topSide, rigthSide - leftSide + 1, bottomSide - topSide + 1),
+            new Point(JCV.round(
+                (double) centerOfGravityX / (double) totalFillPixels),
+                JCV.round((double) centerOfGravityY / (double) totalFillPixels)
+            )
+        );
     }
 
     /**
@@ -381,7 +385,7 @@ public class Misc {
         JCV.verifyIsNotNull(baseImage, "baseImage");
         JCV.verifyIsNotNull(injectPosition, "injectPosition");
         JCV.verifyIsNotNull(injectImage, "injectedImage");
-    
+
         // Verify images.
         if (baseImage.getNumOfChannels() < 3 || baseImage.getNumOfChannels() > 4) {
             throw new IllegalArgumentException("Channel number of 'baseImage' (= " + Integer.toString(baseImage.getNumOfChannels())
@@ -391,12 +395,12 @@ public class Misc {
             throw new IllegalArgumentException("Channel number of 'injectImage' (= " + Integer.toString(injectImage.getNumOfChannels())
                 + ") must be 3 or 4!");
         }
-    
+
         /*
          * Perform operation.
          */
         final Image result = baseImage.copy();
-    
+
         final Image baseImageSub = result.getSubimage(new Rectangle(
             injectPosition.getX(),
             injectPosition.getY(),
@@ -404,7 +408,7 @@ public class Misc {
             Math.min(injectImage.getHeight(), baseImage.getHeight() - injectPosition.getY())
         ));
         final Image injectImageSub = injectImage.getSubimage(new Rectangle(0, 0, baseImageSub.getWidth(), baseImageSub.getHeight()));
-    
+
         // Inject images.
         Parallel.pixels(baseImageSub, new PixelsLoop() {
             @Override
@@ -416,24 +420,24 @@ public class Misc {
                     } else {
                         alpha1 = injectImageSub.get(x, y, 3) / Color.COLOR_MAX_VALUE;
                     }
-    
+
                     double alpha2;
                     if (baseImageSub.getNumOfChannels() == 3) {
                         alpha2 = 1.0;
                     } else {
                         alpha2 = baseImageSub.get(x, y, 3) / Color.COLOR_MAX_VALUE;
                     }
-    
+
                     double value = alpha1 * injectImageSub.get(x, y, channel) + alpha2 * baseImageSub.get(x, y, channel) * (1.0 - alpha1);
                     if (value > Color.COLOR_MAX_VALUE) {
                         value = Color.COLOR_MAX_VALUE;
                     }
-    
+
                     baseImageSub.set(x, y, channel, value);
                 }
             }
         });
-    
+
         return result;
     }
 
@@ -452,7 +456,7 @@ public class Misc {
          * Verify parameters.
          */
         JCV.verifyIsNotNull(image, "image");
-    
+
         /*
          * Perform operation.
          */
@@ -461,7 +465,7 @@ public class Misc {
         for (int channel = 0; channel < sum.length; ++channel) {
             sum[channel] = 0.0;
         }
-    
+
         // Sum all values.
         for (int x = 0; x < image.getWidth(); ++x) {
             for (int y = 0; y < image.getHeight(); ++y) {
@@ -470,13 +474,13 @@ public class Misc {
                 }
             }
         }
-    
+
         // Calculate average.
         Color mean = new Color(image.getNumOfChannels());
         for (int channel = 0; channel < sum.length; ++channel) {
             mean.set(channel, sum[channel] / image.getSize().getN());
         }
-    
+
         return mean;
     }
 
@@ -503,7 +507,7 @@ public class Misc {
          */
         JCV.verifyIsNotNull(image, "image");
         JCV.verifyIsNotNull(kernel, "kernel");
-    
+
         /*
          * Perform operation.
          */
@@ -511,7 +515,7 @@ public class Misc {
         for (int i = 0; i < result.length; ++i) {
             result[i] = 0.0;
         }
-    
+
         for (int x = 0; x < image.getWidth(); ++x) {
             for (int y = 0; y < image.getHeight(); ++y) {
                 for (int channel = 0; channel < image.getNumOfChannels(); ++channel) {
@@ -519,7 +523,7 @@ public class Misc {
                 }
             }
         }
-    
+
         return result;
     }
 }

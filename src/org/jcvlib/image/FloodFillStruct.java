@@ -29,11 +29,11 @@ import org.jcvlib.core.Rectangle;
  */
 public class FloodFillStruct {
 
-    private int totalFillPixels;
+    private final int totalFillPixels;
 
-    private Rectangle fillRect;
+    private final Rectangle fillRect;
 
-    private Point centerMass;
+    private final Point centerMass;
 
     public FloodFillStruct(final int totalFillPixels, final Rectangle fillRect, final Point centerOfGravity) {
         this.totalFillPixels = totalFillPixels;
@@ -56,7 +56,14 @@ public class FloodFillStruct {
     }
 
     /**
-     * Return <A href="http://en.wikipedia.org/wiki/Center_of_mass">Center of mass</A> for filled field.
+     * Return center of mass for filled field.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Center_of_mass">Center of mass -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
      */
     public Point getCenterMass() {
         return this.centerMass;
