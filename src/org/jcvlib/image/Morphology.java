@@ -33,6 +33,10 @@ import org.jcvlib.parallel.PixelsLoop;
  * <H6>Links:</H6>
  * <OL>
  * <LI><A href="http://en.wikipedia.org/wiki/Mathematical_morphology">Mathematical morphology -- Wikipedia</A>.</LI>
+ * <LI><A href="http://haralick.org/journals/04767941.pdf">Haralick R. M., Sternberg S., Zhuang X. -- Image Analysis
+ * Using Mathematical Morphology. 1987</A.></LI>
+ * <LI>Shapiro L., Stockman G. -- Computer Vision. 2000.</LI>
+ * <LI>Gonzalez R. C., Woods R. E. -- Digital Image Processing. 2nd ed. 2002.<LI>
  * </OL>
  * </P>
  *
@@ -50,6 +54,7 @@ public class Morphology {
      * </P>
      */
     public static final int DILATE = 0;
+
     /**
      * Erosion.
      *
@@ -61,6 +66,7 @@ public class Morphology {
      * </P>
      */
     public static final int ERODE = 1;
+
     /**
      * Opening.
      *
@@ -76,6 +82,7 @@ public class Morphology {
      * </P>
      */
     public static final int OPEN = 2;
+
     /**
      * Closing.
      *
@@ -91,6 +98,7 @@ public class Morphology {
      * </P>
      */
     public static final int CLOSE = 3;
+
     /**
      * Morphological gradient.
      *
@@ -101,11 +109,44 @@ public class Morphology {
      * <P>
      * <H6>Links:</H6>
      * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/Morphological_gradient">Morphological gradient -- Wikipedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/Morphological_Gradient">Morphological Gradient -- Wikipedia</A>.</LI>
      * </OL>
      * </P>
      */
     public static final int GRADIENT = 4;
+
+    /**
+     * White top-hat.
+     *
+     * <P>
+     * <CODE>white_top_hat(image, kernel) = image - open(image, kernel)</CODE>
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="https://en.wikipedia.org/wiki/Top-hat_transform">Top-hat transform -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
+     */
+    public static final int WHITE_TOP_HAT = 5;
+
+    /**
+     * Black top-hat.
+     *
+     * <P>
+     * <CODE>black_top_hat(image, kernel) = close(image, kernel) - image</CODE>
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="https://en.wikipedia.org/wiki/Top-hat_transform">Top-hat transform -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
+     */
+    public static final int BLACK_TOP_HAT = 6;
+
     /**
      * Morphology transformation.
      *
@@ -121,7 +162,7 @@ public class Morphology {
      * @param kernelSize
      *            Size of kernel for applying filter. <STRONG>Should have odd size for both dimensions (1, 3, 5, ...)!</STRONG>
      * @param morphologyType
-     *            Type of morphology filter. Use <CODE>Filters.MORPHOLOGY_*</CODE> parameters.
+     *            Type of morphology filter. Use <CODE>Morphology.*</CODE> parameters.
      * @param iterations
      *            Number of applying this filter to source image.
      * @param extrapolationType
@@ -142,7 +183,6 @@ public class Morphology {
          */
         Image result = new Image(image);
 
-        Image temp;
         switch (morphologyType) {
             case DILATE:
                 Filters.noneLinearFilter(image, result, kernelSize, kernelSize.getCenter(), iterations, extrapolationType, new Operator() {
@@ -165,7 +205,7 @@ public class Morphology {
                     }
                 });
 
-                return result;
+                break;
 
             case ERODE:
                 Filters.noneLinearFilter(image, result, kernelSize, kernelSize.getCenter(), iterations, extrapolationType, new Operator() {
@@ -188,47 +228,57 @@ public class Morphology {
                     }
                 });
 
-                return result;
+                break;
 
             case OPEN:
-                result = null;
-
-                temp = image;
+                result = image;
                 for (int i = 0; i < iterations; ++i) {
-                    temp = Morphology.morphology(temp, kernelSize, DILATE, 1, extrapolationType);
-                    temp = Morphology.morphology(temp, kernelSize, ERODE, 1, extrapolationType);
+                    result = Morphology.morphology(result, kernelSize, DILATE, 1, extrapolationType);
+                    result = Morphology.morphology(result, kernelSize, ERODE, 1, extrapolationType);
                 }
 
-                return temp;
+                break;
 
             case CLOSE:
-                result = null;
-
-                temp = image;
+                result = image;
                 for (int i = 0; i < iterations; ++i) {
-                    temp = Morphology.morphology(temp, kernelSize, ERODE, 1, extrapolationType);
-                    temp = Morphology.morphology(temp, kernelSize, DILATE, 1, extrapolationType);
+                    result = Morphology.morphology(result, kernelSize, ERODE, 1, extrapolationType);
+                    result = Morphology.morphology(result, kernelSize, DILATE, 1, extrapolationType);
                 }
 
-                return temp;
+                break;
 
             case GRADIENT:
-                result = null;
-
-                temp = image;
+                result = image;
                 for (int i = 0; i < iterations; ++i) {
-                    Image dilate = Morphology.morphology(temp, kernelSize, DILATE, 1, extrapolationType);
-                    Image erode = Morphology.morphology(temp, kernelSize, ERODE, 1, extrapolationType);
+                    Image dilate = Morphology.morphology(result, kernelSize, DILATE, 1, extrapolationType);
+                    Image erode = Morphology.morphology(result, kernelSize, ERODE, 1, extrapolationType);
 
-                    temp = absDiff(dilate, erode);
+                    result = absDiff(dilate, erode);
                 }
 
-                return temp;
+                break;
+
+            case WHITE_TOP_HAT:
+                result = image;
+                for (int i = 0; i < iterations; ++i) {
+                    result = minus(result, Morphology.morphology(result, kernelSize, OPEN, 1, extrapolationType));
+                }
+                break;
+
+            case BLACK_TOP_HAT:
+                result = image;
+                for (int i = 0; i < iterations; ++i) {
+                    result = minus(Morphology.morphology(result, kernelSize, CLOSE, 1, extrapolationType), result);
+                }
+                break;
 
             default:
                 throw new IllegalArgumentException(
-                    "Parameter 'morphologyType' have unknown value! Use 'Filters.MORPHOLOGY_*' as a parameters!");
+                    "Parameter 'morphologyType' have unknown value! Use 'Morphology.*' as a parameters!");
         }
+
+        return result;
     }
 
     /**
@@ -250,7 +300,7 @@ public class Morphology {
      * @param kernelSize
      *            Size of kernel for applying filter. <STRONG>Should have odd size for both dimensions (1, 3, 5, ...)!</STRONG>
      * @param morphologyType
-     *            Type of morphology filter. Use <CODE>Filters.MORPHOLOGY_*</CODE> parameters.
+     *            Type of morphology filter. Use <CODE>Morphology.*</CODE> parameters.
      * @param iterations
      *            Number of applying this filter to source image.
      * @return
@@ -279,7 +329,7 @@ public class Morphology {
      * @param kernelSize
      *            Size of kernel for applying filter. <STRONG>Should have odd size for both dimensions (1, 3, 5, ...)!</STRONG>
      * @param morphologyType
-     *            Type of morphology filter. Use <CODE>Filters.MORPHOLOGY_*</CODE> parameters.
+     *            Type of morphology filter. Use <CODE>Morphology.*</CODE> parameters.
      * @return
      *         Image with result of applying morphology filter. Have same size, number of channels and type as a source image.
      */
@@ -444,9 +494,8 @@ public class Morphology {
          * Verify parameters.
          */
         JCV.verifyIsNotNull(image, "image");
-
         if (c < 0.0) {
-            throw new IllegalArgumentException("Parameter 'c' (=" + Double.toString(c) + ") must be more than 0.0!");
+            throw new IllegalArgumentException("Parameter 'c' (=" + Double.toString(c) + ") must be more or equal 0.0!");
         }
 
         /*

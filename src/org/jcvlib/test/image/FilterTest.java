@@ -152,7 +152,6 @@ public class FilterTest {
                  *      f --> t
                  */
                 return aperture.get(new Point(2, 0));
-                // return aperture.get(anchor);
             }
         });
 

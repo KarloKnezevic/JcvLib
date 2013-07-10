@@ -46,12 +46,6 @@ public class ObjectDetect {
      *         average Euclidean distance in normalize form (all values between {@link Color#COLOR_MIN_VALUE} and
      *         {@link Color#COLOR_MAX_VALUE}) between template and all sub-images.
      */
-    /*
-     * (non-Javadoc)
-     * See:
-     * * http://docs.opencv.org/modules/imgproc/doc/object_detection.html#matchtemplate
-     * * http://docs.opencv.org/2.4.2/doc/tutorials/imgproc/histograms/template_matching/template_matching.html
-     */
     public static Image matchTempleteEuclid(final Image image, final Image template) {
         /*
          * Verify parameters.

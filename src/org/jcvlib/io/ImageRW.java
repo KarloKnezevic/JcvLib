@@ -66,12 +66,12 @@ import com.sixlegs.png.PngImage;
  * </UL>
  * </P>
  *
- * <H3>Links:</H3>
  * <P>
+ * <H6>Links:</H6>
  * <OL>
- * <LI><A href="http://en.wikipedia.org/wiki/JPEG">JPEG -- Wikiedia</A></LI>
- * <LI><A href="http://en.wikipedia.org/wiki/Portable_Network_Graphics">PNG (Portable Network Graphics) -- Wikiedia</A></LI>
- * <LI><A href="http://en.wikipedia.org/wiki/BMP_file_format">BMP (BitMaP) -- Wikiedia</A></LI>
+ * <LI><A href="http://en.wikipedia.org/wiki/JPEG">JPEG -- Wikiedia</A>.</LI>
+ * <LI><A href="http://en.wikipedia.org/wiki/Portable_Network_Graphics">PNG (Portable Network Graphics) -- Wikiedia</A>.</LI>
+ * <LI><A href="http://en.wikipedia.org/wiki/BMP_file_format">BMP (BitMaP) -- Wikiedia</A>.</LI>
  * <LI><A href="http://people.sc.fsu.edu/~jburkardt/data/data.html">Examples of files in various formats</A>.</LI>
  * </OL>
  * </P>
@@ -91,12 +91,12 @@ public class ImageRW {
      * </UL>
      * </P>
      *
-     * <H3>Links:</H3>
      * <P>
+     * <H6>Links:</H6>
      * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/JPEG">JPEG -- Wikiedia</A></LI>
-     * <LI><A href="http://en.wikipedia.org/wiki/Portable_Network_Graphics">PNG (Portable Network Graphics) -- Wikiedia</A></LI>
-     * <LI><A href="http://en.wikipedia.org/wiki/BMP_file_format">BMP (BitMaP) -- Wikiedia</A></LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/JPEG">JPEG -- Wikiedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/Portable_Network_Graphics">PNG (Portable Network Graphics) -- Wikiedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/BMP_file_format">BMP (BitMaP) -- Wikiedia</A>.</LI>
      * <LI><A href="http://people.sc.fsu.edu/~jburkardt/data/data.html">Examples of files in various formats</A>.</LI>
      * </OL>
      * </P>
@@ -142,12 +142,12 @@ public class ImageRW {
      * </UL>
      * </P>
      *
-     * <H3>Links:</H3>
      * <P>
+     * <H6>Links:</H6>
      * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/JPEG">JPEG -- Wikiedia</A></LI>
-     * <LI><A href="http://en.wikipedia.org/wiki/Portable_Network_Graphics">PNG (Portable Network Graphics) -- Wikiedia</A></LI>
-     * <LI><A href="http://en.wikipedia.org/wiki/BMP_file_format">BMP (BitMaP) -- Wikiedia</A></LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/JPEG">JPEG -- Wikiedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/Portable_Network_Graphics">PNG (Portable Network Graphics) -- Wikiedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/BMP_file_format">BMP (BitMaP) -- Wikiedia</A>.</LI>
      * <LI><A href="http://people.sc.fsu.edu/~jburkardt/data/data.html">Examples of files in various formats</A>.</LI>
      * </OL>
      * </P>
@@ -176,12 +176,12 @@ public class ImageRW {
      * </UL>
      * </P>
      *
-     * <H3>Links:</H3>
      * <P>
+     * <H6>Links:</H6>
      * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/JPEG">JPEG -- Wikiedia</A></LI>
-     * <LI><A href="http://en.wikipedia.org/wiki/Portable_Network_Graphics">PNG (Portable Network Graphics) -- Wikiedia</A></LI>
-     * <LI><A href="http://en.wikipedia.org/wiki/BMP_file_format">BMP (BitMaP) -- Wikiedia</A></LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/JPEG">JPEG -- Wikiedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/Portable_Network_Graphics">PNG (Portable Network Graphics) -- Wikiedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/BMP_file_format">BMP (BitMaP) -- Wikiedia</A>.</LI>
      * <LI><A href="http://people.sc.fsu.edu/~jburkardt/data/data.html">Examples of files in various formats</A>.</LI>
      * </OL>
      * </P>
@@ -219,12 +219,12 @@ public class ImageRW {
      * </UL>
      * </P>
      *
-     * <H3>Links:</H3>
      * <P>
+     * <H6>Links:</H6>
      * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/JPEG">JPEG -- Wikiedia</A></LI>
-     * <LI><A href="http://en.wikipedia.org/wiki/Portable_Network_Graphics">PNG (Portable Network Graphics) -- Wikiedia</A></LI>
-     * <LI><A href="http://en.wikipedia.org/wiki/BMP_file_format">BMP (BitMaP) -- Wikiedia</A></LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/JPEG">JPEG -- Wikiedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/Portable_Network_Graphics">PNG (Portable Network Graphics) -- Wikiedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/BMP_file_format">BMP (BitMaP) -- Wikiedia</A>.</LI>
      * <LI><A href="http://people.sc.fsu.edu/~jburkardt/data/data.html">Examples of files in various formats</A>.</LI>
      * </OL>
      * </P>

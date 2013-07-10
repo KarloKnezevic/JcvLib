@@ -145,8 +145,8 @@ public class Color {
     }
 
     /**
-     * Calculate normalize (all values between {@link Color#COLOR_MIN_VALUE} and {@link Color#COLOR_MAX_VALUE}) Euclidean distance between 2
-     * colors.
+     * Calculate normalize (all values between {@link Color#COLOR_MIN_VALUE} and {@link Color#COLOR_MAX_VALUE}) Euclidean
+     * distance between 2 colors.
      *
      * <P>
      * <H6>Links:</H6>

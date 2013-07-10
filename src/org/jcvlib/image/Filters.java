@@ -184,13 +184,13 @@ public class Filters {
     public static final int EDGE_DETECT_SOBEL = 2;
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Sobel_operator#Alternative_operators">Scharr operator</A>.
+     * Scharr operator.
      *
      * <P>
      * <H6>Links:</H6>
      * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/Sobel_operator#Alternative_operators">
-     * Sobel operator. Alternative_operators -- Wikipedia</A>.</LI>
+     * <LI><A href="http://en.wikipedia.org/wiki/Sobel_operator#Alternative_operators">Sobel operator.
+     * Alternative_operators -- Wikipedia</A>.</LI>
      * </OL>
      * </P>
      */
@@ -588,7 +588,7 @@ public class Filters {
     public static Image separableFilter(final Image image, final Matrix kernelFirst, final Matrix kernelSecond, final double div,
         final double offset, final int extrapolationType) {
         // First iteration.
-        Image result = Filters.linearFilter(image, kernelFirst, div, offset, extrapolationType);
+        final Image result = Filters.linearFilter(image, kernelFirst, div, offset, extrapolationType);
 
         // Second iteration.
         return Filters.linearFilter(result, kernelSecond, div, offset, extrapolationType);
@@ -612,13 +612,13 @@ public class Filters {
      *         Image with result of applying Laplace operator. Have same size, number of channels and type as a source image.
      */
     public static Image laplacian(final Image image, final int extrapolationType) {
-        Matrix laplaceKernel = new Matrix(new double[][]{
+        final Matrix laplaceKernel = new Matrix(new double[][]{
             { 0.0, 1.0, 0.0 },
             { 1.0,-4.0, 1.0 },
             { 0.0, 1.0, 0.0 }
         });
-        double div = -1.0;
-        double offset = Color.COLOR_MIN_VALUE;
+        final double div = -1.0;
+        final double offset = Color.COLOR_MIN_VALUE;
 
         return Filters.linearFilter(image, laplaceKernel, div, offset, extrapolationType);
     }
@@ -645,11 +645,11 @@ public class Filters {
      * Invert values into image: each value V invert to <CODE>({@link Color#COLOR_MAX_VALUE} - V)</CODE>.
      */
     public static Image invert(final Image image) {
-        Matrix invertKernel = new Matrix(new double[][]{
+        final Matrix invertKernel = new Matrix(new double[][]{
             {-1.0 }
         });
-        double div = 1.0;
-        double offset = Color.COLOR_MAX_VALUE;
+        final double div = 1.0;
+        final double offset = Color.COLOR_MAX_VALUE;
 
         return Filters.linearFilter(image, invertKernel, div, offset, Image.EXTRAPLOATION_REFLECT);
     }
@@ -828,7 +828,7 @@ public class Filters {
         Matrix kernel = new Matrix(kernelSize, 1);
 
         // Calculate values.
-        int kernelHalfSize = (int) ((kernelSize - 1) / 2);
+        final int kernelHalfSize = (int) ((kernelSize - 1) / 2);
         for (int i = -kernelHalfSize; i <= kernelHalfSize; ++i) {
             kernel.set(i + kernelHalfSize, 0, Math.exp(-(i * i) / (2.0 * sigma2)));
         }
@@ -911,10 +911,10 @@ public class Filters {
      */
     public static Image gaussianBlur(final Image image, final Size kernelSize, final double sigmaX, final double sigmaY,
         final int extrapolationType) {
-        Matrix gaussianKernelX = Filters.getGaussianKernel(kernelSize.getWidth(), sigmaX);
-        Matrix gaussianKernelY = Filters.getGaussianKernel(kernelSize.getHeight(), sigmaY).transpose();
-        double div = 1.0;
-        double offset = Color.COLOR_MIN_VALUE;
+        final Matrix gaussianKernelX = Filters.getGaussianKernel(kernelSize.getWidth(), sigmaX);
+        final Matrix gaussianKernelY = Filters.getGaussianKernel(kernelSize.getHeight(), sigmaY).transpose();
+        final double div = 1.0;
+        final double offset = Color.COLOR_MIN_VALUE;
 
         return Filters.separableFilter(image, gaussianKernelX, gaussianKernelY, div, offset, extrapolationType);
     }
@@ -923,7 +923,7 @@ public class Filters {
      * Calculate variance of sub-rectangle of kernel. Used into Kuwahara blur.
      */
     private static double[] variance(final Image aperture, final Color average) {
-        double[] result = new double[aperture.getNumOfChannels()];
+        final double[] result = new double[aperture.getNumOfChannels()];
         for (int i = 0; i < aperture.getNumOfChannels(); ++i) {
             result[i] = 0.0;
         }
