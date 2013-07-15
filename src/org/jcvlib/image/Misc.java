@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.jcvlib.core.FloodFillStruct;
 import org.jcvlib.core.JCV;
 import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
@@ -31,8 +32,6 @@ import org.jcvlib.core.Size;
 import org.jcvlib.parallel.ChannelsLoop;
 import org.jcvlib.parallel.Parallel;
 import org.jcvlib.parallel.PixelsLoop;
-
-import Jama.Matrix;
 
 /**
  * Contains miscellaneous image processing methods.
@@ -442,6 +441,111 @@ public class Misc {
     }
 
     /**
+     * This method <STRONG>sum</STRONG> 2 given images. Analog <STRONG>union</STRONG> for binary images and sets.
+     *
+     * <P>
+     * If value of color will be more than <CODE>{@link Color#COLOR_MAX_VALUE}</CODE> this color value set
+     * <CODE>{@link Color#COLOR_MAX_VALUE}</CODE>.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Union_(set_theory)">Union (set theory) -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
+     */
+    public static Image sum(final Image image1, final Image image2) {
+        /*
+         * Verify parameters.
+         */
+        JCV.verifyIsSameSize(image1, "image1", image2, "image2");
+        JCV.verifyIsSameChannels(image1, "image1", image2, "image2");
+
+        /*
+         * Perform operation.
+         */
+        final Image result = image1.getSame();
+
+        Parallel.pixels(result, new PixelsLoop() {
+            @Override
+            public void execute(final int x, final int y) {
+                for (int channel = 0; channel < result.getNumOfChannels(); ++channel) {
+                    result.set(x, y, channel, image1.get(x, y, channel) + image2.get(x, y, channel));
+                }
+            }
+        });
+
+        return result;
+    }
+
+    /**
+     * Absolute value of difference between 2 images.
+     */
+    public static Image absDiff(final Image image1, final Image image2) {
+        /*
+         * Verify parameters.
+         */
+        JCV.verifyIsSameSize(image1, "image1", image2, "image2");
+        JCV.verifyIsSameChannels(image1, "image1", image2, "image2");
+
+        /*
+         * Perform operation.
+         */
+        final Image result = image1.getSame();
+
+        Parallel.pixels(image1, new PixelsLoop() {
+            @Override
+            public void execute(final int x, final int y) {
+                for (int channel = 0; channel < image1.getNumOfChannels(); ++channel) {
+                    result.set(x, y, channel, Math.abs(image1.get(x, y, channel) - image2.get(x, y, channel)));
+                }
+            }
+        });
+
+        return result;
+    }
+
+    /**
+     * First image <STRONG>minus</STRONG> second image. Analog <STRONG>complement</STRONG> for sets.
+     *
+     * <P>
+     * If value of color will be less than <CODE>{@link Color#COLOR_MIN_VALUE}</CODE> this color value set
+     * <CODE>{@link Color#COLOR_MIN_VALUE}</CODE>.
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Complement_(set_theory)">Complement (set theory) -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
+     */
+    public static Image minus(final Image image1, final Image image2) {
+        /*
+         * Verify parameters.
+         */
+        JCV.verifyIsSameSize(image1, "image1", image2, "image2");
+        JCV.verifyIsSameChannels(image1, "image1", image2, "image2");
+
+        /*
+         * Perform operation.
+         */
+        final Image result = image1.getSame();
+
+        Parallel.pixels(result, new PixelsLoop() {
+            @Override
+            public void execute(final int x, final int y) {
+                for (int channel = 0; channel < image1.getNumOfChannels(); ++channel) {
+                    result.set(x, y, channel, image1.get(x, y, channel) - image2.get(x, y, channel));
+                }
+            }
+        });
+
+        return result;
+    }
+
+    /**
      * Return arithmetic mean of colors in current image.
      *
      * <P>
@@ -482,48 +586,5 @@ public class Misc {
         }
 
         return mean;
-    }
-
-    /**
-     * Calculate matrix convolution.
-     *
-     * <P>
-     * <H6>Links:</H6>
-     * <OL>
-     * <LI><A href="http://docs.gimp.org/en/plug-in-convmatrix.html">Convolution Matrix -- GIMP Docs</A>.</LI>
-     * </OL>
-     * </P>
-     *
-     * @param image
-     *            Source image.
-     * @param kernel
-     *            Matrix for convolution.
-     * @return
-     *         Array with result of convolution matrix to all channels of image.
-     */
-    public static double[] convolve(final Image image, final Matrix kernel) {
-        /*
-         * Verify parameters.
-         */
-        JCV.verifyIsNotNull(image, "image");
-        JCV.verifyIsNotNull(kernel, "kernel");
-
-        /*
-         * Perform operation.
-         */
-        double[] result = new double[image.getNumOfChannels()];
-        for (int i = 0; i < result.length; ++i) {
-            result[i] = 0.0;
-        }
-
-        for (int x = 0; x < image.getWidth(); ++x) {
-            for (int y = 0; y < image.getHeight(); ++y) {
-                for (int channel = 0; channel < image.getNumOfChannels(); ++channel) {
-                    result[channel] += image.get(x, y, channel) * kernel.get(y, x);
-                }
-            }
-        }
-
-        return result;
     }
 }

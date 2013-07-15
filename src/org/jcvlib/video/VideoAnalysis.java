@@ -21,7 +21,7 @@ package org.jcvlib.video;
 import org.jcvlib.core.JCV;
 import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
-import org.jcvlib.image.Morphology;
+import org.jcvlib.image.Misc;
 import org.jcvlib.parallel.Parallel;
 import org.jcvlib.parallel.PixelsLoop;
 
@@ -68,6 +68,6 @@ public class VideoAnalysis {
         });
 
         // Add new image to history.
-        Morphology.sum(history, mask).copyTo(history);
+        Misc.sum(history, mask).copyTo(history);
     }
 }

@@ -29,24 +29,10 @@ import org.jcvlib.parallel.PixelsLoop;
  * Contains methods to convert images from one color scheme to another.
  *
  * <P>
- * Supported following color schemas:
- * <UL>
- * <LI>
- * Grayscale <CODE><-></CODE> RGB</LI>
- * <LI>
- * HSL/HLS/HSI <CODE><-></CODE> RGB</LI>
- * <LI>
- * HSV/HSB <CODE><-></CODE> RGB</LI>
- * </UL>
- * </P>
- *
- * <P>
  * <H6>Links:</H6>
  * <OL>
- * <LI><A href="http://en.wikipedia.org/wiki/Grayscale">Grayscale -- Wikipedia</A>.</LI>
- * <LI><A href="http://en.wikipedia.org/wiki/RGB">RGB -- Wikipedia</A>.</LI>
- * <LI><A href="http://en.wikipedia.org/wiki/HSL_and_HSV">HSL and HSV -- Wikipedia</A>.</LI>
- * <LI><A href="http://en.wikipedia.org/wiki/Grayscale">Grayscale -- Wikipedia</A>.</LI>
+ * <LI>Shapiro L., Stockman G. -- Computer Vision. 2000.</LI>
+ * <LI>Gonzalez R. C., Woods R. E. -- Digital Image Processing. 2nd ed. 2002.<LI>
  * </OL>
  * </P>
  *
@@ -125,7 +111,7 @@ public class ColorConvert {
         /*
          * Perform transformation.
          */
-        final Image result = new Image(image);
+        final Image result = image.getSame();
 
         for (int channel = 0; channel < result.getNumOfChannels(); ++channel) {
             final int proxyChannel = channel;
@@ -174,7 +160,7 @@ public class ColorConvert {
         /*
          * Perform transformation.
          */
-        final Image result = new Image(image);
+        final Image result = image.getSame();
 
         Parallel.pixels(image, new PixelsLoop() {
             @Override
@@ -274,7 +260,7 @@ public class ColorConvert {
         /*
          * Perform transformation.
          */
-        final Image result = new Image(image);
+        final Image result = image.getSame();
 
         Parallel.pixels(image, new PixelsLoop() {
             @Override
@@ -363,7 +349,7 @@ public class ColorConvert {
         /*
          * Perform transformation.
          */
-        final Image result = new Image(image);
+        final Image result = image.getSame();
 
         Parallel.pixels(image, new PixelsLoop() {
             @Override
@@ -453,7 +439,7 @@ public class ColorConvert {
         /*
          * Perform transformation.
          */
-        final Image result = new Image(image);
+        final Image result = image.getSame();
 
         Parallel.pixels(image, new PixelsLoop() {
             @Override

@@ -16,10 +16,8 @@
 /*
  * This class is part of Java Computer Vision Library (JcvLib).
  */
-package org.jcvlib.image;
+package org.jcvlib.core;
 
-import org.jcvlib.core.Point;
-import org.jcvlib.core.Rectangle;
 
 /**
  * This structure contains some useful statistics about filled field. This is immutable object -- you can not change values of it after

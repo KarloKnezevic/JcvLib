@@ -70,7 +70,7 @@ public class Texture {
         /*
          * Perform operation.
          */
-        Image result = new Image(image);
+        Image result = image.getSame();
 
         Filters.noneLinearFilter(image, result, patternSize, patternSize.getCenter(), 1, extrapolationType, new Operator() {
             @Override

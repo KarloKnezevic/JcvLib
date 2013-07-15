@@ -24,7 +24,7 @@ import java.io.IOException;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Size;
 import org.jcvlib.gui.Window;
-import org.jcvlib.image.Morphology;
+import org.jcvlib.image.Filters;
 import org.jcvlib.io.ImageRW;
 
 /**
@@ -38,10 +38,10 @@ public class ErodeDilateExample {
         final Image image = ImageRW.read("resources" + File.separatorChar + "Lenna.bmp");
 
         // Apply morphology operations.
-        final Image erode = Morphology.morphology(image, new Size(3, 3), Morphology.ERODE, 2);
-        final Image dilate = Morphology.morphology(image, new Size(3, 3), Morphology.DILATE, 2);
-        final Image open = Morphology.morphology(image, new Size(3, 3), Morphology.OPEN, 2);
-        final Image close = Morphology.morphology(image, new Size(3, 3), Morphology.CLOSE, 2);
+        final Image erode = Filters.morphology(image, new Size(3, 3), Filters.MORPHOLOGY_ERODE, 2);
+        final Image dilate = Filters.morphology(image, new Size(3, 3), Filters.MORPHOLOGY_DILATE, 2);
+        final Image open = Filters.morphology(image, new Size(3, 3), Filters.MORPHOLOGY_OPEN, 2);
+        final Image close = Filters.morphology(image, new Size(3, 3), Filters.MORPHOLOGY_CLOSE, 2);
 
         // Output results.
         Window.openAndShow(image, "Lenna");

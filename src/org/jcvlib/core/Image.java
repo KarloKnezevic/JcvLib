@@ -21,6 +21,8 @@ package org.jcvlib.core;
 import org.jcvlib.parallel.Parallel;
 import org.jcvlib.parallel.PixelsLoop;
 
+import Jama.Matrix;
+
 /**
  * Main class for all images that used into the JcvLib.
  *
@@ -214,17 +216,6 @@ public class Image {
                 }
             }
         });
-    }
-
-    /**
-     * Create <STRONG>empty</STRONG> image with size, number of channels and source type as in given image.
-     *
-     * <P>
-     * <STRONG>It is not copy -- values from given image will be not copied!</STRONG>
-     * </P>
-     */
-    public Image(final Image image) {
-        this(image.getWidth(), image.getHeight(), image.getNumOfChannels(), image.getType());
     }
 
     /**
@@ -606,6 +597,17 @@ public class Image {
     }
 
     /**
+     * Create <STRONG>empty</STRONG> image with size, number of channels and source type as in given image.
+     *
+     * <P>
+     * <STRONG>Values from given image will be not copied!</STRONG>
+     * </P>
+     */
+    public Image getSame() {
+        return new Image(this.getWidth(), this.getHeight(), this.getNumOfChannels(), this.getType());
+    }
+
+    /**
      * Copy values from current to given image. <STRONG>Given image should have SAME size as current image.</STRONG>
      */
     public void copyTo(final Image target) {
@@ -637,7 +639,7 @@ public class Image {
      * Return copy of current image. It will be a <STRONG>REAL COPY</STRONG> of current image or sub-image!
      */
     public Image copy() {
-        Image copy = new Image(this);
+        Image copy = this.getSame();
         this.copyTo(copy);
 
         return copy;
@@ -713,6 +715,79 @@ public class Image {
      */
     public Image getChannel(final int numChannel) {
         return this.getLayer(numChannel, 1);
+    }
+
+    /**
+     * This method <STRONG>multiply</STRONG> current image on given number.
+     *
+     * <P>
+     * If value of color will be more than <CODE>{@link Color#COLOR_MAX_VALUE}</CODE> this color value set
+     * <CODE>{@link Color#COLOR_MAX_VALUE}</CODE>. If value of color will be less than <CODE>{@link Color#COLOR_MIN_VALUE}</CODE>
+     * this color value set <CODE>{@link Color#COLOR_MIN_VALUE}</CODE>.
+     * </P>
+     */
+    public void mult(final double c) {
+        /*
+         * Verify parameters.
+         */
+        if (c < 0.0) {
+            throw new IllegalArgumentException("Parameter 'c' (=" + Double.toString(c) + ") must be more or equal 0.0!");
+        }
+
+        /*
+         * Perform operation.
+         */
+        Parallel.pixels(this, new PixelsLoop() {
+            @Override
+            public void execute(final int x, final int y) {
+                for (int channel = 0; channel < getNumOfChannels(); ++channel) {
+                    set(x, y, channel, get(x, y, channel) * c);
+                }
+            }
+        });
+    }
+
+    /**
+     * Calculate matrix convolution.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://docs.gimp.org/en/plug-in-convmatrix.html">Convolution Matrix -- GIMP Docs</A>.</LI>
+     * </OL>
+     * </P>
+     *
+     * @param image
+     *            Source image.
+     * @param kernel
+     *            Matrix for convolution.
+     * @return
+     *         Array with result of convolution matrix to all channels of image.
+     */
+    public double[] convolve(final Matrix kernel) {
+        /*
+         * Verify parameters.
+         */
+        JCV.verifyIsNotNull(kernel, "kernel");
+
+        /*
+         * Perform operation.
+         */
+        final double[] result = new double[this.getNumOfChannels()];
+        for (int i = 0; i < result.length; ++i) {
+            result[i] = 0.0;
+        }
+
+        Parallel.pixels(this, new PixelsLoop() {
+            @Override
+            public void execute(final int x, final int y) {
+                for (int channel = 0; channel < getNumOfChannels(); ++channel) {
+                    result[channel] += get(x, y, channel) * kernel.get(y, x);
+                }
+            }
+        });
+
+        return result;
     }
 
     /**

@@ -27,7 +27,7 @@ import org.jcvlib.core.Size;
 import org.jcvlib.gui.Window;
 import org.jcvlib.image.ColorConvert;
 import org.jcvlib.image.Filters;
-import org.jcvlib.image.Morphology;
+import org.jcvlib.image.Misc;
 import org.jcvlib.io.WebCamReader;
 import org.jcvlib.video.VideoAnalysis;
 
@@ -73,7 +73,7 @@ public class MotionDetectorExample {
             current = blur.copy();
 
             // 2. Minus previous.
-            blur = Morphology.absDiff(blur, previous);
+            blur = Misc.absDiff(blur, previous);
 
             // 3. Put blur current copy image to previous.
             previous = current.copy();
@@ -82,10 +82,10 @@ public class MotionDetectorExample {
             Image thresh = Filters.threshold(blur, motionThreshold, Filters.THRESHOLD_BINARY);
 
             // 5. Morphology close.
-            Image close = Morphology.morphology(thresh, kernelSize, Morphology.CLOSE);
+            Image close = Filters.morphology(thresh, kernelSize, Filters.MORPHOLOGY_CLOSE);
 
             // 6. Morphology open.
-            Image open = Morphology.morphology(close, kernelSize, Morphology.OPEN);
+            Image open = Filters.morphology(close, kernelSize, Filters.MORPHOLOGY_OPEN);
 
             // 7. Update motion history image.
             VideoAnalysis.updateHistoryImage(mhi, open, 16.0);

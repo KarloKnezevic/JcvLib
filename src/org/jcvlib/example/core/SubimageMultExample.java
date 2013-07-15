@@ -24,7 +24,6 @@ import java.io.IOException;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Rectangle;
 import org.jcvlib.gui.Window;
-import org.jcvlib.image.Morphology;
 import org.jcvlib.io.ImageRW;
 
 /**
@@ -51,8 +50,8 @@ public class SubimageMultExample {
         final Image subImage2 = sourceImage.getSubimage(new Rectangle(350, 100, 100, 100)).copy();
 
         // Set some changes into sub-images.
-        Morphology.mult(subImage1, 2.0).copyTo(subImage1); // This changes will be applied onto source image.
-        Morphology.mult(subImage2, 0.5).copyTo(subImage2); // This image have different source and changes on it not applied onto source image.
+        subImage1.mult(2.0); // This changes will be applied onto source image.
+        subImage2.mult(0.5); // This image have different source and changes on it not applied onto source image.
 
         // Show window with images.
         Window.openAndShow(sourceImage, "Green Apple");

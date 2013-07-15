@@ -22,10 +22,10 @@ import java.io.File;
 import java.io.IOException;
 
 import org.jcvlib.core.Color;
+import org.jcvlib.core.FloodFillStruct;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Point;
 import org.jcvlib.gui.Window;
-import org.jcvlib.image.FloodFillStruct;
 import org.jcvlib.image.Misc;
 import org.jcvlib.io.ImageRW;
 

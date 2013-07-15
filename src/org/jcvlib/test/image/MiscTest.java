@@ -21,9 +21,9 @@ package org.jcvlib.test.image;
 import static org.junit.Assert.*;
 
 import org.jcvlib.core.Color;
+import org.jcvlib.core.FloodFillStruct;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Point;
-import org.jcvlib.image.FloodFillStruct;
 import org.jcvlib.image.Misc;
 import org.junit.Test;
 
