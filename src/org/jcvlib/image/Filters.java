@@ -941,9 +941,6 @@ public class Filters {
     }
     /**
      * Theshold by Otsu method.
-     *
-     * @param image
-     * @return
      */
     public static int calcOtsuThreshold(final Image image) {
         final Hist hist = new Hist(image);
@@ -996,7 +993,7 @@ public class Filters {
      * Edge detection algorithms.
      *
      * <P>
-     * Based on {@link Segment#gradientFilter(Image, Matrix, Matrix, double, int)}.
+     * Based on {@link Filters#gradientFilter(Image, Matrix, Matrix, double, int)}.
      * </P>
      *
      * <P>
@@ -1081,7 +1078,7 @@ public class Filters {
      * Edge detection algorithms.
      *
      * <P>
-     * Based on {@link Segment#gradientFilter(Image, Matrix, Matrix, double, int)}.
+     * Based on {@link Filters#gradientFilter(Image, Matrix, Matrix, double, int)}.
      * </P>
      *
      * <P>
@@ -1109,11 +1106,11 @@ public class Filters {
      * Edge detection algorithms.
      *
      * <P>
-     * Based on {@link Segment#gradientFilter(Image, Matrix, Matrix, double, int)}.
+     * Based on {@link Filters#gradientFilter(Image, Matrix, Matrix, double, int)}.
      * </P>
      *
      * <P>
-     * Use {@link Segment#EDGE_DETECT_SOBEL} as default edge detection method, <CODE>1.0</CODE> as default scale and
+     * Use {@link Filters#EDGE_DETECT_SOBEL} as default edge detection method, <CODE>1.0</CODE> as default scale and
      * {@link Image#EXTRAPLOATION_REFLECT} as default extrapolation type.
      * </P>
      *
@@ -1828,7 +1825,7 @@ public class Filters {
     }
 
     /**
-     * Same as {@link morphology}, but use {@link Image#EXTRAPLOATION_REPLICATE}
+     * Same as {@link Filters#morphology(Image, Size, int, int, int)}, but use {@link Image#EXTRAPLOATION_REPLICATE}
      * as default extrapolation type.
      */
     public static Image morphology(final Image image, final Size kernelSize, final int morphologyType, final int iterations) {
@@ -1836,7 +1833,7 @@ public class Filters {
     }
 
     /**
-     * Same as {@link morphology}, but use <CODE>1</CODE> as default iteration and
+     * Same as {@link Filters#morphology(Image, Size, int, int)}, but use <CODE>1</CODE> as default iteration and
      * {@link Image#EXTRAPLOATION_REPLICATE} as default extrapolation type.
      */
     public static Image morphology(final Image image, final Size kernelSize, final int morphologyType) {

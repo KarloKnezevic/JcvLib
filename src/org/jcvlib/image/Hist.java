@@ -174,7 +174,7 @@ public class Hist {
      *
      * @param image
      *            Source image.
-     * @param sizes
+     * @param size
      *            Size of histogram per channel.
      */
     public Hist(final Image image, final int size) {
@@ -210,11 +210,6 @@ public class Hist {
 
     /**
      * Create image histogram. Use <CODE>256</CODE> elements per channel by default.
-     *
-     * @param image
-     *            Source image.
-     * @param sizes
-     *            Size of histogram that will be created.
      */
     public Hist(final Image image) {
         this(image, JCV.roundDown(Color.COLOR_MAX_VALUE) + 1);
@@ -299,16 +294,14 @@ public class Hist {
     }
 
     /**
-     * Compare 2 histograms.
+     * Compare current histogram.
      *
      * <P>
      * <STRONG>Histograms must have the same size!</STRONG>
      * </P>
      *
-     * @param hist1
-     *            First histogram.
-     * @param hist2
-     *            Second histogram.
+     * @param hist
+     *            Second histogram to compare.
      * @param compareType
      *            Type of compare histograms. Use <CODE>Hist.HISTOGRAM_COMPARE_*</CODE>.
      */
@@ -410,11 +403,6 @@ public class Hist {
         this.normalize();
     }
 
-    /**
-     *
-     * @param image
-     * @return
-     */
     public Image selectPixels(final Image image) {
         /*
          * Verify parameters.

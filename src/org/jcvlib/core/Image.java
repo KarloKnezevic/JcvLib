@@ -757,8 +757,6 @@ public class Image {
      * </OL>
      * </P>
      *
-     * @param image
-     *            Source image.
      * @param kernel
      *            Matrix for convolution.
      * @return

@@ -74,7 +74,7 @@ public class HistTest {
     }
 
     /**
-     * Test method for: {@link Hist#calculateHistogram(Image, int)}.
+     * Test method for: {@link Hist}.
      */
     @Test
     public void testCalculateHistogram() {
@@ -109,7 +109,7 @@ public class HistTest {
     }
 
     /**
-     * Test method for: {@link Hist#compareHist(double[], double[], int)}.
+     * Test method for: {@link Hist#compare(Hist, int)}.
      */
     @Test
     public void testCorrel() {
@@ -126,7 +126,7 @@ public class HistTest {
     }
 
     /**
-     * Test method for: {@link Hist#compareHist(double[], double[], int)}.
+     * Test method for: {@link Hist#compare(Hist, int)}.
      */
     @Test
     public void testChiSqr() {
@@ -143,7 +143,7 @@ public class HistTest {
     }
 
     /**
-     * Test method for: {@link Hist#compareHist(double[], double[], int)}.
+     * Test method for: {@link Hist#compare(Hist, int)}.
      */
     @Test
     public void testIntersect() {
@@ -153,7 +153,7 @@ public class HistTest {
     }
 
     /**
-     * Test method for: {@link Hist#compareHist(double[], double[], int)}.
+     * Test method for: {@link Hist#compare(Hist, int)}.
      */
     @Test
     public void testBhattacharyya() {
