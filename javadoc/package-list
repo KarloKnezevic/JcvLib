@@ -4,11 +4,11 @@ org.jcvlib.example.imageproc
 org.jcvlib.example.io
 org.jcvlib.example.video
 org.jcvlib.gui
-org.jcvlib.imageproc
+org.jcvlib.image
 org.jcvlib.io
 org.jcvlib.parallel
 org.jcvlib.performance
 org.jcvlib.test.core
-org.jcvlib.test.imageproc
+org.jcvlib.test.image
 org.jcvlib.test.io
 org.jcvlib.video
