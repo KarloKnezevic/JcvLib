@@ -34,7 +34,6 @@ import org.jcvlib.video.VideoAnalysis;
 /**
  * This is example show how to use motion detector.
  *
- * @version 1.011
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class MotionDetectorExample {
