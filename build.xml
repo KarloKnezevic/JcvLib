@@ -74,6 +74,9 @@
         <delete dir="${bin.dir}" />
         <delete dir="${build.dir}" />
         <delete dir="${javadoc.dir}" />
+        <delete>
+            <fileset dir="${basedir}" includes="*.zip" />
+        </delete>
     </target>
 
     <!--
@@ -129,7 +132,7 @@
     <!--
         Build jar-file.
     -->
-    <target name="build" depends="test, javadoc">
+    <target name="build" depends="clean, test, javadoc">
         <jar destfile="${build.dir}/${program.name}-${program.full.ver}-bin.jar" basedir="${bin.dir}" />
 
         <!--
@@ -155,7 +158,7 @@
     <!--
         Create distrib.
     -->
-    <target name="create-zip-distr" depends="clean, build">
+    <target name="create-zip-distr" depends="build">
         <zip destfile="${basedir}/${library.distr}.zip" basedir="${build.dir}" />
     </target>
 </project>
