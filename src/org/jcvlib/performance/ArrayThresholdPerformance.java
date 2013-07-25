@@ -29,7 +29,7 @@ import org.jcvlib.parallel.Parallel;
  *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
-public class ArrayPerformance {
+public class ArrayThresholdPerformance {
 
     private static final int channels = 4;
 
@@ -199,11 +199,11 @@ public class ArrayPerformance {
         Parallel.setNumOfWorkers(1);
         for (int mSize : sizes) {
             System.out.println("Size " + mSize + "x" + mSize + " by " + numOfIterations + " iterations: ");
-            System.out.println("    Image64F:      " + testImage64F(mSize, mSize, numOfIterations));        // ~2.4
-            System.out.println("    Image8I:       " + testImage8I(mSize, mSize, numOfIterations));         // ~4.4
+            System.out.println("    Image64F:      " + testImage64F(mSize, mSize, numOfIterations));        // ~3
+            System.out.println("    Image8I:       " + testImage8I(mSize, mSize, numOfIterations));         // ~5
             System.out.println("    ImageArray64F: " + testImageArray64F(mSize, mSize, numOfIterations));   // ~1
             System.out.println("    ImageArray8I:  " + testImageArray8I(mSize, mSize, numOfIterations));    // ~3
-            System.out.println("    double[]:      " + testDoubleArray(mSize, mSize, numOfIterations));     // =1
+            System.out.println("    double[]:      " + testDoubleArray(mSize, mSize, numOfIterations));     // ~1
             System.out.println("    byte[]:        " + testByteArray(mSize, mSize, numOfIterations));       // =1
         }
     }

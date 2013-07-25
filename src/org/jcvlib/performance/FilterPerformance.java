@@ -39,7 +39,7 @@ import org.jcvlib.parallel.Parallel;
  *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
-public class ThresholdPerformance {
+public class FilterPerformance {
 
     private static final int channels = 4;
 

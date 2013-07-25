@@ -23,7 +23,7 @@ package org.jcvlib.performance;
  *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
-public class Signs {
+public class Sign {
 
     /**
      * Run this test.
