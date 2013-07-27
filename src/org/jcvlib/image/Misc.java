@@ -18,11 +18,10 @@
  */
 package org.jcvlib.image;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.jcvlib.core.FloodFillStruct;
+import org.jcvlib.core.Region;
 import org.jcvlib.core.JCV;
 import org.jcvlib.core.Color;
 import org.jcvlib.core.Image;
@@ -87,7 +86,7 @@ public class Misc {
      * @return
      *         Number of filled pixels.
      */
-    public static FloodFillStruct floodFill(final Image image, final Point seed, final double distance, final Color fillColor,
+    public static Region floodFill(final Image image, final Point seed, final double distance, final Color fillColor,
         final int directionType, final int rangeType) {
         /*
          * Verify parameters.
@@ -99,16 +98,16 @@ public class Misc {
         /*
          * Perform operation.
          */
-        ArrayList<Point> pointList = new ArrayList<Point>();
+        final List<Point> pointList = new LinkedList<Point>();
         pointList.add(seed);
 
-        Color seedColor = image.get(seed);
+        final Color seedColor = image.get(seed);
 
-        ArrayList<Color> colorList = new ArrayList<Color>();
+        final List<Color> colorList = new LinkedList<Color>();
         colorList.add(image.get(seed));
 
-        // Statistic values.
-        int totalFillPixels = 0;
+        // Initialize statistic values.
+        int areaSize = 0;
 
         int leftSide = seed.getX();
         int rigthSide = seed.getX();
@@ -116,19 +115,23 @@ public class Misc {
         int topSide = seed.getY();
         int bottomSide = seed.getY();
 
-        int centerOfGravityX = seed.getX();
-        int centerOfGravityY = seed.getY();
+        int centroidX = seed.getX();
+        int centroidY = seed.getY();
 
         // Main loop.
         while (!pointList.isEmpty() && !colorList.isEmpty()) {
-            Point point = pointList.get(0);
+            final Point point = pointList.get(0);
             pointList.remove(0);
-            Color color = colorList.get(0);
+            final Color color = colorList.get(0);
             colorList.remove(0);
 
             // Add neighbors.
-            ArrayList<Point> neighbors = new ArrayList<Point>();
+            final List<Point> neighbors = new LinkedList<Point>();
             switch (directionType) {
+                /* 1   3
+                 *   x
+                 * 2   4
+                 */
                 case Misc.DIRECTIONS_TYPE_8:
                     if (point.getX() > 0 && point.getY() > 0) {
                         // (x - 1, y - 1)
@@ -146,8 +149,11 @@ public class Misc {
                         // (x + 1, y + 1)
                         neighbors.add(new Point(point.getX() + 1, point.getY() + 1));
                     }
-
-                    // And add all neighbors from type 4.
+                // And add all neighbors from type 4.
+                /*   3
+                 * 1 x 2
+                 *   4
+                 */
                 case Misc.DIRECTIONS_TYPE_4:
                     if (point.getX() > 0) {
                         // (x - 1, y)
@@ -196,7 +202,7 @@ public class Misc {
                     image.set(p, fillColor);
 
                     // Calculate statistics.
-                    ++totalFillPixels;
+                    ++areaSize;
 
                     if (p.getX() < leftSide) {
                         leftSide = p.getX();
@@ -211,43 +217,26 @@ public class Misc {
                         bottomSide = p.getY();
                     }
 
-                    centerOfGravityX += p.getX();
-                    centerOfGravityY += p.getY();
+                    centroidX += p.getX();
+                    centroidY += p.getY();
                 }
             }
         }
 
-        return new FloodFillStruct(totalFillPixels,
+        return new Region(
+            seed,
+            areaSize,
             new Rectangle(leftSide, topSide, rigthSide - leftSide + 1, bottomSide - topSide + 1),
-            new Point(JCV.round(
-                (double) centerOfGravityX / (double) totalFillPixels),
-                JCV.round((double) centerOfGravityY / (double) totalFillPixels)
+            new Point(JCV.round((double) centroidX / (double) areaSize), JCV.round((double) centroidY / (double) areaSize)
             )
         );
     }
 
     /**
-     * <A href="http://en.wikipedia.org/wiki/Flood_fill">Flood fill algorithm</A> for fill some region.
-     *
-     * <P>
-     * This region is detected by start position and distance between color of start point and neighbors of this point. As default direction
-     * type uses {@link Misc#DIRECTIONS_TYPE_8}, as range type uses {@link Misc#FLOOD_FILL_RANGE_FIXED}.
-     * </P>
-     *
-     * @param image
-     *            Source image.
-     * @param seed
-     *            Start point.
-     * @param distance
-     *            Distance between start color and color all others neighbor points. Uses for compare
-     *            <A href="http://en.wikipedia.org/wiki/Euclidean_distance">Euclidean distance</A> between
-     *            two pixels.
-     * @param fillColor
-     *            Fill color value.
-     * @return
-     *         Number of filled pixels.
+     * Same as {@link Misc#floodFill(Image, Point, double, Color, int, int)}, but as default direction
+     * type uses {@link Misc#DIRECTIONS_TYPE_8} and as range type uses {@link Misc#FLOOD_FILL_RANGE_FIXED}.
      */
-    public static FloodFillStruct floodFill(final Image image, final Point seed, final double distance, final Color fillColor) {
+    public static Region floodFill(final Image image, final Point seed, final double distance, final Color fillColor) {
         return Misc.floodFill(image, seed, distance, fillColor, Misc.DIRECTIONS_TYPE_8, Misc.FLOOD_FILL_RANGE_FIXED);
     }
 

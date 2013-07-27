@@ -22,7 +22,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.jcvlib.core.Color;
-import org.jcvlib.core.FloodFillStruct;
+import org.jcvlib.core.Region;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Point;
 import org.jcvlib.gui.Window;
@@ -48,21 +48,21 @@ public class FloodFillExample {
         final double dist = 6.0;
 
         // Apply flood fill algorithm.
-        final FloodFillStruct statMan =
+        final Region statMan =
                         Misc.floodFill(imageMan, seed, dist, color, Misc.DIRECTIONS_TYPE_8, Misc.FLOOD_FILL_RANGE_NEIGHBOR);
-        final FloodFillStruct statLenna =
+        final Region statLenna =
                         Misc.floodFill(imageLenna, seed, dist, color, Misc.DIRECTIONS_TYPE_8, Misc.FLOOD_FILL_RANGE_NEIGHBOR);
 
         // Output statistics.
         System.out.println("Man:");
-        System.out.println("    fill pixels: " + statMan.getTotalFillPixels());
-        System.out.println("    fill rect:   " + statMan.getFillRect().toString());
-        System.out.println("    center mass: " + statMan.getCenterMass().toString());
+        System.out.println("    fill pixels: " + statMan.getAreaSize());
+        System.out.println("    fill rect:   " + statMan.getBoundingRect().toString());
+        System.out.println("    center mass: " + statMan.getCentroid().toString());
 
         System.out.println("Lenna:");
-        System.out.println("    fill pixels: " + statLenna.getTotalFillPixels());
-        System.out.println("    fill rect:   " + statLenna.getFillRect().toString());
-        System.out.println("    center mass: " + statLenna.getCenterMass().toString());
+        System.out.println("    fill pixels: " + statLenna.getAreaSize());
+        System.out.println("    fill rect:   " + statLenna.getBoundingRect().toString());
+        System.out.println("    center mass: " + statLenna.getCentroid().toString());
 
         // Show window with image after fill region.
         Window.openAndShow(imageMan, "Man with fill region");

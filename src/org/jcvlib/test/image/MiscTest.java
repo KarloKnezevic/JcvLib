@@ -21,7 +21,7 @@ package org.jcvlib.test.image;
 import static org.junit.Assert.*;
 
 import org.jcvlib.core.Color;
-import org.jcvlib.core.FloodFillStruct;
+import org.jcvlib.core.Region;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Point;
 import org.jcvlib.image.Misc;
@@ -63,31 +63,31 @@ public class MiscTest {
          * Test 1.
          */
         // FloodFill this image.
-        FloodFillStruct result1 =
+        Region result1 =
             Misc.floodFill(image.copy(), new Point(0, 0), 3.0, new Color(1, Color.COLOR_MAX_VALUE), Misc.DIRECTIONS_TYPE_4,
                 Misc.FLOOD_FILL_RANGE_FIXED);
         // Check.
-        assertEquals(4, result1.getTotalFillPixels());
+        assertEquals(4, result1.getAreaSize());
 
         /*
          * Test 2.
          */
         // FloodFill this image.
-        FloodFillStruct result2 =
+        Region result2 =
             Misc.floodFill(image.copy(), new Point(0, 0), 4.0, new Color(1, Color.COLOR_MAX_VALUE), Misc.DIRECTIONS_TYPE_4,
                 Misc.FLOOD_FILL_RANGE_NEIGHBOR);
         // Check.
-        assertEquals(6, result2.getTotalFillPixels());
+        assertEquals(6, result2.getAreaSize());
 
         /*
          * Test 3.
          */
         // FloodFill this image.
-        FloodFillStruct result3 =
+        Region result3 =
             Misc.floodFill(image.copy(), new Point(0, 0), 3.0, new Color(1, Color.COLOR_MAX_VALUE), Misc.DIRECTIONS_TYPE_8,
                 Misc.FLOOD_FILL_RANGE_FIXED);
         // Check.
-        assertEquals(5, result3.getTotalFillPixels());
+        assertEquals(5, result3.getAreaSize());
     }
 
     /**
