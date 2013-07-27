@@ -132,6 +132,10 @@ public class Misc {
                  *   x
                  * 2   4
                  */
+                /* 1 7 3
+                 * 5 x 6
+                 * 2 8 4
+                 */
                 case Misc.DIRECTIONS_TYPE_8:
                     if (point.getX() > 0 && point.getY() > 0) {
                         // (x - 1, y - 1)

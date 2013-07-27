@@ -25,6 +25,7 @@ import org.jcvlib.core.Region;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Point;
 import org.jcvlib.image.Misc;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -33,6 +34,17 @@ import org.junit.Test;
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class MiscTest {
+
+    private Image image;
+
+    /**
+     * Executes before creating instance of the class.
+     */
+    @Before
+    public void setUp() throws Exception {
+
+    }
+
     /**
      * Test method for: {@link Misc#floodFill(Image, Point, double, Color, int, int)}.
      */
@@ -44,50 +56,52 @@ public class MiscTest {
         /*
          * +----------------+
          * |  0  1  2  3  4 |
-         * |  5  6  7  8  3 |
-         * | 10 11 12 13 14 |
+         * |  5  2  7  8  3 |
+         * | 10 11  3 13 14 |
          * +----------------+
          */
-        Image image = new Image(5, 3, 1, Image.TYPE_8I);
+        this.image = new Image(5, 3, 1, Image.TYPE_8I);
         int color = 0;
         // Do not change the loop order!
-        for (int y = 0; y < image.getHeight(); ++y) {
-            for (int x = 0; x < image.getWidth(); ++x) {
-                image.set(x, y, 0, color);
+        for (int y = 0; y < this.image.getHeight(); ++y) {
+            for (int x = 0; x < this.image.getWidth(); ++x) {
+                this.image.set(x, y, 0, color);
                 ++color;
             }
         }
-        image.set(4, 1, 0, 3.0);
+        this.image.set(1, 1, 0, 2.0);
+        this.image.set(2, 2, 0, 3.0);
+        this.image.set(4, 0, 0, 5.0);
+        this.image.set(4, 1, 0, 3.0);
+
 
         /*
          * Test 1.
          */
-        // FloodFill this image.
-        Region result1 =
-            Misc.floodFill(image.copy(), new Point(0, 0), 3.0, new Color(1, Color.COLOR_MAX_VALUE), Misc.DIRECTIONS_TYPE_4,
-                Misc.FLOOD_FILL_RANGE_FIXED);
-        // Check.
-        assertEquals(4, result1.getAreaSize());
+        final Region result1 = Misc.floodFill(image.copy(), new Point(0, 0), 3.0, new Color(1, Color.COLOR_MAX_VALUE),
+            Misc.DIRECTIONS_TYPE_4, Misc.FLOOD_FILL_RANGE_FIXED);
+        assertEquals(5, result1.getAreaSize());
 
         /*
          * Test 2.
          */
-        // FloodFill this image.
-        Region result2 =
-            Misc.floodFill(image.copy(), new Point(0, 0), 4.0, new Color(1, Color.COLOR_MAX_VALUE), Misc.DIRECTIONS_TYPE_4,
-                Misc.FLOOD_FILL_RANGE_NEIGHBOR);
-        // Check.
-        assertEquals(6, result2.getAreaSize());
+        final Region result2 = Misc.floodFill(image.copy(), new Point(0, 0), 3.0, new Color(1, Color.COLOR_MAX_VALUE),
+            Misc.DIRECTIONS_TYPE_8, Misc.FLOOD_FILL_RANGE_FIXED);
+        assertEquals(7, result2.getAreaSize());
 
         /*
          * Test 3.
          */
-        // FloodFill this image.
-        Region result3 =
-            Misc.floodFill(image.copy(), new Point(0, 0), 3.0, new Color(1, Color.COLOR_MAX_VALUE), Misc.DIRECTIONS_TYPE_8,
-                Misc.FLOOD_FILL_RANGE_FIXED);
-        // Check.
+        final Region result3 = Misc.floodFill(image.copy(), new Point(0, 0), 1.0, new Color(1, Color.COLOR_MAX_VALUE),
+            Misc.DIRECTIONS_TYPE_4, Misc.FLOOD_FILL_RANGE_NEIGHBOR);
         assertEquals(5, result3.getAreaSize());
+
+        /*
+         * Test 4.
+         */
+        final Region result4 = Misc.floodFill(image.copy(), new Point(0, 0), 1.0, new Color(1, Color.COLOR_MAX_VALUE),
+            Misc.DIRECTIONS_TYPE_8, Misc.FLOOD_FILL_RANGE_NEIGHBOR);
+        assertEquals(7, result4.getAreaSize());
     }
 
     /**
@@ -95,9 +109,9 @@ public class MiscTest {
      */
     @Test
     public void testFloodFillException() {
-        Image image = new Image(100, 100, 5, Image.TYPE_8I);
-        Point point = new Point(0, 0);
-        Color color = new Color(1, Color.COLOR_MAX_VALUE);
+        final Image image = new Image(100, 100, 5, Image.TYPE_8I);
+        final Point point = new Point(0, 0);
+        final Color color = new Color(1, Color.COLOR_MAX_VALUE);
 
         // Incorrect direction type.
         try {
@@ -121,8 +135,8 @@ public class MiscTest {
      */
     @Test
     public void testIntergralImage() {
-        Image image = new Image(1500, 1200, 3, Image.TYPE_64F, new Color(3, Color.COLOR_MAX_VALUE));
-        Image intImage = Misc.integralImage(image);
+        final Image image = new Image(1500, 1200, 3, Image.TYPE_64F, new Color(3, Color.COLOR_MAX_VALUE));
+        final Image intImage = Misc.integralImage(image);
 
         // Check values.
         // Do not change the loop order!
