@@ -29,7 +29,14 @@ public class JCV {
 
     public static final String LIB_NAME = "JcvLib";
 
-    public static final String LIB_VER = "5.010";
+    public static final int LIB_VER_MAJOR = 5;
+
+    public static final int LIB_VER_MINOR = 1;
+
+    public static final int LIB_VER_PATCH = 1;
+
+    public static final String LIB_VER = Integer.toString(LIB_VER_MAJOR) + "." + Integer.toString(LIB_VER_MINOR) + "."
+                    + Integer.toString(LIB_VER_PATCH);
 
     /**
      * Precision allowed by current realization for {@link Image#TYPE_64F} is <CODE>1.0</CODE>.
