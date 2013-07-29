@@ -4,6 +4,11 @@
 Java Computer Vision Library (`JcvLib`) is a Computer Vision and Image Processing Library for Java.
 
 
+### Requirements
+ * Java 1.7 or newer.
+ * If you want using video -- *OS*: Linux or Windows, *Arch*: i386 or x86/x64.
+
+
 ### Download
 New 5 version is coming soon!
 
