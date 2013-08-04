@@ -24,12 +24,7 @@ import org.jcvlib.image.Misc;
  * Region is a structure that defined by filling some area into image. To get this object call
  * {@link Misc#floodFill(Image, Point, double, Color, int, int)} method.
  *
- * <P>
- * <H6>Links:</H6>
- * <OL>
- * <LI><A href="http://en.wikipedia.org/wiki/Centroid">Centroid -- Wikipedia</A>.</LI>
- * </OL>
- * </P>
+ *
  *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
@@ -63,18 +58,38 @@ public class Region {
         this.centroid = centroid;
     }
 
+    /**
+     * Return some point that placed into current region. Usually it is a seed point of
+     * {@link Misc#floodFill(Image, Point, double, Color, int, int)}.
+     */
     public Point getInternalPoint() {
         return this.internalPoint;
     }
 
+    /**
+     * Return number of pixels into current region.
+     */
     public int getAreaSize() {
         return this.areaSize;
     }
 
+    /**
+     * Return minimal rectangle that contains current region.
+     */
     public Rectangle getBoundingRect() {
         return this.boundingRect;
     }
 
+    /**
+     * Return centroid of current region.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Centroid">Centroid -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
+     */
     public Point getCentroid() {
         return this.centroid;
     }

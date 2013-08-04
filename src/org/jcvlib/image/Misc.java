@@ -18,6 +18,7 @@
  */
 package org.jcvlib.image;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -98,12 +99,12 @@ public class Misc {
         /*
          * Perform operation.
          */
-        final List<Point> pointList = new LinkedList<Point>();
+        final List<Point> pointList = new ArrayList<Point>();
         pointList.add(seed);
 
         final Color seedColor = image.get(seed);
 
-        final List<Color> colorList = new LinkedList<Color>();
+        final List<Color> colorList = new ArrayList<Color>();
         colorList.add(image.get(seed));
 
         // Initialize statistic values.
@@ -126,7 +127,7 @@ public class Misc {
             colorList.remove(0);
 
             // Add neighbors.
-            final List<Point> neighbors = new LinkedList<Point>();
+            final List<Point> neighbors = new ArrayList<Point>();
             switch (directionType) {
                 /* 1   3
                  *   x
@@ -548,7 +549,7 @@ public class Misc {
      * </OL>
      * </P>
      */
-    public static Color getMean(final Image image) {
+    public static Color calculateMean(final Image image) {
         /*
          * Verify parameters.
          */

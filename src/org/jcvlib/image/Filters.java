@@ -1458,7 +1458,7 @@ public class Filters {
 
                     // Calculate average and variance.
                     for (int i = 0; i < windows.length; ++i) {
-                        mean[i] = Misc.getMean(windows[i]);
+                        mean[i] = Misc.calculateMean(windows[i]);
                         variance[i] = variance(windows[i], mean[i]);
                     }
 
