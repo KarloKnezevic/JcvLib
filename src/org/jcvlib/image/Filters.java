@@ -235,6 +235,84 @@ public class Filters {
     public static final int EDGE_DETECT_SCHARR = 3;
 
     /**
+     * Coefficient that uses for select kernel size from sigma and back (= 6.0).
+     */
+    private static final double sigmaSizeCoeff = 6.0;
+
+    /**
+     * Box blur.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Box_blur">Box blur -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
+     */
+    public static final int BLUR_BOX = 0;
+
+    /**
+     * Gaussian blur.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Gaussian_blur">Gaussian blur -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
+     */
+    public static final int BLUR_GAUSSIAN = 1;
+
+    /**
+     * Median filter.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Median_filter">Median filter -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
+     */
+    public static final int BLUR_MEDIAN = 2;
+
+    /**
+     * Kuwahara blur.
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://rsbweb.nih.gov/ij/plugins/kuwahara.html">Kuwahara Filter</A>.</LI>
+     * </OL>
+     * </P>
+     */
+    public static final int BLUR_KUWAHARA = 3;
+
+    /**
+     * Sharpen image using Discrete Laplace operator.
+     *
+     * <P>
+     * Algorithm:
+     * <OL>
+     * <LI>Apply discrete Laplace operator to source image.</LI>
+     * <LI>Summarize source image with image from step 1.</LI>
+     * </OL>
+     * </P>
+     *
+     * <P>
+     * <H6>Links:</H6>
+     * <OL>
+     * <LI><A href="http://en.wikipedia.org/wiki/Discrete_Laplace_operator">Discrete Laplace operator -- Wikipedia</A>.</LI>
+     * </OL>
+     * </P>
+     */
+    public static final int SHARPEN_LAPLACIAN = 0;
+
+    /**
+     * Sharpen image using common-used sharpen matrix.
+     */
+    public static final int SHARPEN_MODERN = 1;
+
+    /**
      * Dilation.
      *
      * <P>
@@ -337,84 +415,6 @@ public class Filters {
      * </P>
      */
     public static final int MORPHOLOGY_BLACK_TOP_HAT = 6;
-
-    /**
-     * Coefficient that uses for select kernel size from sigma and back (= 6.0).
-     */
-    private static final double sigmaSizeCoeff = 6.0;
-
-    /**
-     * Box blur.
-     *
-     * <P>
-     * <H6>Links:</H6>
-     * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/Box_blur">Box blur -- Wikipedia</A>.</LI>
-     * </OL>
-     * </P>
-     */
-    public static final int BLUR_BOX = 0;
-
-    /**
-     * Gaussian blur.
-     *
-     * <P>
-     * <H6>Links:</H6>
-     * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/Gaussian_blur">Gaussian blur -- Wikipedia</A>.</LI>
-     * </OL>
-     * </P>
-     */
-    public static final int BLUR_GAUSSIAN = 1;
-
-    /**
-     * Median filter.
-     *
-     * <P>
-     * <H6>Links:</H6>
-     * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/Median_filter">Median filter -- Wikipedia</A>.</LI>
-     * </OL>
-     * </P>
-     */
-    public static final int BLUR_MEDIAN = 2;
-
-    /**
-     * Kuwahara blur.
-     *
-     * <P>
-     * <H6>Links:</H6>
-     * <OL>
-     * <LI><A href="http://rsbweb.nih.gov/ij/plugins/kuwahara.html">Kuwahara Filter</A>.</LI>
-     * </OL>
-     * </P>
-     */
-    public static final int BLUR_KUWAHARA = 3;
-
-    /**
-     * Sharpen image using Discrete Laplace operator.
-     *
-     * <P>
-     * Algorithm:
-     * <OL>
-     * <LI>Apply discrete Laplace operator to source image.</LI>
-     * <LI>Summarize source image with image from step 1.</LI>
-     * </OL>
-     * </P>
-     *
-     * <P>
-     * <H6>Links:</H6>
-     * <OL>
-     * <LI><A href="http://en.wikipedia.org/wiki/Discrete_Laplace_operator">Discrete Laplace operator -- Wikipedia</A>.</LI>
-     * </OL>
-     * </P>
-     */
-    public static final int SHARPEN_LAPLACIAN = 0;
-
-    /**
-     * Sharpen image using common-used sharpen matrix.
-     */
-    public static final int SHARPEN_MODERN = 1;
 
     /**
      * Nonlinear filter.
@@ -615,15 +615,15 @@ public class Filters {
         /*
          * Perform transformation.
          */
-        Size kernelSize = new Size(kernel.getColumnDimension(), kernel.getRowDimension());
+        final Size kernelSize = new Size(kernel.getColumnDimension(), kernel.getRowDimension());
         JCV.verifyOddSize(kernelSize, "kernel.getSize()");
 
-        Image result = image.getSame();
+        final Image result = image.getSame();
 
         Filters.noneLinearFilter(image, result, kernelSize, kernelSize.getCenter(), 1, extrapolationType, new Operator() {
             @Override
-            public Color execute(Image aperture) {
-                Color res = new Color(aperture.getNumOfChannels());
+            public Color execute(final Image aperture) {
+                final Color res = new Color(aperture.getNumOfChannels());
 
                 double[] conv = aperture.convolve(kernel);
                 for (int i = 0; i < res.getNumOfChannels(); ++i) {
@@ -868,13 +868,13 @@ public class Filters {
         /*
          * Perform transformation.
          */
-        Image result = image.getSame();
+        final Image result = image.getSame();
 
-        Size apertureSize = new Size(blockSize, blockSize);
+        final Size apertureSize = new Size(blockSize, blockSize);
         Filters.noneLinearFilter(image, result, apertureSize, apertureSize.getCenter(), 1, Image.EXTRAPLOATION_REPLICATE, new Operator() {
             @Override
             public Color execute(final Image aperture) {
-                Color res = new Color(aperture.getNumOfChannels());
+                final Color res = new Color(aperture.getNumOfChannels());
 
                 for (int channel = 0; channel < aperture.getNumOfChannels(); ++channel) {
                     /*
@@ -1180,16 +1180,16 @@ public class Filters {
         /*
          * Perform transformation.
          */
-        Size dervSize = new Size(derivativeX.getColumnDimension(), derivativeX.getRowDimension());
+        final Size dervSize = new Size(derivativeX.getColumnDimension(), derivativeX.getRowDimension());
         JCV.verifyOddSize(dervSize, "derivativeX");
 
-        Image result = image.getSame();
+        final Image result = image.getSame();
 
         Filters.noneLinearFilter(image, result, dervSize, dervSize.getCenter(), 1, extrapolationType, new Operator() {
             @Override
             public Color execute(final Image aperture) {
-                double[] Gx = aperture.convolve(derivativeX);
-                double[] Gy = aperture.convolve(derivativeY);
+                final double[] Gx = aperture.convolve(derivativeX);
+                final double[] Gy = aperture.convolve(derivativeY);
 
                 Color res = new Color(aperture.getNumOfChannels());
                 for (int channel = 0; channel < res.getNumOfChannels(); ++channel) {
@@ -1439,12 +1439,12 @@ public class Filters {
             Filters.noneLinearFilter(image, result, kernelSize, kernelCenter, 1, extrapolationType, new Operator() {
                 @Override
                 public Color execute(final Image aperture) {
-                    Image[] windows = new Image[4];
+                    final Image[] windows = new Image[4];
 
-                    Color[] mean = new Color[windows.length];
-                    double[][] variance = new double[windows.length][aperture.getNumOfChannels()];
+                    final Color[] mean = new Color[windows.length];
+                    final double[][] variance = new double[windows.length][aperture.getNumOfChannels()];
 
-                    Size windowSize = new Size(kernelCenter.getX(), kernelCenter.getY());
+                    final Size windowSize = new Size(kernelCenter.getX(), kernelCenter.getY());
 
                     // Create sub-images.
                     windows[0] = aperture.getSubimage(new Rectangle(0, 0,
@@ -1463,7 +1463,7 @@ public class Filters {
                     }
 
                     // Found min of variance.
-                    Color res = new Color(aperture.getNumOfChannels());
+                    final Color res = new Color(aperture.getNumOfChannels());
                     for (int channel = 0; channel < aperture.getNumOfChannels(); ++channel) {
                         int minPos = 0;
                         double minVal = variance[minPos][channel];
@@ -1514,14 +1514,14 @@ public class Filters {
         switch (blurType) {
             case Filters.BLUR_BOX:
                 // Create a kernel.
-                Matrix box = new Matrix(kernelSize.getHeight(), kernelSize.getWidth());
+                final Matrix box = new Matrix(kernelSize.getHeight(), kernelSize.getWidth());
                 for (int x = 0; x < box.getColumnDimension(); ++x) {
                     for (int y = 0; y < box.getRowDimension(); ++y) {
                         box.set(y, x, 1.0);
                     }
                 }
-                double div = kernelSize.getN();
-                double offset = Color.COLOR_MIN_VALUE;
+                final double div = kernelSize.getN();
+                final double offset = Color.COLOR_MIN_VALUE;
 
                 // Apply filter.
                 return Filters.linearFilter(image, box, div, offset, extrapolationType);
@@ -1532,15 +1532,15 @@ public class Filters {
 
             case Filters.BLUR_MEDIAN:
                 final Point kernelCenter = kernelSize.getCenter();
-                Image result = image.getSame();
+                final Image result = image.getSame();
 
                 Filters.noneLinearFilter(image, result, kernelSize, kernelCenter, 1, extrapolationType, new Operator() {
                     @Override
                     public Color execute(final Image aperture) {
-                        Color res = new Color(aperture.getNumOfChannels());
+                        final Color res = new Color(aperture.getNumOfChannels());
                         for (int channel = 0; channel < aperture.getNumOfChannels(); ++channel) {
                             // Copy content into temporary array.
-                            double[] tempArr = new double[aperture.getSize().getN()];
+                            final double[] tempArr = new double[aperture.getSize().getN()];
 
                             for (int x = 0; x < aperture.getWidth(); ++x) {
                                 for (int y = 0; y < aperture.getHeight(); ++y) {
@@ -1673,20 +1673,6 @@ public class Filters {
     }
 
     /**
-     * Interface for implement linear and nonlinear operations.
-     *
-     * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
-     */
-    public interface Operator {
-        /**
-         * Perform some operations and return a result.
-         */
-        public Color execute(final Image aperture);
-    }
-
-
-
-    /**
      * Morphology transformation.
      *
      * <P>
@@ -1731,7 +1717,7 @@ public class Filters {
                 noneLinearFilter(image, result, kernelSize, kernelSize.getCenter(), iterations, extrapolationType, new Operator() {
                     @Override
                     public Color execute(final Image aperture) {
-                        Color max = new Color(aperture.getNumOfChannels(), Color.COLOR_MIN_VALUE);
+                        final Color max = new Color(aperture.getNumOfChannels(), Color.COLOR_MIN_VALUE);
 
                         // Find maximum.
                         for (int x = 0; x < aperture.getWidth(); ++x) {
@@ -1754,7 +1740,7 @@ public class Filters {
                 noneLinearFilter(image, result, kernelSize, kernelSize.getCenter(), iterations, extrapolationType, new Operator() {
                     @Override
                     public Color execute(final Image aperture) {
-                        Color min = new Color(aperture.getNumOfChannels(), Color.COLOR_MAX_VALUE);
+                        final Color min = new Color(aperture.getNumOfChannels(), Color.COLOR_MAX_VALUE);
 
                         // Find minimum.
                         for (int x = 0; x < aperture.getWidth(); ++x) {
@@ -1794,8 +1780,8 @@ public class Filters {
             case MORPHOLOGY_GRADIENT:
                 result = image;
                 for (int i = 0; i < iterations; ++i) {
-                    Image dilate = Filters.morphology(result, kernelSize, MORPHOLOGY_DILATE, 1, extrapolationType);
-                    Image erode = Filters.morphology(result, kernelSize, MORPHOLOGY_ERODE, 1, extrapolationType);
+                    final Image dilate = Filters.morphology(result, kernelSize, MORPHOLOGY_DILATE, 1, extrapolationType);
+                    final Image erode = Filters.morphology(result, kernelSize, MORPHOLOGY_ERODE, 1, extrapolationType);
 
                     result = Misc.absDiff(dilate, erode);
                 }
@@ -1838,5 +1824,17 @@ public class Filters {
      */
     public static Image morphology(final Image image, final Size kernelSize, final int morphologyType) {
         return morphology(image, kernelSize, morphologyType, 1, Image.EXTRAPLOATION_REPLICATE);
+    }
+
+    /**
+     * Interface for implement linear and nonlinear operations.
+     *
+     * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
+     */
+    public interface Operator {
+        /**
+         * Perform some operations and return a result.
+         */
+        public Color execute(final Image aperture);
     }
 }

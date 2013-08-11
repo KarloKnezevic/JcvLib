@@ -97,7 +97,7 @@ public abstract class ImageArray {
 
     /**
      * Return integer value from interval <CODE>0..255</CODE> of selected channel from selected pixel
-     * <STRING>rounded to integer values</STRONG>.
+     * <STRONG>rounded to integer values</STRONG>.
      */
     public abstract int getUnsafe8I(final int x, final int y, final int channel);
 

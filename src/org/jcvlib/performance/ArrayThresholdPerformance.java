@@ -193,8 +193,8 @@ public class ArrayThresholdPerformance {
      * Run this test.
      */
     public static void main(String[] args) {
-        int numOfIterations = 10;
-        int[] sizes = new int[]{ 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500 };
+        final int numOfIterations = 10;
+        final int[] sizes = new int[]{ 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500 };
 
         Parallel.setNumOfWorkers(1);
         for (int mSize : sizes) {

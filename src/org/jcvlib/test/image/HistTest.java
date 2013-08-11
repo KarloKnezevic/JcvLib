@@ -47,7 +47,7 @@ public class HistTest {
      */
     @Before
     public void setUp() throws Exception {
-        Image image = new Image(2, 1, 1, Image.TYPE_8I);
+        final Image image = new Image(2, 1, 1, Image.TYPE_8I);
 
         // Model.
         image.set(0, 0, 0, 255.0);
@@ -78,14 +78,14 @@ public class HistTest {
      */
     @Test
     public void testCalculateHistogram() {
-        Image imageCh1 = new Image(100, 100, 1, Image.TYPE_64F, new Color(1, Color.COLOR_MAX_VALUE));
-        Image imageCh3 = new Image( 10,  10, 3, Image.TYPE_64F, new Color(3, Color.COLOR_MAX_VALUE));
+        final Image imageCh1 = new Image(100, 100, 1, Image.TYPE_64F, new Color(1, Color.COLOR_MAX_VALUE));
+        final Image imageCh3 = new Image( 10,  10, 3, Image.TYPE_64F, new Color(3, Color.COLOR_MAX_VALUE));
 
         /*
          * First histogram.
          */
-        Hist histCh1 = new Hist(imageCh1);
-        Hist histCh3 = new Hist(imageCh3);
+        final Hist histCh1 = new Hist(imageCh1);
+        final Hist histCh3 = new Hist(imageCh3);
 
         // Check size.
         assertEquals(256, histCh1.getLength());
@@ -116,8 +116,8 @@ public class HistTest {
 //        /*
 //         * See: http://easycalculation.com/statistics/learn-correlation.php
 //         */
-//        Hist H1 = new Hist(new double[]{ 60.0, 61.0, 62.0, 63.0, 65.0 }, 1, 1);
-//        Hist H2 = new Hist(new double[]{ 3.1, 3.6, 3.8, 4.0, 4.1 }, 1, 1);
+//        final Hist H1 = new Hist(new double[]{ 60.0, 61.0, 62.0, 63.0, 65.0 }, 1, 1);
+//        final Hist H2 = new Hist(new double[]{ 3.1, 3.6, 3.8, 4.0, 4.1 }, 1, 1);
 //        assertEquals(13.9 / 15.24336, H1.compare(H2, Hist.HISTOGRAM_COMPARE_CORREL), 0.0001);
 
         assertEquals( 1.0, this.model.compare(this.model,  Hist.HISTOGRAM_COMPARE_CORREL), JCV.PRECISION_MAX);
@@ -133,8 +133,8 @@ public class HistTest {
 //        /*
 //         * See: http://www.slideshare.net/mhsgeography/chi-square-worked-example
 //         */
-//        Hist H1 = new Hist(new double[]{ 10.0, 10.0, 10.0, 10.0, 10.0 }, 1, 1);
-//        Hist H2 = new Hist(new double[]{  4.0,  6.0, 14.0, 10.0, 16.0 }, 1, 1);
+//        final Hist H1 = new Hist(new double[]{ 10.0, 10.0, 10.0, 10.0, 10.0 }, 1, 1);
+//        final Hist H2 = new Hist(new double[]{  4.0,  6.0, 14.0, 10.0, 16.0 }, 1, 1);
 //        assertEquals(10.4, H1.compare(H2, Hist.HISTOGRAM_COMPARE_CHISQR), JCV.PRECISION_MAX);
 
         assertEquals(0.0,  this.model.compare(this.model,  Hist.HISTOGRAM_COMPARE_CHISQR), JCV.PRECISION_MAX);

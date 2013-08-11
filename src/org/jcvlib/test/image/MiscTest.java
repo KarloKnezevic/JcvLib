@@ -25,7 +25,7 @@ import org.jcvlib.core.Region;
 import org.jcvlib.core.Image;
 import org.jcvlib.core.Point;
 import org.jcvlib.image.Misc;
-import org.junit.Before;
+
 import org.junit.Test;
 
 /**
@@ -34,16 +34,6 @@ import org.junit.Test;
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class MiscTest {
-
-    private Image image;
-
-    /**
-     * Executes before creating instance of the class.
-     */
-    @Before
-    public void setUp() throws Exception {
-
-    }
 
     /**
      * Test method for: {@link Misc#floodFill(Image, Point, double, Color, int, int)}.
@@ -60,19 +50,19 @@ public class MiscTest {
          * | 10 11  3 13 14 |
          * +----------------+
          */
-        this.image = new Image(5, 3, 1, Image.TYPE_8I);
+        final Image image = new Image(5, 3, 1, Image.TYPE_8I);
         int color = 0;
         // Do not change the loop order!
-        for (int y = 0; y < this.image.getHeight(); ++y) {
-            for (int x = 0; x < this.image.getWidth(); ++x) {
-                this.image.set(x, y, 0, color);
+        for (int y = 0; y < image.getHeight(); ++y) {
+            for (int x = 0; x < image.getWidth(); ++x) {
+                image.set(x, y, 0, color);
                 ++color;
             }
         }
-        this.image.set(1, 1, 0, 2.0);
-        this.image.set(2, 2, 0, 3.0);
-        this.image.set(4, 0, 0, 5.0);
-        this.image.set(4, 1, 0, 3.0);
+        image.set(1, 1, 0, 2.0);
+        image.set(2, 2, 0, 3.0);
+        image.set(4, 0, 0, 5.0);
+        image.set(4, 1, 0, 3.0);
 
 
         /*

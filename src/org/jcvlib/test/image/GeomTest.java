@@ -67,7 +67,7 @@ public class GeomTest {
      */
     @Test
     public void testMirroringHorizontal() {
-        Image mirror = Geom.reflect(this.image, Geom.REFLECT_HORIZONTAL);
+        final Image mirror = Geom.reflect(this.image, Geom.REFLECT_HORIZONTAL);
 
         assertTrue(this.image.getSize().equals(mirror.getSize()));
 
@@ -89,7 +89,7 @@ public class GeomTest {
      */
     @Test
     public void testMirroringVertical() {
-        Image mirror = Geom.reflect(this.image, Geom.REFLECT_VERTICAL);
+        final Image mirror = Geom.reflect(this.image, Geom.REFLECT_VERTICAL);
 
         assertTrue(this.image.getSize().equals(mirror.getSize()));
 
@@ -111,7 +111,7 @@ public class GeomTest {
      */
     @Test
     public void testMirroringDiagonal() {
-        Image mirror = Geom.reflect(this.image, Geom.REFLECT_DIAGONAL);
+        final Image mirror = Geom.reflect(this.image, Geom.REFLECT_DIAGONAL);
 
         assertTrue(this.image.getSize().equals(mirror.getSize()));
 
@@ -133,13 +133,13 @@ public class GeomTest {
      */
     @Test
     public void testGetPerspectiveTransformException() {
-        List<Point> pointsIncorrect = new LinkedList<Point>();
+        final List<Point> pointsIncorrect = new LinkedList<Point>();
         pointsIncorrect.add(new Point(0, 0));
         pointsIncorrect.add(new Point(10, 10));
         pointsIncorrect.add(new Point(20, 20));
         pointsIncorrect.add(new Point(67, 207));
 
-        List<Point> pointsCorrect = new LinkedList<Point>();
+        final List<Point> pointsCorrect = new LinkedList<Point>();
         pointsCorrect.add(new Point(49, 83));
         pointsCorrect.add(new Point(210, 66));
         pointsCorrect.add(new Point(238, 174));

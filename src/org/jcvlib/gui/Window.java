@@ -123,7 +123,7 @@ public final class Window {
      * Simplest way show image.
      */
     public static void openAndShow(final Image image, final String title) {
-        Window localWind = new Window(title);
+        final Window localWind = new Window(title);
         localWind.show(image);
     }
 
@@ -198,11 +198,11 @@ public final class Window {
 
         // Create panel with image.
         this.imageComponent = new ImageComponent(TypeConvert.toBufferedImage(this.image));
-        JScrollPane panel = new JScrollPane(this.imageComponent);
+        final JScrollPane panel = new JScrollPane(this.imageComponent);
         this.frame.add(panel);
 
         // Create menu bar.
-        JMenuBar menuBar = new JMenuBar();
+        final JMenuBar menuBar = new JMenuBar();
         this.frame.setJMenuBar(menuBar);
 
         this.createFileMenu(menuBar);
@@ -288,13 +288,13 @@ public final class Window {
 
     private void createFileMenu(final JMenuBar menuBar) {
         // Create menu 'File'.
-        JMenu fileMenu = new JMenu(" File   ");
+        final JMenu fileMenu = new JMenu(" File   ");
         menuBar.add(fileMenu);
 
         /*
          * Add menu 'Save...' menu item.
          */
-        JMenuItem saveMenuItem = new JMenuItem(" Save...    ");
+        final JMenuItem saveMenuItem = new JMenuItem(" Save...    ");
         fileMenu.add(saveMenuItem);
 
         saveMenuItem.addActionListener(new ActionListener() {
@@ -328,7 +328,7 @@ public final class Window {
                         frame.setTitle(fileName);
 
                         // Write image to file.
-                        String fullFilePath = chooser.getDirectory() + File.separator + fileName + "." + fileFormat;
+                        final String fullFilePath = chooser.getDirectory() + File.separator + fileName + "." + fileFormat;
                         ImageRW.write(image, fullFilePath);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -343,7 +343,7 @@ public final class Window {
         /*
          * Add menu 'Quit...' menu item.
          */
-        JMenuItem quitMenuItem = new JMenuItem(" Quit       ");
+        final JMenuItem quitMenuItem = new JMenuItem(" Quit       ");
         fileMenu.add(quitMenuItem);
 
         quitMenuItem.addActionListener(new ActionListener() {
@@ -363,13 +363,13 @@ public final class Window {
 
     private void createResizeMenu(final JMenuBar menuBar) {
         // Create menu 'Resize'.
-        JMenu resizeMenu = new JMenu(" Resize ");
+        final JMenu resizeMenu = new JMenu(" Resize ");
         menuBar.add(resizeMenu);
 
         /*
          * Add menu 'Zoom +' menu item.
          */
-        JMenuItem zoomPlusMenuItem = new JMenuItem(" Zoom +     ");
+        final JMenuItem zoomPlusMenuItem = new JMenuItem(" Zoom +     ");
         resizeMenu.add(zoomPlusMenuItem);
 
         zoomPlusMenuItem.addActionListener(new ActionListener() {
@@ -384,7 +384,7 @@ public final class Window {
         /*
          * Add menu 'Zoom --' menu item.
          */
-        JMenuItem zoomMinusMenuItem = new JMenuItem(" Zoom --    ");
+        final JMenuItem zoomMinusMenuItem = new JMenuItem(" Zoom --    ");
         resizeMenu.add(zoomMinusMenuItem);
 
         zoomMinusMenuItem.addActionListener(new ActionListener() {
@@ -399,7 +399,7 @@ public final class Window {
         /*
          * Add menu 'Zoom 0' menu item.
          */
-        JMenuItem zoomDefaultMenuItem = new JMenuItem(" Zoom 0      ");
+        final JMenuItem zoomDefaultMenuItem = new JMenuItem(" Zoom 0      ");
         resizeMenu.add(zoomDefaultMenuItem);
 
         zoomDefaultMenuItem.addActionListener(new ActionListener() {
@@ -415,8 +415,7 @@ public final class Window {
     private void createStatusBar() {
         final StatusBar statusBar = new StatusBar();
         this.frame.add(statusBar, java.awt.BorderLayout.SOUTH);
-        final String baseMsg =
-            "Size: [" + Integer.toString(image.getWidth()) + "x" + Integer.toString(image.getHeight()) + "]    Ch: "
+        final String baseMsg = "Size: [" + Integer.toString(image.getWidth()) + "x" + Integer.toString(image.getHeight()) + "]    Ch: "
                 + Integer.toString(image.getNumOfChannels());
         // Set status bar message.
         statusBar.setMessage(baseMsg);
@@ -427,10 +426,10 @@ public final class Window {
                 System.out.println(event.getX() + ", " + event.getY());
             }
             @Override
-            public void mouseMoved(MouseEvent event) {
+            public void mouseMoved(final MouseEvent event) {
                 // Get mouse position.
-                int x = event.getX();
-                int y = event.getY();
+                final int x = event.getX();
+                final int y = event.getY();
 
                 // Create output info.
                 if ((x < image.getWidth()) && (y < image.getHeight())) {

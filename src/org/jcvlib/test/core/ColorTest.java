@@ -86,7 +86,7 @@ public class ColorTest {
      */
     @Test
     public void testToString() {
-        Color color = new Color(new double[]{ 10.0, 20.0, 30.0 });
+        final Color color = new Color(new double[]{ 10.0, 20.0, 30.0 });
 
         System.out.println("Printing example:");
         System.out.println(color.toString());

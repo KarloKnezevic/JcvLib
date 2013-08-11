@@ -239,7 +239,7 @@ public class Color {
      * </P>
      */
     public Color copy() {
-        Color result = new Color(this.getNumOfChannels());
+        final Color result = new Color(this.getNumOfChannels());
 
         for (int channel = 0; channel < this.getNumOfChannels(); ++channel) {
             result.set(channel, this.get(channel));
@@ -257,7 +257,7 @@ public class Color {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         sb.append("{");
         for (int channel = 0; channel < this.getNumOfChannels(); ++channel) {

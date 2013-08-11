@@ -110,7 +110,7 @@ public class ImageRW {
         /*
          * Perform operation.
          */
-        String fileFormat = imageFile.getName().substring(imageFile.getName().lastIndexOf('.') + 1);
+        final String fileFormat = imageFile.getName().substring(imageFile.getName().lastIndexOf('.') + 1);
 
         BufferedImage bufImg = null;
         if (fileFormat.equalsIgnoreCase("png")) {
@@ -243,7 +243,7 @@ public class ImageRW {
         /*
          * Write image.
          */
-        String fileFormat = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
+        final String fileFormat = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
         ImageRW.write(image, new File(fileName), fileFormat);
     }
 }

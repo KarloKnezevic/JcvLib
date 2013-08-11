@@ -90,7 +90,7 @@ public class JCV {
          * See:
          * * http://lopica.sourceforge.net/os.html
          */
-        String os = System.getProperty("os.name");
+        final String os = System.getProperty("os.name");
 
         if (os.indexOf("Linux") >= 0) {
             return JCV.OS_LINUX;
@@ -119,7 +119,7 @@ public class JCV {
          * See:
          * * http://lopica.sourceforge.net/os.html
          */
-        String arch = System.getProperty("os.arch");
+        final String arch = System.getProperty("os.arch");
 
         if (arch.indexOf("64") >= 0) {
             return JCV.ARCH_64;
@@ -468,7 +468,7 @@ public class JCV {
          * Perform operation.
          */
         // Form string.
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(mName);
         sb.append(" = ");
         sb.append("\n");

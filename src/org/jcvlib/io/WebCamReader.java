@@ -307,14 +307,14 @@ public class WebCamReader implements VideoReader, Runnable {
              * Devices, unlike most files, need to have parameters set in order for Xuggler
              * to know how to configure them, for a webcam, these parameters make sense.
              */
-            IMetaData params = IMetaData.make();
+            final IMetaData params = IMetaData.make();
             params.setValue("framerate", Integer.toString(this.FPS) + "/1");
             params.setValue("video_size", Integer.toString(this.size.getWidth()) + "x" + Integer.toString(this.size.getHeight()));
 
             /*
              * 5. Open up the container.
              */
-            int retval = this.container.open(this.deviceName, IContainer.Type.READ, format, false, true, params, null);
+            final int retval = this.container.open(this.deviceName, IContainer.Type.READ, format, false, true, params, null);
             if (retval < 0) {
                 /*
                  * This little trick converts the non friendly integer return value into a
@@ -322,7 +322,7 @@ public class WebCamReader implements VideoReader, Runnable {
                  */
                 this.close();
 
-                IError error = IError.make(retval);
+                final IError error = IError.make(retval);
                 throw new RuntimeException("Could not open file: " + this.deviceName + "; Error: " + error.getDescription());
             }
 
@@ -330,16 +330,16 @@ public class WebCamReader implements VideoReader, Runnable {
              * 6. Find first video stream.
              */
             // Query how many streams the call to open found.
-            int numStreams = this.container.getNumStreams();
+            final int numStreams = this.container.getNumStreams();
             // Iterate through the streams to find the first video stream.
             int videoStreamId = -1;
             this.videoCoder = null;
             for (int i = 0; i < numStreams; i++) {
                 // Find the stream object.
-                IStream stream = this.container.getStream(i);
+                final IStream stream = this.container.getStream(i);
 
                 // Get the pre-configured decoder that can decode this stream.
-                IStreamCoder coder = stream.getStreamCoder();
+                final IStreamCoder coder = stream.getStreamCoder();
                 if (coder.getCodecType() == ICodec.Type.CODEC_TYPE_VIDEO) {
                     videoStreamId = i;
                     this.videoCoder = coder;
@@ -376,7 +376,7 @@ public class WebCamReader implements VideoReader, Runnable {
             /*
              * 9. Now, we start walking through the container looking at each packet.
              */
-            IPacket packet = IPacket.make();
+            final IPacket packet = IPacket.make();
             while (this.container.readNextPacket(packet) >= 0 && this.isOpen) {
                 /*
                  * 10. Check the packet: if it belongs to our video stream.
@@ -385,14 +385,14 @@ public class WebCamReader implements VideoReader, Runnable {
                     /*
                      * 11. We allocate a new picture to get the data out of Xuggler.
                      */
-                    IVideoPicture picture =
+                    final IVideoPicture picture =
                         IVideoPicture.make(this.videoCoder.getPixelType(), this.videoCoder.getWidth(), this.videoCoder.getHeight());
                     int offset = 0;
                     while (offset < packet.getSize()) {
                         /*
                          * 12. Decode the video, checking for any errors.
                          */
-                        int bytesDecoded = this.videoCoder.decodeVideo(picture, packet, offset);
+                        final int bytesDecoded = this.videoCoder.decodeVideo(picture, packet, offset);
                         if (bytesDecoded < 0) {
                             throw new RuntimeException("Got error decoding video in: " + deviceName);
                         }

@@ -35,5 +35,4 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ ImageBase.class, ImageInterpolationExtrapolation.class })
 public class ImageTest extends TestSuite {
-    // Nothing.
 }

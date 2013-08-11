@@ -74,13 +74,13 @@ public class Stereo {
                 double minColor = Double.MAX_VALUE;
                 double minDist = Double.MAX_VALUE;
 
-                Color leftColor = left.get(new Point(x + widthShift, y + heightShift));
+                final Color leftColor = left.get(new Point(x + widthShift, y + heightShift));
                 for (int cx = 0; cx < windowSize.getWidth(); ++cx) {
                     for (int cy = 0; cy < windowSize.getHeight(); ++cy) {
-                        int rx = x + cx;
-                        int ry = y + cy;
+                        final int rx = x + cx;
+                        final int ry = y + cy;
 
-                        Color rightColor = right.get(new Point(rx, ry));
+                        final Color rightColor = right.get(new Point(rx, ry));
 
                         double distColor = leftColor.euclidDist(rightColor);
                         if (distColor < minColor) {

@@ -559,7 +559,7 @@ public class Misc {
          * Perform operation.
          */
         // Initialize.
-        double[] sum = new double[image.getNumOfChannels()];
+        final double[] sum = new double[image.getNumOfChannels()];
         for (int channel = 0; channel < sum.length; ++channel) {
             sum[channel] = 0.0;
         }
@@ -574,7 +574,7 @@ public class Misc {
         }
 
         // Calculate average.
-        Color mean = new Color(image.getNumOfChannels());
+        final Color mean = new Color(image.getNumOfChannels());
         for (int channel = 0; channel < sum.length; ++channel) {
             mean.set(channel, sum[channel] / image.getSize().getN());
         }

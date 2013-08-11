@@ -57,7 +57,7 @@ public class FilterTest {
      */
     @Test
     public void testNonlinearFilter1() {
-        Image image = new Image(5, 5, 1, Image.TYPE_64F, new Color(1, Color.COLOR_MIN_VALUE));
+        final Image image = new Image(5, 5, 1, Image.TYPE_64F, new Color(1, Color.COLOR_MIN_VALUE));
         int counter;
 
         // Initialize test image.
@@ -81,10 +81,10 @@ public class FilterTest {
          * 3 | o o o o o |
          *   +-----------+
          */
-        Size kernelSize = new Size(5, 4);
+        final Size kernelSize = new Size(5, 4);
         final Point anchor = new Point(3, 2);
 
-        Image result = new Image(5, 5, 1, Image.TYPE_64F);
+        final Image result = new Image(5, 5, 1, Image.TYPE_64F);
         Filters.noneLinearFilter(image, result, kernelSize, anchor, 3, Image.EXTRAPLOATION_ZERO, new Operator() {
             @Override
             public Color execute(Image aperture) {
@@ -110,7 +110,7 @@ public class FilterTest {
      */
     @Test
     public void testNonlinearFilter2() {
-        Image image = new Image(5, 5, 1, Image.TYPE_64F, new Color(1, Color.COLOR_MIN_VALUE));
+        final Image image = new Image(5, 5, 1, Image.TYPE_64F, new Color(1, Color.COLOR_MIN_VALUE));
         /*
          * A   0 1 2 3 4   B
          *   +-----------+
@@ -134,10 +134,10 @@ public class FilterTest {
          * 3 | o o o o o |
          *   +-----------+
          */
-        Size kernelSize = new Size(5, 4);
+        final Size kernelSize = new Size(5, 4);
         final Point anchor = new Point(3, 2);
 
-        Image result = new Image(5, 5, 1, Image.TYPE_64F);
+        final Image result = new Image(5, 5, 1, Image.TYPE_64F);
         Filters.noneLinearFilter(image, result, kernelSize, anchor, 2, Image.EXTRAPLOATION_ZERO, new Operator() {
             @Override
             public Color execute(Image aperture) {
@@ -186,7 +186,7 @@ public class FilterTest {
      */
     @Test
     public void testNonlinearFilterException() {
-        Operator op = new Operator() {
+        final Operator op = new Operator() {
             @Override
             public Color execute(Image aperture) {
                 return new Color(aperture.getNumOfChannels(), 0.0);
@@ -226,7 +226,7 @@ public class FilterTest {
      */
     @Test
     public void testMatrixFilter() {
-        Image image = new Image(5, 5, 1, Image.TYPE_64F, new Color(1, Color.COLOR_MIN_VALUE));
+        final Image image = new Image(5, 5, 1, Image.TYPE_64F, new Color(1, Color.COLOR_MIN_VALUE));
         /*
          * A    0   1   2   3   4    B
          *   +---------------------+
@@ -245,7 +245,7 @@ public class FilterTest {
         /*
          * Second kernel.
          */
-        Matrix kernel = new Matrix(new double[][]{
+        final Matrix kernel = new Matrix(new double[][]{
                 { 1.0, 0.0, 0.0 },
                 { 0.0, 0.0, 0.0 },
                 { 0.0, 0.0, 0.0 },
@@ -253,7 +253,7 @@ public class FilterTest {
                 { 0.0, 0.0, 0.0 }
             });
 
-        Image result = Filters.linearFilter(image, kernel, 0.5, 0.3, Image.EXTRAPLOATION_ZERO);
+        final Image result = Filters.linearFilter(image, kernel, 0.5, 0.3, Image.EXTRAPLOATION_ZERO);
 
         // Check values.
         /*
@@ -289,7 +289,7 @@ public class FilterTest {
         /*
          * Use values from: http://www.embege.com/gauss/
          */
-        double[] kernelTest =new double[]{
+        final double[] kernelTest =new double[]{
                 0.054_488_684_549_644_33,
                 0.244_201_342_003_233_46,
                 0.402_619_946_894_244_35,
@@ -297,7 +297,7 @@ public class FilterTest {
                 0.054_488_684_549_644_33
             };
 
-        Matrix kernel = Filters.getGaussianKernel(5, 1.0);
+        final Matrix kernel = Filters.getGaussianKernel(5, 1.0);
 
         assertEquals(kernelTest.length, kernel.getRowDimension());
         assertEquals(1, kernel.getColumnDimension());
@@ -344,14 +344,14 @@ public class FilterTest {
      */
     @Test
     public void testSigmaAndKernelSize() {
-        double sigma1 = 1.5;
-        int kernelSize1 = 9;
+        final double sigma1 = 1.5;
+        final int kernelSize1 = 9;
 
         assertEquals(kernelSize1, Filters.getKernelSize(sigma1), JCV.PRECISION_MAX);
         assertEquals(sigma1, Filters.getSigma(kernelSize1), JCV.PRECISION_MAX);
 
-        double sigma2 = 1.0;
-        int kernelSize2 = 6;
+        final double sigma2 = 1.0;
+        final int kernelSize2 = 6;
 
         assertEquals(kernelSize2 + 1, Filters.getKernelSize(sigma2), JCV.PRECISION_MAX);
         assertEquals(sigma2, Filters.getSigma(kernelSize2), JCV.PRECISION_MAX);

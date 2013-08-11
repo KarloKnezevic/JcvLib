@@ -210,7 +210,7 @@ public class Image {
          */
         Parallel.pixels(this, new PixelsLoop() {
             @Override
-            public void execute(int x, int y) {
+            public void execute(final int x, final int y) {
                 for (int channel = 0; channel < getNumOfChannels(); ++channel) {
                     set(x, y, channel, initColor.get(channel));
                 }
@@ -244,13 +244,6 @@ public class Image {
      */
     public int getNumOfChannels() {
         return this.sizeLayer;
-    }
-
-    /**
-     * Return number of values into current image (same as <CODE>getWidth() * getHeight() * getNumOfChannels</CODE>).
-     */
-    public int getN() {
-        return this.getSize().getN() * this.getNumOfChannels();
     }
 
     /**
@@ -367,7 +360,7 @@ public class Image {
         /*
          * Return value.
          */
-        Color result = new Color(this.getNumOfChannels());
+        final Color result = new Color(this.getNumOfChannels());
 
         for (int channel = 0; channel < this.getNumOfChannels(); ++channel) {
             result.set(channel, this.get(point.getX(), point.getY(), channel));
@@ -860,7 +853,7 @@ public class Image {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         sb.append("Image:");
         sb.append("\n");

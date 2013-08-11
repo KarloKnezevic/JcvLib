@@ -52,14 +52,14 @@ public class ImageRwTest {
     @Test
     public void testJPG() {
         try {
-            String imagePath = "Test.jpg";
-            Image image = init(1500, 1200, 4);
+            final String imagePath = "Test.jpg";
+            final Image image = init(1500, 1200, 4);
 
             ImageRW.write(image, imagePath);
-            BufferedImage bufImg = TypeConvert.toBufferedImage(image);
+            final BufferedImage bufImg = TypeConvert.toBufferedImage(image);
             ImageIO.write(bufImg, "jpg", new File(imagePath));
 
-            Image newImage = ImageRW.read(imagePath);
+            final Image newImage = ImageRW.read(imagePath);
             BufferedImage bufImgNew = ImageIO.read(new File(imagePath));
 
             assertTrue(newImage.equals(TypeConvert.fromBufferedImage(bufImgNew)));
@@ -82,8 +82,8 @@ public class ImageRwTest {
     /**
      * Create and initialize new {@link JcvImage64F}.
      */
-    private static Image init(int width, int height, int numOfChannels) {
-        Image image = new Image(width, height, numOfChannels, Image.TYPE_8I);
+    private static Image init(final int width, final int height, final int numOfChannels) {
+        final Image image = new Image(width, height, numOfChannels, Image.TYPE_8I);
 
         boolean wasMax = false;
 
@@ -113,11 +113,11 @@ public class ImageRwTest {
      * @param fileExtension
      *            File extension for temporary saving.
      */
-    private static void writeAndReadTest(Image image, String fileExtension) {
+    private static void writeAndReadTest(final Image image, final String fileExtension) {
         try {
-            String imagePath = "Test." + fileExtension;
+            final String imagePath = "Test." + fileExtension;
             ImageRW.write(image, imagePath);
-            Image newImage = ImageRW.read(imagePath);
+            final Image newImage = ImageRW.read(imagePath);
 
             assertTrue(image.equals(newImage));
 

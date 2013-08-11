@@ -283,7 +283,7 @@ public class TypeConvert {
         /*
          * Perform operation.
          */
-        Image result = new Image(bufImg.getWidth(), bufImg.getHeight(), detectNumOfChannelsByType(bufImg.getType()), type);
+        final Image result = new Image(bufImg.getWidth(), bufImg.getHeight(), detectNumOfChannelsByType(bufImg.getType()), type);
 
         if (result.getNumOfChannels() == 1) {
             for (int x = 0; x < result.getWidth(); ++x) {
@@ -417,7 +417,7 @@ public class TypeConvert {
         /*
          * Perform operation.
          */
-        Image result = new Image(image.getWidth(), image.getHeight(), image.getNumOfChannels(), newImageType);
+        final Image result = new Image(image.getWidth(), image.getHeight(), image.getNumOfChannels(), newImageType);
 
         image.copyTo(result);
 

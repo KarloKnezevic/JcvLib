@@ -70,18 +70,18 @@ public class Texture {
         /*
          * Perform operation.
          */
-        Image result = image.getSame();
+        final Image result = image.getSame();
 
         Filters.noneLinearFilter(image, result, patternSize, patternSize.getCenter(), 1, extrapolationType, new Operator() {
             @Override
             public Color execute(final Image aperture) {
-                Color res = new Color(aperture.getNumOfChannels());
+                final Color res = new Color(aperture.getNumOfChannels());
 
                 for (int channel = 0; channel < aperture.getNumOfChannels(); ++channel) {
-                    int xCenter = aperture.getSize().getCenter().getX();
-                    int yCenter = aperture.getSize().getCenter().getY();
+                    final int xCenter = aperture.getSize().getCenter().getX();
+                    final int yCenter = aperture.getSize().getCenter().getY();
 
-                    double center = aperture.get(xCenter, yCenter, channel);
+                    final double center = aperture.get(xCenter, yCenter, channel);
 
                     double leftSide = Color.COLOR_MIN_VALUE;
                     double rightSide = Color.COLOR_MAX_VALUE;
@@ -167,8 +167,8 @@ public class Texture {
         double rightSide2 = Color.COLOR_MAX_VALUE;
 
         for (int i = 0; i < patternSize.getN() - 1; ++i) {
-            double middle1 = 0.5 * (rightSide1 + leftSide1);
-            double middle2 = 0.5 * (rightSide2 + leftSide2);
+            final double middle1 = 0.5 * (rightSide1 + leftSide1);
+            final double middle2 = 0.5 * (rightSide2 + leftSide2);
 
             boolean val1;
             if (lbp1 >= middle1) {

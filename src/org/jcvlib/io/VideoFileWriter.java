@@ -121,12 +121,12 @@ public class VideoFileWriter implements VideoWriter {
             throw new IOException("Could not open output file!");
         }
 
-        ICodec codec = ICodec.guessEncodingCodec(null, null, filePath, null, ICodec.Type.CODEC_TYPE_VIDEO);
+        final ICodec codec = ICodec.guessEncodingCodec(null, null, filePath, null, ICodec.Type.CODEC_TYPE_VIDEO);
         if (codec == null) {
             throw new IOException("Could not guess a codec!");
         }
 
-        IStream outStream = this.outContainer.addNewStream(codec);
+        final IStream outStream = this.outContainer.addNewStream(codec);
         this.outStreamCoder = outStream.getStreamCoder();
 
         this.outStreamCoder.setNumPicturesInGroupOfPictures(numPicturesInGroupOfPictures);
@@ -214,8 +214,8 @@ public class VideoFileWriter implements VideoWriter {
             throw new IOException("Current object does not opened yet! Please call #open() method!");
         }
 
-        BufferedImage worksWithXugglerBufferedImage = convertToType(TypeConvert.toBufferedImage(image), BufferedImage.TYPE_3BYTE_BGR);
-        IPacket packet = IPacket.make();
+        final BufferedImage worksWithXugglerBufferedImage = convertToType(TypeConvert.toBufferedImage(image), BufferedImage.TYPE_3BYTE_BGR);
+        final IPacket packet = IPacket.make();
 
         IConverter converter = null;
         try {
@@ -225,7 +225,7 @@ public class VideoFileWriter implements VideoWriter {
         }
 
         this.totalTimeStamp += this.incrementTimeStamp;
-        IVideoPicture outFrame = converter.toPicture(worksWithXugglerBufferedImage, this.totalTimeStamp);
+        final IVideoPicture outFrame = converter.toPicture(worksWithXugglerBufferedImage, this.totalTimeStamp);
         outFrame.setQuality(0);
         int retval = this.outStreamCoder.encodeVideo(packet, outFrame, 0);
         if (retval < 0) {
@@ -277,7 +277,7 @@ public class VideoFileWriter implements VideoWriter {
      */
     @Override
     public void close() {
-        int retval = this.outContainer.writeTrailer();
+        final int retval = this.outContainer.writeTrailer();
 
         if (retval < 0) {
             throw new RuntimeException("Could not write trailer to output file!");

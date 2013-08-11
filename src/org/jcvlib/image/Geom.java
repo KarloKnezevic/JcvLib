@@ -140,9 +140,9 @@ public class Geom {
             @Override
             public void execute(final int x, final int y) {
                 for (int channel = 0; channel < result.getNumOfChannels(); ++channel) {
-                    double t =   invP.get(2, 0) * x + invP.get(2, 1) * y + invP.get(2, 2);
-                    double nx = (invP.get(0, 0) * x + invP.get(0, 1) * y + invP.get(0, 2)) / t;
-                    double ny = (invP.get(1, 0) * x + invP.get(1, 1) * y + invP.get(1, 2)) / t;
+                    final double t  =  invP.get(2, 0) * x + invP.get(2, 1) * y + invP.get(2, 2);
+                    final double nx = (invP.get(0, 0) * x + invP.get(0, 1) * y + invP.get(0, 2)) / t;
+                    final double ny = (invP.get(1, 0) * x + invP.get(1, 1) * y + invP.get(1, 2)) / t;
 
                     double value;
                     if (nx < 0 || nx > image.getWidth() - 1 || ny < 0 || ny > image.getHeight() - 1) {
@@ -194,14 +194,14 @@ public class Geom {
         /*
          * Perform operation.
          */
-        Matrix X = new Matrix(4, 3);
+        final Matrix X = new Matrix(4, 3);
         for (int i = 0; i < X.getColumnDimension(); ++i) {
             X.set(i, 0, srcPoint.get(i).getX());
             X.set(i, 1, srcPoint.get(i).getY());
             X.set(i, 2, 1.0);
         }
 
-        Matrix Y = new Matrix(4, 3);
+        final Matrix Y = new Matrix(4, 3);
         for (int i = 0; i < X.getColumnDimension(); ++i) {
             Y.set(i, 0, dstPoint.get(i).getX());
             Y.set(i, 1, dstPoint.get(i).getY());
@@ -268,7 +268,7 @@ public class Geom {
          * Perform operation.
          */
         // Create perspective matrix from affine matrix.
-        Matrix P = new Matrix(3, 3);
+        final Matrix P = new Matrix(3, 3);
         P.setMatrix(0, 1, 0, 2, A);
         P.setMatrix(2, 2, 0, 2, new Matrix(new double[][]{ { 0.0, 0.0, 1.0 } }));
 
@@ -311,14 +311,14 @@ public class Geom {
         /*
          * Perform operation.
          */
-        Matrix X = new Matrix(3, 3);
+        final Matrix X = new Matrix(3, 3);
         for (int i = 0; i < X.getColumnDimension(); ++i) {
             X.set(i, 0, srcPoint.get(i).getX());
             X.set(i, 1, srcPoint.get(i).getY());
             X.set(i, 2, 1.0);
         }
 
-        Matrix Y = new Matrix(3, 2);
+        final Matrix Y = new Matrix(3, 2);
         for (int i = 0; i < X.getColumnDimension(); ++i) {
             Y.set(i, 0, dstPoint.get(i).getX());
             Y.set(i, 1, dstPoint.get(i).getY());
@@ -416,12 +416,12 @@ public class Geom {
         /*
          * Perform operation.
          */
-        int newWidth = JCV.round(image.getWidth() * scale);
-        int newHeight = JCV.round(image.getHeight() * scale);
+        final int newWidth = JCV.round(image.getWidth() * scale);
+        final int newHeight = JCV.round(image.getHeight() * scale);
         if (newWidth < 1 || newHeight < 1) {
             throw new IllegalArgumentException("Parameter 'scale' is too small!");
         }
-        Size newSize = new Size(newWidth, newHeight);
+        final Size newSize = new Size(newWidth, newHeight);
 
         return Geom.resize(image, newSize, interpolationType, fillColor);
     }
@@ -468,10 +468,10 @@ public class Geom {
         /*
          * Perform operation.
          */
-        double scaleX = (double) newSize.getWidth()  / (double) image.getWidth();
-        double scaleY = (double) newSize.getHeight() / (double) image.getHeight();
+        final double scaleX = (double) newSize.getWidth()  / (double) image.getWidth();
+        final double scaleY = (double) newSize.getHeight() / (double) image.getHeight();
 
-        Matrix A = new Matrix(new double[][]{
+        final Matrix A = new Matrix(new double[][]{
             { scaleX,    0.0, 0.0 },
             {    0.0, scaleY, 0.0 }
         });
@@ -525,32 +525,32 @@ public class Geom {
          * Perform operation.
          */
         // Correct angle.
-        double rad = (angle / 180.0) * Math.PI;
+        final double rad = (angle / 180.0) * Math.PI;
 
         /*
          * Create transformation matrix.
          */
         // Rotate kernel.
-        Matrix R = new Matrix(new double[][]{
+        final Matrix R = new Matrix(new double[][]{
             { Math.cos(rad),-Math.sin(rad) },
             { Math.sin(rad), Math.cos(rad) }
         });
         // Center of shift.
-        Matrix s = new Matrix(new double[][]{
+        final Matrix s = new Matrix(new double[][]{
             { centerOfRotation.getX() },
             { centerOfRotation.getY() }
         });
         // Configure shift values.
-        Matrix b = R.times(s);
+        final Matrix b = R.times(s);
 
         // Create affine matrix.
-        Matrix A = new Matrix(2, 3);
+        final Matrix A = new Matrix(2, 3);
         A.setMatrix(0, 1, 0, 1, R);
         A.setMatrix(0, 1, 2, 2, b);
 
         // Find shift of result and new size of image.
-        double[] x = new double[4];
-        double[] y = new double[4];
+        final double[] x = new double[4];
+        final double[] y = new double[4];
 
         /*
          * A          B
@@ -603,7 +603,7 @@ public class Geom {
         A.set(1, 2, A.get(1, 2) - minY);
 
         // Create new size for result image.
-        Size newSize = new Size(JCV.roundUp(maxX - minX), JCV.roundUp(maxY - minY));
+        final Size newSize = new Size(JCV.roundUp(maxX - minX), JCV.roundUp(maxY - minY));
 
         return Geom.wrapAffineTransform(image, A, newSize, interpolationType, fillColor);
     }

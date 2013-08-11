@@ -47,8 +47,6 @@ public class ImageBase extends TestSuite {
 
         assertEquals(300, image.getSize().getWidth());
         assertEquals(200, image.getSize().getHeight());
-
-        assertEquals(300 * 200 * 4, image.getN());
     }
     /**
      * Test method for: {@link Image#getWidth()}, {@link Image#getHeight()}, {@link Image#getSize()}, {@link Image#getN()}.
@@ -77,7 +75,7 @@ public class ImageBase extends TestSuite {
      */
     @Test
     public void testPrecision() {
-        double value = 254.123_456_789_123_4;
+        final double value = 254.123_456_789_123_4;
 
         System.out.println(value);
 

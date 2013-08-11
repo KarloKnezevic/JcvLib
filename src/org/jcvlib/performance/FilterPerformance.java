@@ -160,7 +160,7 @@ public class FilterPerformance {
             for (int channel = 0; channel < channels; ++channel) {
                 for (int y = 0; y < height; ++y) {
                     for (int x = 0; x < width; ++x) {
-                        double val = array[y * width * channel + x * channel + channel];
+                        final double val = array[y * width * channel + x * channel + channel];
                         double res;
 
                         switch (thresholdType) {

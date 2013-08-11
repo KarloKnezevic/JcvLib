@@ -261,7 +261,7 @@ public class VideoFileReader implements VideoReader, Runnable {
              * 4. Find first video stream.
              */
             // Query how many streams the call to open found.
-            int numStreams = this.container.getNumStreams();
+            final int numStreams = this.container.getNumStreams();
             // Iterate through the streams to find the first video stream.
             int videoStreamId = -1;
             this.videoCoder = null;
@@ -318,7 +318,7 @@ public class VideoFileReader implements VideoReader, Runnable {
                     /*
                      * 9. We allocate a new picture to get the data out of Xuggler.
                      */
-                    IVideoPicture picture =
+                    final IVideoPicture picture =
                         IVideoPicture.make(this.videoCoder.getPixelType(), this.videoCoder.getWidth(), this.videoCoder.getHeight());
                     int offset = 0;
                     while (offset < packet.getSize()) {
@@ -397,7 +397,7 @@ public class VideoFileReader implements VideoReader, Runnable {
                              * Remember that IVideoPicture and IAudioSamples timestamps are always in MICROSECONDS,
                              * so we divide by 1000 to get milliseconds (10^{-3} seconds).
                              */
-                            long mSecStreamTimeSinceStartOfVideo = (picture.getTimeStamp() - firstTimestampInStream) / 1000;
+                            final long mSecStreamTimeSinceStartOfVideo = (picture.getTimeStamp() - firstTimestampInStream) / 1000;
                             // And we give ourselves 50 ms of tolerance.
                             final long mSecTolerance = 50;
                             // In milliseconds (10^{-3} seconds).

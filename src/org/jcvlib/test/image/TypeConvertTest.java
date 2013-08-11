@@ -72,7 +72,7 @@ public class TypeConvertTest {
     @Test
     public void testBinary() {
         // Create.
-        BufferedImage bufImg = new BufferedImage(this.width, this.height, BufferedImage.TYPE_BYTE_BINARY);
+        final BufferedImage bufImg = new BufferedImage(this.width, this.height, BufferedImage.TYPE_BYTE_BINARY);
 
         // Initialize.
         int value = 0;
@@ -90,7 +90,7 @@ public class TypeConvertTest {
 
         // Check values.
         try {
-            Image image = TypeConvert.fromBufferedImage(bufImg);
+            final Image image = TypeConvert.fromBufferedImage(bufImg);
             assertEquals(1, image.getNumOfChannels());
 
             for (int y = 0; y < image.getHeight(); ++y) {
@@ -161,7 +161,7 @@ public class TypeConvertTest {
 
         // Check values.
         try {
-            Image image = TypeConvert.fromBufferedImage(bufImg);
+            final Image image = TypeConvert.fromBufferedImage(bufImg);
             assertEquals(1, image.getNumOfChannels());
 
             for (int y = 0; y < image.getHeight(); ++y) {
@@ -272,8 +272,8 @@ public class TypeConvertTest {
         // Check values.
         try {
             // Convert. We testing this method.
-            Image image = TypeConvert.fromBufferedImage(bufImg1);
-            BufferedImage bufImg2 = TypeConvert.toBufferedImage(image);
+            final Image image = TypeConvert.fromBufferedImage(bufImg1);
+            final BufferedImage bufImg2 = TypeConvert.toBufferedImage(image);
 
             // Compare results.
             this.compareMultichannelImage(bufImg1, hasAlpha, image);

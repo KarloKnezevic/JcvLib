@@ -155,7 +155,7 @@ public class Rectangle {
             return false;
         }
 
-        Rectangle rect = (Rectangle) object;
+        final Rectangle rect = (Rectangle) object;
         if (this.startPoint.equals(rect.getHeightLeftPoint()) && this.rectSize.equals(rect.getSize())) {
             return true;
         }

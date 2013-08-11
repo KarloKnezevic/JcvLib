@@ -29,7 +29,7 @@ public class Sign {
      * Run this test.
      */
     public static void main(String[] args) {
-        final float f  = 255.123_456_789_123_456_789f;
+        final float  f = 255.123_456_789_123_456_789f;
         final double d = 255.123_456_789_123_456_789;
 
         System.out.println("Float:  " + f); //  4 digits.

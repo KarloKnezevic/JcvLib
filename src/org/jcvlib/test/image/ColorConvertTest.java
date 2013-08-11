@@ -77,10 +77,10 @@ public class ColorConvertTest {
      */
     @Test
     public void testRGBtoGrayToRGB() {
-        Image imgGray = ColorConvert.fromRGBtoGray(this.imageRGB);
+        final Image imgGray = ColorConvert.fromRGBtoGray(this.imageRGB);
         assertFalse(imgGray.equals(this.imageRGB, JCV.PRECISION_MIN));
 
-        Image imgRGB = ColorConvert.fromGrayToRGB(imgGray);
+        final Image imgRGB = ColorConvert.fromGrayToRGB(imgGray);
         for (int channel = 0; channel < imgRGB.getNumOfChannels(); ++channel) {
             assertTrue(imgRGB.getChannel(channel).equals(imgGray));
         }
@@ -91,10 +91,10 @@ public class ColorConvertTest {
      */
     @Test
     public void testRGBtoHSLtoRGB() {
-        Image imgHLS = ColorConvert.fromRGBtoHSL(this.imageRGB);
+        final Image imgHLS = ColorConvert.fromRGBtoHSL(this.imageRGB);
         assertFalse(imgHLS.equals(this.imageRGB, JCV.PRECISION_MIN));
 
-        Image imgRGB = ColorConvert.fromHSLtoRGB(imgHLS);
+        final Image imgRGB = ColorConvert.fromHSLtoRGB(imgHLS);
         assertTrue(imgRGB.equals(this.imageRGB));
     }
 
@@ -103,10 +103,10 @@ public class ColorConvertTest {
      */
     @Test
     public void testRGBtoHSVtoRGB() {
-        Image imgHSV = ColorConvert.fromRGBtoHSV(this.imageRGB);
+        final Image imgHSV = ColorConvert.fromRGBtoHSV(this.imageRGB);
         assertFalse(imgHSV.equals(this.imageRGB, JCV.PRECISION_MIN));
 
-        Image imgRGB = ColorConvert.fromHSVtoRGB(imgHSV);
+        final Image imgRGB = ColorConvert.fromHSVtoRGB(imgHSV);
         assertTrue(imgRGB.equals(this.imageRGB));
     }
 }

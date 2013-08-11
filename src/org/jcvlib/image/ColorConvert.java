@@ -166,9 +166,9 @@ public class ColorConvert {
             @Override
             public void execute(final int x, final int y) {
                 // Initialization.
-                double R = image.get(x, y, 0);
-                double G = image.get(x, y, 1);
-                double B = image.get(x, y, 2);
+                final double R = image.get(x, y, 0);
+                final double G = image.get(x, y, 1);
+                final double B = image.get(x, y, 2);
 
                 // Convert.
                 double M = Math.max(R, Math.max(G, B));
@@ -196,9 +196,9 @@ public class ColorConvert {
                 // Compute value Hue.
                 double H;
                 if (M > 0.0 && d > 0.0) {
-                    double r = (M - R) / d;
-                    double g = (M - G) / d;
-                    double b = (M - B) / d;
+                    final double r = (M - R) / d;
+                    final double g = (M - G) / d;
+                    final double b = (M - B) / d;
 
                     double h;
                     if (R == M) {
@@ -271,9 +271,9 @@ public class ColorConvert {
                 double L = image.get(x, y, 2);
 
                 // Convert.
-                double h = (6.0 * (H / Color.COLOR_MAX_VALUE)) % 6.0;
-                int c1 = (int) h;
-                double c2 = h - c1;
+                final double h = (6.0 * (H / Color.COLOR_MAX_VALUE)) % 6.0;
+                final int c1 = (int) h;
+                final double c2 = h - c1;
 
                 double d;
                 S /= Color.COLOR_MAX_VALUE;
@@ -283,10 +283,10 @@ public class ColorConvert {
                     d = S * (Color.COLOR_MAX_VALUE - L);
                 }
 
-                double W = L + d;
-                double X = L - d;
-                double Y = W - (W - X) * c2;
-                double Z = X + (W - X) * c2;
+                final double W = L + d;
+                final double X = L - d;
+                final double Y = W - (W - X) * c2;
+                final double Z = X + (W - X) * c2;
 
                 double R;
                 double G;
@@ -355,14 +355,14 @@ public class ColorConvert {
             @Override
             public void execute(final int x, final int y) {
                 // Initialization.
-                double R = image.get(x, y, 0);
-                double G = image.get(x, y, 1);
-                double B = image.get(x, y, 2);
+                final double R = image.get(x, y, 0);
+                final double G = image.get(x, y, 1);
+                final double B = image.get(x, y, 2);
 
                 // Convert.
-                double M = Math.max(R, Math.max(G, B));
-                double m = Math.min(R, Math.min(G, B));
-                double d = M - m;
+                final double M = Math.max(R, Math.max(G, B));
+                final double m = Math.min(R, Math.min(G, B));
+                final double d = M - m;
 
                 // Compute value Hue.
                 double H;
@@ -445,18 +445,18 @@ public class ColorConvert {
             @Override
             public void execute(final int x, final int y) {
                 // Initialization.
-                double H = image.get(x, y, 0);
-                double S = image.get(x, y, 1);
-                double V = image.get(x, y, 2);
+                final double H = image.get(x, y, 0);
+                final double S = image.get(x, y, 1);
+                final double V = image.get(x, y, 2);
 
                 // Convert.
-                double h = ((6.0 * H) / Color.COLOR_MAX_VALUE) % 6.0;
-                int c1 = (int) h;
-                double c2 = h - c1;
+                final double h  = ((6.0 * H) / Color.COLOR_MAX_VALUE) % 6.0;
+                final int    c1 = (int) h;
+                final double c2 = h - c1;
 
-                double X = ((Color.COLOR_MAX_VALUE - S) * V) / Color.COLOR_MAX_VALUE;
-                double Y = ((Color.COLOR_MAX_VALUE - (S * c2)) * V) / Color.COLOR_MAX_VALUE;
-                double Z = ((Color.COLOR_MAX_VALUE - (S * (1.0 - c2))) * V) / Color.COLOR_MAX_VALUE;
+                final double X = ((Color.COLOR_MAX_VALUE - S) * V) / Color.COLOR_MAX_VALUE;
+                final double Y = ((Color.COLOR_MAX_VALUE - (S * c2)) * V) / Color.COLOR_MAX_VALUE;
+                final double Z = ((Color.COLOR_MAX_VALUE - (S * (1.0 - c2))) * V) / Color.COLOR_MAX_VALUE;
 
                 double R;
                 double G;
