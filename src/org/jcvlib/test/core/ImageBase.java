@@ -49,7 +49,7 @@ public class ImageBase extends TestSuite {
         assertEquals(200, image.getSize().getHeight());
     }
     /**
-     * Test method for: {@link Image#getWidth()}, {@link Image#getHeight()}, {@link Image#getSize()}, {@link Image#getN()}.
+     * Test method for: {@link Image#getWidth()}, {@link Image#getHeight()}, {@link Image#getSize()}}.
      */
     @Test
     public void testSize() {
